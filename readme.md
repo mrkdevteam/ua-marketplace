@@ -1,0 +1,1 @@
+# UA Marketplaces WooCommerce Plugin
