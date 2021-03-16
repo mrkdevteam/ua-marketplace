@@ -15,10 +15,11 @@ final class Init
 	public static function get_services()
 	{
 		return array (
-			Pages\Dashboard::class,
-			Pages\Rozetka::class,
 			Base\Enqueue::class,
 			Base\SettingsLinks::class,
+			Pages\Dashboard::class,
+			Pages\Rozetka::class,
+			Pages\Promua::class,
 			Base\DashboardSettingsController::class,
 			Base\RozetkaSettingsController::class,
 			Base\PromuaSettingsController::class,

@@ -1,13 +1,13 @@
 <?php
 /**
  * @link              https://morkva.co.ua/shop-2/woocommerce-rozetka-sync
- * @since             0.0.1
+ * @since             0.0.2
  * @package           MrkvUAMmarketplaces
  *
  * @wordpress-plugin
  * Plugin Name:       UA Marketplaces WooCommerce Plugin
  * Plugin URI:        https://morkva.co.ua/shop-2/woocommerce-rozetka-sync
- * Description:       <!-- треба додати опис -->.
+ * Description:       Забезпечує взаїмодію WooCommerce інетернет-магазину з маркетплейсами Rozetka та PromUA.
  * Version:           0.0.1
  * Author:            MORKVA (Oleg Kovalyov)
  * Author URI:        https://github.com/OlegOKovalyov/

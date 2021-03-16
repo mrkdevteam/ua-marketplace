@@ -71,7 +71,7 @@ class Rozetka extends BaseController
 		$args = array(
 			array(
 				'id'		=> 'mrkvuamp_rozetka_section',
-				'title'		=> __( 'Rozetka Налаштування', 'mrkv-ua-marketplaces' ),
+				'title'		=> __( 'Rozetka Загальні Налаштування', 'mrkv-ua-marketplaces' ),
 				'callback'	=> array( $this->callbacks_rozetka, 'settingsSection' ),
 				'page'		=> 'mrkv_ua_marketplaces_rozetka'
 			)

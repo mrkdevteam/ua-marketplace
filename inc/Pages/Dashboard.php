@@ -20,8 +20,6 @@ class Dashboard extends BaseController
 
 	public $pages = array();
 
-	// public $subpages = array();
-
 	public function register()
 	{
 		$this->settings = new SettingsApi();
@@ -32,13 +30,10 @@ class Dashboard extends BaseController
 
 		$this->setPages();
 
-		// $this->setSubPages();
-
 		$this->setSettings();
 		$this->setSections();
 		$this->setFields();
 
-		// $this->settings->addPages( $this->pages )->withSubPage( 'Dashboard' )->addSubPages( $this->subpages )->register();
 		$this->settings->addPages( $this->pages )->withSubPage( 'Dashboard' )->register();
 	}
 

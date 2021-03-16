@@ -29,20 +29,4 @@ class AdminCallbacks extends BaseController
         return require_once( "$this->plugin_path/templates/support.php" );
     }
 
-    // public function mrkvUAMarketplacesOptionGroup( $input )
-    // {
-    //     return $input;
-    // }
-    //
-    // public function mrkvUAMarketplacesSectionDescr()
-    // {
-    //     echo 'Оберіть маркетплейси, з якими буде взаїмодіяти ваш інтернет-магазин.';
-    // }
-
-    public function mrkvUAMarketplacesField()
-    {
-        $value = esc_attr( get_option( 'mrkv_uamrkpl_rozetka_shop_name' ) );
-        echo '<input tupe="text" class="regualr-text" name="mrkv_uamrkpl_rozetka_shop_name" value="'. $value .'" placeholder="Write smth...">';
-    }
-
 }

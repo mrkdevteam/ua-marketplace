@@ -11,3 +11,35 @@
 	height: 15px;
 }
 
+/* Rozetka nav links */
+.mrkv-nav-links {
+	display: flex;
+    flex-direction: row;
+	> li {
+		margin-right: 50px;
+		a {
+			text-decoration: none;
+		}
+		&.active {
+			a {
+	    		color: #23282d;
+				text-decoration: underline;
+			}
+		}
+	}
+}
+.mrkv-nav-links-content {
+	> .link-pane {
+		float: left;
+		width: 100%;
+		display: none;
+	}
+	> .link-pane.active {
+		display: block;
+	}
+}
+
+/* Rozetka main configurations*/
+.mrkv-font-italic {
+	font-style: italic;
+}

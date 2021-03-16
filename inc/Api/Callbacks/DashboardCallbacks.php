@@ -10,16 +10,6 @@ use \Inc\Base\BaseController;
 class DashboardCallbacks extends BaseController
 {
 
-    public function adminDashboard()
-    {
-        return require_once( "$this->plugin_path/templates/dashboard.php" );
-    }
-
-    // public function adminRozetka()
-    // {
-    //     //return require_once( "$this->plugin_path/templates/rozetka.php" );
-    // }
-
     public function checkboxActivation( $input )
     {
         $output = array();
@@ -32,7 +22,7 @@ class DashboardCallbacks extends BaseController
 
     public function marketplacesActivationSection()
     {
-        echo 'Активуйте маркетплейси, з якими буде взаїмодіяти ваш інтернет-магазин.';
+        echo 'Активуйте маркетплейси, з якими буде взаємодіяти ваш інтернет-магазин.';
     }
 
     public function checkboxField( $args )
