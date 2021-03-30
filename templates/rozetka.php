@@ -49,9 +49,7 @@
 
         </div>
 
-        <div id="category-matching" class="link-pane">
-            <h2>Rozetka Співставлення категорій</h2>
-        </div>
+        <?php require_once( 'rozetka-collation.php' ); ?>
 
         <div id="my-orders" class="link-pane">
             <h2>Rozetka Мої замовлення</h2>

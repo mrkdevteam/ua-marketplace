@@ -43,3 +43,21 @@
 .mrkv-font-italic {
 	font-style: italic;
 }
+
+/* Rozetka show hierarchical categories */
+.mrkv-uamp-hierarchical-categories li ul li {
+	margin-left: 25px;
+}
+.mrkv-uamp-hierarchical-categories {
+	li {
+		margin-bottom: 6px;
+		label {
+			font-weight: 600;
+    		display: inline-block;
+			width: 300px;
+		}
+		input {
+			margin-bottom: 10px;
+		}
+	}
+}

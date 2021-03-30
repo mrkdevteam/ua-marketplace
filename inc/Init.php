@@ -17,13 +17,20 @@ final class Init
 		return array (
 			Base\Enqueue::class,
 			Base\SettingsLinks::class,
+
 			Pages\Dashboard::class,
 			Pages\Rozetka::class,
 			Pages\Promua::class,
+
 			Base\DashboardSettingsController::class,
 			Base\RozetkaSettingsController::class,
 			Base\PromuaSettingsController::class,
-			Base\SupportController::class
+			Base\SupportController::class,
+			Base\WCShopController::class,
+			Base\XMLController::class,
+
+			ExternalApi\WoocommerceApi::class,
+			WCShop\WCShop::class
 		);
 	}
 

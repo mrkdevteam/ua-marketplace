@@ -1,7 +1,7 @@
 <?php
 /**
  * @link              https://morkva.co.ua/shop-2/woocommerce-rozetka-sync
- * @since             0.0.2
+ * @since             0.0.3
  * @package           MrkvUAMmarketplaces
  *
  * @wordpress-plugin
