@@ -70,7 +70,10 @@ class WCShopController {
 
     public function get_collation_category_ids()
     {
-
+// \delete_option( 'mrkv_uamrkpl_collation' );
+        if ( empty( get_option( 'mrkv_uamrkpl_collation' ) ) ) {
+            return;
+        }
         $category_collation_ids = get_option( 'mrkv_uamrkpl_collation' );
         // \error_log(print_r($category_collation_ids, true));
         foreach ( $category_collation_ids as $key => $value ) {

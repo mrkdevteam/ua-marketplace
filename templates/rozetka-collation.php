@@ -9,6 +9,7 @@ use \Inc\Core\XMLController;
 
     // Create XML-price
     $convert = new \Inc\Core\XMLController( 'rozetka' );
+    $xml_filename = '/uploads/mrkvuamp' . $convert->marketplace . '.xml';
     $xml = $convert->array2xml( $mrkv_uamrkpl_shop_arr );
 
     if ( $_POST ) {
@@ -28,13 +29,15 @@ use \Inc\Core\XMLController;
         <form class="mrkv_uamrkpl_collation" action="" method="post">
             <?php // Show internet-shop categories for collation ?>
             <?php echo WCShopCollation::get_hierarchical_tree_categories(); ?>
-            <?php submit_button( 'Співставити', 'primary', 'submit-collation' ); ?>
+            <?php submit_button( __( 'Співставити', 'mrkv-ua-marketplaces' ), 'primary', 'submit-collation' ); ?>
         </form>
     </div>
 
     <p>Посилання на
-        <a  id="mrkvuamp_xml_link" target="_blank" href="<?php echo content_url(); ?>/uploads/mrkvuamprozetka.xml">останній згенерований xml</a>
-        (<?php echo date('m/d/Y H:i', filemtime(WP_CONTENT_DIR.'/uploads/mrkvuamprozetka.xml')); clearstatcache(); ?> UTC)
+        <a  id="mrkvuamp_xml_link" target="_blank"
+            href="<?php echo content_url(); echo $xml_filename; ?>">останній згенерований xml
+        </a>
+        ( <?php echo date( " d.m.Y H:i", filemtime( WP_CONTENT_DIR . $xml_filename ) ); clearstatcache(); ?> UTC )
     </p>
 
 </div>

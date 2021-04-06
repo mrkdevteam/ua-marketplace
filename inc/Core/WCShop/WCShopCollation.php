@@ -38,6 +38,9 @@ class WCShopCollation extends WCShopController {
 
     public static function get_collation_option($id)
     {
+        if ( empty( get_option( 'mrkv_uamrkpl_collation' ) ) ) {
+            return;
+        }        
         return get_option( 'mrkv_uamrkpl_collation' )["mrkv-uamp-{$id}"];
     }
 
