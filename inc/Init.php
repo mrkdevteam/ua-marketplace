@@ -26,11 +26,13 @@ final class Init
 			Base\RozetkaSettingsController::class,
 			Base\PromuaSettingsController::class,
 			Base\SupportController::class,
-			Base\WCShopController::class,
-			Base\XMLController::class,
 
-			ExternalApi\WoocommerceApi::class,
-			WCShop\WCShop::class
+			Core\WCShopController::class,
+			Core\WCShop\WCShopCollation::class,
+			// Core\XMLController::class, // Прибрав, тому що є параметр у класа
+
+			Core\Marketplaces\FactoryAPI::class,
+			Core\Marketplaces\APIs\RozetkaAPI::class
 		);
 	}
 

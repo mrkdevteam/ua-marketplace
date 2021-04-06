@@ -1,24 +1,35 @@
 <?php
 
-use \Inc\ExternalApi\WoocommerceApi;
-use \Inc\WCShop\WCShop;
-use \Inc\Base\XMLController;
+use \Inc\Core\WCShop\WCShopCollation;
+use \Inc\Core\XMLController;
 
     // Create internet-shop Object
-    $mrkv_uamrkpl_shop = new WCShop('shop');
+    $mrkv_uamrkpl_shop = new WCShopCollation('shop');
     $mrkv_uamrkpl_shop_arr = (array) $mrkv_uamrkpl_shop;
 
     // Create XML-price
-    $convert = new XMLController();
+    $convert = new \Inc\Core\XMLController( 'rozetka' );
     $xml = $convert->array2xml( $mrkv_uamrkpl_shop_arr );
+
+    if ( $_POST ) {
+        foreach ( $_POST as $key => $value ) {
+            if ( strpos( $key, 'mrkv-uamp-') !== false ) {
+                $cats_collation_arr[$key] = ! empty( $value ) ? sanitize_text_field( $value ) : '';
+            }
+        }
+        update_option( 'mrkv_uamrkpl_collation', $cats_collation_arr );
+    }
 
 ?>
 
 <div id="category-matching" class="link-pane">
     <h2>Rozetka Співставлення категорій</h2>
     <div>
-        <?php // Show internet-shop categories for collation ?>
-        <?php echo WCSHOP::get_hierarchical_tree_categories(); ?>
+        <form class="mrkv_uamrkpl_collation" action="" method="post">
+            <?php // Show internet-shop categories for collation ?>
+            <?php echo WCShopCollation::get_hierarchical_tree_categories(); ?>
+            <?php submit_button( 'Співставити', 'primary', 'submit-collation' ); ?>
+        </form>
     </div>
 
     <p>Посилання на

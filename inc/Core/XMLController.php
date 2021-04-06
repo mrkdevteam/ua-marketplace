@@ -3,13 +3,13 @@
  * @package 	MrkvUAMmarketplaces
  */
 
-namespace Inc\Base;
+namespace Inc\Core;
 
-use \Inc\Base\WCShopController;
+use \Inc\Core\WCShopController;
 
 class XMLController {
 
-    public $xml_price_name; // TODO замість хардкоду mrkvuamprozetka.xml
+    public $marketplace; // замість хардкоду mrkvuamprozetka.xml (може бути 'rozetka', 'promua')
 
     public $xml_header;
 
@@ -17,8 +17,10 @@ class XMLController {
 
     public $category_name;
 
-    public function __construct()
+    public function __construct($marketplace)
     {
+        $this->marketplace = $marketplace;
+
         $this->current_date = \date("Y-m-d H:i");
 
         $this->xml_header = '<yml_catalog date="' . $this->current_date . '"></yml_catalog>';
@@ -39,12 +41,17 @@ class XMLController {
                     $currencies = $shop->addChild( 'currencies' );
                     $currency = $currencies->addChild( 'currency' );
                     $currency->addAttribute('id', $value[0]);
+                    $currency->addAttribute('rate', "1");
 
                 } else if ( 'categories' == $key ) { // XML tag <categories>
                     $categories = $shop->addChild( 'categories' );
                     foreach ($value as $k => $v) {
-                        $category = $categories->addChild( 'category', WCShopController::get_category_name_by_id($v) );
-                        $category->addAttribute('id', $v);
+                        if ( $v ) {
+                            // $category = $categories->addChild( 'category', WCShopController::get_category_name_by_id($v) );
+                            $category = $categories->addChild( 'category', WCShopController::get_collation_category_name_by_id($v) );
+                            $category->addAttribute('id', $v);
+                            $category->addAttribute('rz_id', $v);
+                        }
                     }
 
                 } else {
@@ -61,7 +68,8 @@ class XMLController {
             }
         }
         $xml->saveXML();
-        return $xml->asXML(WP_CONTENT_DIR . '/uploads/mrkvuamprozetka.xml');
+        // return $xml->asXML(WP_CONTENT_DIR . '/uploads/mrkvuamprozetka.xml');
+        return $xml->asXML(WP_CONTENT_DIR . "/uploads/mrkvuamp" . $this->marketplace . ".xml");
     }
 
 }

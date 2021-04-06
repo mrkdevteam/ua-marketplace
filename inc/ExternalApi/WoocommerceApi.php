@@ -331,8 +331,8 @@ class WoocommerceApi extends BaseController {
                     // $l++;
                 // }
             }
-            \error_log(print_r($array,true));
-            \error_log( $this->array2xml( $array ) );
+            // \error_log(print_r($array,true));
+            // \error_log( $this->array2xml( $array ) );
             // return $this->array2xml( $array );
             return $this->arr2xml( $array );
         }
