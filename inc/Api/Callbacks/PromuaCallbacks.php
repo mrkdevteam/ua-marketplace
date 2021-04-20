@@ -17,7 +17,7 @@ class PromuaCallbacks extends BaseController
 
     public function settingsSection()
     {
-        echo 'Оберіть потрібні налаштування для створення xml-прайсу для сайту PromUA.';
+        echo '<p>Оберіть потрібні налаштування для створення xml-прайсу для сайту PromUA.</p>';
     }
 
     public function shopName()

@@ -47,7 +47,6 @@ class XMLController {
                     $categories = $shop->addChild( 'categories' );
                     foreach ($value as $k => $v) {
                         if ( $v ) {
-                            // $category = $categories->addChild( 'category', WCShopController::get_category_name_by_id($v) );
                             $category = $categories->addChild( 'category', WCShopController::get_collation_category_name_by_id($v) );
                             $category->addAttribute('id', $v);
                             $category->addAttribute('rz_id', $v);
@@ -58,18 +57,13 @@ class XMLController {
                     $this->array2xml( $value, $shop->addChild( $key ) );
                 }
             } else {
-                if ( \is_numeric($key) ) {
-                    // $key = 'id';
-                    // $xml->removeChild( $key );
-                    // $xml->unset( $key );
-                } else {
+                if ( ! \is_numeric($key) ) {
                     $shop->addChild( $key, $value );
                 }
             }
         }
         $xml->saveXML();
-        // return $xml->asXML(WP_CONTENT_DIR . '/uploads/mrkvuamprozetka.xml');
-        return $xml->asXML(WP_CONTENT_DIR . "/uploads/mrkvuamp" . $this->marketplace . ".xml");
+        return $xml->asXML( WP_CONTENT_DIR . "/uploads/mrkvuamp" . $this->marketplace . ".xml" );
     }
 
 }

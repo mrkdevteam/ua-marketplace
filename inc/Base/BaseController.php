@@ -15,6 +15,8 @@ class BaseController
 
     public $plugin_name;
 
+    public $plugin_ver;
+
     public $activations = array();
 
 	public function __construct() {
@@ -22,6 +24,7 @@ class BaseController
 		$this->plugin_url = plugin_dir_url( dirname( __FILE__, 2 ) );
 		$this->plugin = plugin_basename( dirname( __FILE__, 3 ) ) . '/mrkv-ua-marketplaces.php';
         $this->plugin_name = get_file_data( $this->plugin_path . '/mrkv-ua-marketplaces.php', array( 'name'=>'Plugin Name' ) );
+        $this->plugin_ver = get_file_data( $this->plugin_path . '/mrkv-ua-marketplaces.php', array( 'ver'=>'Version' ) );
 
         $this->activations = array(
             'mrkvuamp_rozetka_activation'   => 'Rozetka',

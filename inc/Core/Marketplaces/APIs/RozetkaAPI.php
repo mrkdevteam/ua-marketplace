@@ -21,8 +21,6 @@ class RozetkaAPI extends AbstractAPI {
      * @var string
      */
     const ENDPOINT_ROZETKA = 'https://api-seller.rozetka.com.ua/';
-    // const ENDPOINT_ROZETKA = 'https://api-seller.rozetka.com.ua/market-categories/category-options?category_id=380125';
-    // const ENDPOINT_ROZETKA = 'https://api-seller.rozetka.com.ua/market-categories/search?category_id=4630027';
 
     /**
      * Constructor.
@@ -85,11 +83,21 @@ class RozetkaAPI extends AbstractAPI {
 
     public function get_category_name_by_id( $collation_category_id )
     {
-        $morkva_api_rozetka_cats_json = wp_remote_get( 'http://api.morkva.co.ua/morkvafiles/woo-rozetka/categories.json' );
-        $morkva_api_rozetka_cats = json_decode( $morkva_api_rozetka_cats_json['body'], true);
-        for ( $i=0; $i < \sizeof($morkva_api_rozetka_cats) ; $i++ ) {
-            if ( \in_array( $collation_category_id, $morkva_api_rozetka_cats[$i] ) ) {
-                return $morkva_api_rozetka_cats[$i]['name'];
+        $args = array( 'timeout' => 17, 'httpversion' => '1.1' ); // потрібно буде поставити 'timeout' => 7
+        $morkva_api_rozetka_cats_json = wp_remote_get( 'http://api.morkva.co.ua/morkvafiles/woo-rozetka/categories.json', $args );
+        if ( is_wp_error( $morkva_api_rozetka_cats_json ) ){
+        	echo '<div class="notice notice-error is-dismissible"> <p>'.
+                $morkva_api_rozetka_cats_json->get_error_message() .'</p></div>';
+        }
+        elseif( wp_remote_retrieve_response_code( $morkva_api_rozetka_cats_json ) === 200 ) {
+            $morkva_api_rozetka_cats = json_decode( $morkva_api_rozetka_cats_json['body'], true);
+            for ( $i=0; $i < \sizeof($morkva_api_rozetka_cats) ; $i++ ) {
+                if ( ! \is_array( $morkva_api_rozetka_cats[$i] )) {
+                    continue;
+                }
+                if ( \in_array( $collation_category_id, $morkva_api_rozetka_cats[$i] ) ) {
+                    return $morkva_api_rozetka_cats[$i]['name'];
+                }
             }
         }
         return 'Category not found';

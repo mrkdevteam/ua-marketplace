@@ -17,7 +17,7 @@ class RozetkaCallbacks extends BaseController
 
     public function settingsSection()
     {
-        echo 'Оберіть потрібні налаштування для створення xml-прайсу для сайту Rozetka.';
+        echo '<p>Оберіть потрібні налаштування для створення xml-прайсу для сайту Rozetka.</p>';
     }
 
     public function shopName()

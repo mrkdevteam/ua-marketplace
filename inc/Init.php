@@ -27,6 +27,8 @@ final class Init
 			Base\PromuaSettingsController::class,
 			Base\SupportController::class,
 
+			Base\AjaxHandler::class,
+
 			Core\WCShopController::class,
 			Core\WCShop\WCShopCollation::class,
 			// Core\XMLController::class, // Прибрав, тому що є параметр у класа
