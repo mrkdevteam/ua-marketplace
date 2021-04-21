@@ -21,7 +21,7 @@ class Enqueue extends BaseController
 		// wp_deregister_script( 'jquery' );
 		wp_enqueue_style( 'morkvauamarketplacestyle', $this->plugin_url . 'assets/mrkvmpstyle.min.css', array(), $this->plugin_ver['ver'] );
 		// wp_enqueue_script( 'morkvauamarketplacescript', $this->plugin_url . 'assets/mrkvmpscript.min.js' );
-		wp_add_inline_script( 'jquery-migrate', 'jQuery.migrateMute = true;', 'before' );
+		wp_add_inline_script( 'jquery-migrate', 'jQuery.migrateMute = true;', 'before' ); // Deactivate logging for JQMIGRATE 
 		// wp_register_script( 'wpvue_vuejs', 'https://cdn.jsdelivr.net/npm/vue/dist/vue.js');
 		// wp_enqueue_script('wpvue_vuejs');
 		// wp_enqueue_script('vue', '//cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js', [], '2.5.17');
@@ -32,7 +32,7 @@ class Enqueue extends BaseController
 		// wp_enqueue_script('mrkvvuejs', $this->plugin_url . 'node_modules/vue/dist/vue.js' );
 		wp_enqueue_script( 'morkvauamarketplacescript', $this->plugin_url . 'assets/mrkvmpscript.min.js', array('jquery'), $this->plugin_ver['ver'], true );
 		// pass Ajax Url to script.js
-    	wp_localize_script('morkvauamarketplacescript', 'ajaxurl', admin_url('admin-ajax.php'));
+    	// wp_localize_script('morkvauamarketplacescript', 'ajaxurl', admin_url('admin-ajax.php'));
 		// wp_deregister_script( 'jquery' );
 
 		// if ( 'mrkv_ua_marketplaces' == $_GET['page'] ) {

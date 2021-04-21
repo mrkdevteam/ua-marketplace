@@ -1,5 +1,6 @@
 <?php
     if ( ! $this->activated( 'mrkvuamp_rozetka_activation' ) ) return;
+    $xml_filename = '/uploads/mrkvuamprozetka.xml';
  ?>
 
 <div class="wrap">
@@ -35,8 +36,23 @@
         <li><a href="#category-matching">Співставлення категорій</a></li>
         <li><a href="#my-orders">Мої замовлення</a></li>
     </ul>
+
     <div class="mrkv-nav-links-content">
         <div id="main-configuration" class="link-pane active">
+
+            <?php // Last xml-file link ?>
+            <div class="mrkvuamp_collation_xml_link">
+                <form action="">
+                    <p>Посилання на
+                        <a  id="mrkvuamp_xml_link" target="_blank" href="<?php echo content_url() . $xml_filename; ?>">останній згенерований xml</a>
+                        <?php if ( isset($_POST["mrkvuamp_submit_collation"] ) ) : ?>
+                            <span>( <?php echo date( " d.m.Y H:i:s" ); ?> UTC )</span>
+                        <?php else : ?>
+                            <span>( <?php clearstatcache(); echo date( " d.m.Y H:i:s", filemtime( WP_CONTENT_DIR . $xml_filename ) ); ?> UTC )</span>
+                        <?php endif; ?>
+                    </p>
+                </form>
+            </div>
 
             <form method="post" action="options.php">
 

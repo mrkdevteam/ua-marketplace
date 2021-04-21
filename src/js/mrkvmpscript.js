@@ -29,21 +29,21 @@ jQuery(document).ready(function(){
 
     jQuery( '#mrkv_uamrkpl_collation' ).on('submit', function(){
         var $form = jQuery(this);
-        // var $formAction = jQuery('#mrkv_uamrkpl_collation input[name=action]').val();
         var $formData = $form.serialize();
-        // var today = new Date();
-        // var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        // var $dateTime = date+' '+time;
-        // console.log($form.serialize());
+        var protocol = jQuery(location).attr('protocol'); // http or https
+        var host = jQuery(location).attr('host'); // example.com
 
         jQuery.ajax({
-            // url: '/wp-admin/admin-ajax.php',
             url: ajaxurl,
-            // data: $formData + '&currentDateTime=' + $dateTime,
             data: $formData,
 
             success: function( data ) {
+                var loaderUrl = protocol + '\/\/' + host + '/wp-content/plugins/ua-marketplace/assets/images/spinner.gif';
+                var image = new Image();
+                image.src = loaderUrl;
+                jQuery('.mrkv_uamrkpl_collation input.button-primary').css({"margin-right":"10px"});
+                jQuery('#mrkv_uamrkpl_collation #mrkvuamp_submit_collation').addClass('mrkv_uamrkpl_collation_desabled');
+                jQuery('#mrkvuamp_loader').append(image);
                 console.log('mrkvuamp_collation_form - Good Request!');
             }
         });

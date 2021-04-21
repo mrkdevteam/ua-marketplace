@@ -61,3 +61,26 @@
 		}
 	}
 }
+
+/* Last xml-file link */
+.mrkvuamp_collation_xml_link {
+	background-color: #fff;
+	padding: 1px;
+	max-width: 570px;
+	form p {
+		padding-left: 10px;
+	}
+}
+
+/* Class to desable button-primary 'Співставити' */
+.mrkv_uamrkpl_collation_desabled {
+	margin-right: 10px;
+	color: #66c6e4 !important;
+	background: #008ec2 !important;
+	border-color: #008ec2 !important;
+	box-shadow: none !important;
+	text-shadow: none !important;
+	&:hover {
+		cursor: default;
+	}
+}
