@@ -1,9 +1,17 @@
 <?php
-    if ( ! $this->activated( 'mrkvuamp_rozetka_activation' ) ) return;
-    $xml_filename = '/uploads/mrkvuamprozetka.xml';
- ?>
+// header('Clear-Site-Data: "cache"'); // Clear browser cache for read last xml file
 
-<div class="wrap">
+use \Inc\Core\WCShop\WCShopCollation;
+use \Inc\Core\XMLController;
+
+if ( ! $this->activated( 'mrkvuamp_rozetka_activation' ) ) return;
+
+$xml = new XMLController( 'rozetka' );
+$xml_fileurl = '/uploads/mrkvuamprozetka.xml';
+
+?>
+
+<div class="mrkvuamp_wrap">
 
     <h2><?php echo $this->plugin_name['name']; ?></h2>
     <?php settings_errors(); ?>
@@ -41,18 +49,17 @@
         <div id="main-configuration" class="link-pane active">
 
             <?php // Last xml-file link ?>
-            <div class="mrkvuamp_collation_xml_link">
-                <form action="">
-                    <p>Посилання на
-                        <a  id="mrkvuamp_xml_link" target="_blank" href="<?php echo content_url() . $xml_filename; ?>">останній згенерований xml</a>
-                        <?php if ( isset($_POST["mrkvuamp_submit_collation"] ) ) : ?>
-                            <span>( <?php echo date( " d.m.Y H:i:s" ); ?> UTC )</span>
-                        <?php else : ?>
-                            <span>( <?php clearstatcache(); echo date( " d.m.Y H:i:s", filemtime( WP_CONTENT_DIR . $xml_filename ) ); ?> UTC )</span>
-                        <?php endif; ?>
-                    </p>
-                </form>
-            </div>
+            <div id="mrkvuamp_collation_xml_prelink"></div><!-- can be removed -->
+            <?php //if ( file_exists( $xml->xml_filepath ) ) : // Last xml-file link ?>
+                <div class="mrkvuamp_collation_xml_link">
+                    <form action="">
+                        <p>Посилання на
+                            <a  id="mrkvuamp_xml_link" target="_blank" href="<?php echo content_url() . $xml_fileurl; ?>">останній згенерований xml</a>
+                            <?php $xml->last_xml_file_date(); ?>
+                        </p>
+                    </form>
+                </div>
+            <?php //endif; ?>
 
             <form method="post" action="options.php">
 

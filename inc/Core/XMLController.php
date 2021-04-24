@@ -17,6 +17,8 @@ class XMLController {
 
     public $category_name;
 
+    public $xml_filepath;
+
     public function __construct($marketplace)
     {
         $this->marketplace = $marketplace;
@@ -24,6 +26,8 @@ class XMLController {
         $this->current_date = \date("Y-m-d H:i");
 
         $this->xml_header = '<yml_catalog date="' . $this->current_date . '"></yml_catalog>';
+
+        $this->xml_filepath = WP_CONTENT_DIR . '/uploads/mrkvuamp' . $this->marketplace . '.xml';
 
     }
 
@@ -64,6 +68,19 @@ class XMLController {
         }
         $xml->saveXML();
         return $xml->asXML( WP_CONTENT_DIR . "/uploads/mrkvuamp" . $this->marketplace . ".xml" );
+    }
+
+    public function last_xml_file_date()
+    {
+        header('Clear-Site-Data: "cache"'); // Clear browser cache for read last xml file
+        if ( ! \file_exists( $this->xml_filepath ) ) {
+            return;
+        }
+        if ( isset($_POST["mrkvuamp_submit_collation"] ) ) :
+            echo '<span>( ' . date( " d.m.Y H:i:s" ) . ' UTC )</span>';
+        else :
+            echo '<span>( ' . clearstatcache() . date( " d.m.Y H:i:s", filemtime( $this->xml_filepath ) ) . ' UTC )</span>';
+        endif;
     }
 
 }

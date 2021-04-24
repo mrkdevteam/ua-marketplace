@@ -1,5 +1,5 @@
 <?php
-header('Clear-Site-Data: "cache"'); // Clear browser cache for read last xml file
+// header('Clear-Site-Data: "cache"'); // Clear browser cache for read last xml file
 
 use \Inc\Core\WCShop\WCShopCollation;
 use \Inc\Core\XMLController;

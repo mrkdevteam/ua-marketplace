@@ -28,7 +28,7 @@ class BaseController
 
         $this->activations = array(
             'mrkvuamp_rozetka_activation'   => 'Rozetka',
-            'mrkvuamp_promua_activation'    => 'PromUA'
+            'mrkvuamp_promua_activation'    => 'PromUA' // for free version use only Rozetka
         );
 	}
 

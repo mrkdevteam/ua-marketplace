@@ -22,7 +22,7 @@ class DashboardCallbacks extends BaseController
 
     public function marketplacesActivationSection()
     {
-        echo 'Активуйте маркетплейси, з якими буде взаємодіяти ваш інтернет-магазин.';
+        echo '<p class="dashboard-subtitle">Активуйте маркетплейси, з якими буде взаємодіяти ваш інтернет-магазин.</p>';
     }
 
     public function checkboxField( $args )

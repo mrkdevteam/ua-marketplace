@@ -24,4 +24,4 @@
       <a href="?page=mrkv_ua_marketplaces_support" class="nav-tab <?php if( 'mrkv_ua_marketplaces_support' == $tab ):?>nav-tab-active<?php endif; ?>">Підтримка</a>
     </nav>
 
-    <form method="post" action="options.php">
+    <form id="mrkvuamp-dashboard-form" method="post" action="options.php">
