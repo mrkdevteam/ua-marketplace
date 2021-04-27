@@ -20,6 +20,10 @@ class Enqueue extends BaseController
 		// enqueue all our scripts
 		// wp_deregister_script( 'jquery' );
 		wp_enqueue_style( 'morkvauamarketplacestyle', $this->plugin_url . 'assets/mrkvmpstyle.min.css', array(), $this->plugin_ver['ver'] );
+
+		// wp_register_style( 'Sweetalert2-style', '//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css' );
+    	// wp_enqueue_style('Sweetalert2-style');
+
 		// wp_enqueue_script( 'morkvauamarketplacescript', $this->plugin_url . 'assets/mrkvmpscript.min.js' );
 		wp_add_inline_script( 'jquery-migrate', 'jQuery.migrateMute = true;', 'before' ); // Deactivate logging for JQMIGRATE
 		// wp_register_script( 'wpvue_vuejs', 'https://cdn.jsdelivr.net/npm/vue/dist/vue.js');
@@ -32,6 +36,10 @@ class Enqueue extends BaseController
 		// wp_enqueue_script('mrkvvuejs', $this->plugin_url . 'node_modules/vue/dist/vue.js' );
 		// wp_enqueue_script( 'clipboard');
 		wp_enqueue_script( 'morkvauamarketplacescript', $this->plugin_url . 'assets/mrkvmpscript.min.js', array('jquery'), $this->plugin_ver['ver'], true );
+
+		wp_register_script( 'Sweetalert2', 'https://cdn.jsdelivr.net/npm/sweetalert2@10', null, null, true );
+		wp_enqueue_script('Sweetalert2');
+
 		// pass Ajax Url to script.js
     	// wp_localize_script('morkvauamarketplacescript', 'ajaxurl', admin_url('admin-ajax.php'));
 		// wp_deregister_script( 'jquery' );

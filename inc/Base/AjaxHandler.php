@@ -21,7 +21,7 @@ class AjaxHandler extends BaseController
     }
 
     public function mrkvuamp_collation_action() {
-        if (!check_ajax_referer( 'mrkv_uamrkpl_collation_nonce' )){
+        if ( ! check_ajax_referer( 'mrkv_uamrkpl_collation_nonce' )){
         	wp_die();
         }
 
@@ -39,11 +39,11 @@ class AjaxHandler extends BaseController
         }
         update_option( 'mrkv_uamrkpl_collation', $cats_collation_arr );
 
-        // Create internet-shop Object
+        // Create WooCommerce internet-shop Object
         $mrkv_uamrkpl_shop = new WCShopCollation('shop');
         $mrkv_uamrkpl_shop_arr = (array) $mrkv_uamrkpl_shop;
 
-        // Create XML-price
+        // Create XML-price for marketplace
         $converter = new \Inc\Core\XMLController( 'rozetka' );
         $xml_filename = '/uploads/mrkvuamp' . $converter->marketplace . '.xml';
         $xml = $converter->array2xml( $mrkv_uamrkpl_shop_arr );

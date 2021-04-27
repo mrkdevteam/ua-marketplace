@@ -24,10 +24,11 @@ final class Init
 
 			Base\DashboardSettingsController::class,
 			Base\RozetkaSettingsController::class,
-			Base\PromuaSettingsController::class,
+			Base\PromuaSettingsController::class, // for free version not use PromUA
 			Base\SupportController::class,
 
 			Base\AjaxHandler::class,
+			Base\WPCRONHandler::class,
 
 			Core\WCShopController::class,
 			Core\WCShop\WCShopCollation::class,

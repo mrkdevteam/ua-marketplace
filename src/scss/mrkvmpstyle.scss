@@ -1,5 +1,8 @@
 /* Dashboard marketplaces panels */
 .mrkv_uamrkpl_panel {
+	margin: 15px 0;
+}
+.mrkv_uamrkpl_panel {
 	background: #fff;
     max-width: 600px;
     display: flex;
@@ -75,9 +78,12 @@
 /* Class to desable button-primary 'Співставити' */
 .mrkv_uamrkpl_collation_desabled {
 	margin-right: 10px;
-	color: #66c6e4 !important;
-	background: #008ec2 !important;
-	border-color: #008ec2 !important;
+	color: #a0a5aa !important;
+	background: #f7f7f7 !important;
+	border-color: #ddd !important;
+	// color: #66c6e4 !important;
+	// background: #008ec2 !important;
+	// border-color: #008ec2 !important;
 	box-shadow: none !important;
 	text-shadow: none !important;
 	&:hover {

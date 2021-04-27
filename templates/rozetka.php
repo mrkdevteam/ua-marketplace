@@ -1,5 +1,4 @@
 <?php
-// header('Clear-Site-Data: "cache"'); // Clear browser cache for read last xml file
 
 use \Inc\Core\WCShop\WCShopCollation;
 use \Inc\Core\XMLController;
@@ -49,12 +48,11 @@ $xml_fileurl = '/uploads/mrkvuamprozetka.xml';
         <div id="main-configuration" class="link-pane active">
 
             <?php // Last xml-file link ?>
-            <div id="mrkvuamp_collation_xml_prelink"></div><!-- can be removed -->
-            <?php //if ( file_exists( $xml->xml_filepath ) ) : // Last xml-file link ?>
+            <?php //if ( file_exists( $xml->xml_filepath ) ) : ?>
                 <div class="mrkvuamp_collation_xml_link">
                     <form action="">
                         <p>Посилання на
-                            <a  id="mrkvuamp_xml_link" target="_blank" href="<?php echo content_url() . $xml_fileurl; ?>">останній згенерований xml</a>
+                            <a  class="mrkvuamp_xml_link" target="_blank" href="<?php echo content_url() . $xml_fileurl; ?>">останній згенерований xml</a>
                             <?php $xml->last_xml_file_date(); ?>
                         </p>
                     </form>
