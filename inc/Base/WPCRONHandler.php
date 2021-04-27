@@ -22,19 +22,19 @@ class WPCRONHandler extends BaseController
             $xml_fileurl = '/uploads/mrkvuamp' . strtolower( $marketplace ) . '.xml';
             if ( file_exists( $xml->xml_filepath ) ) {
                 add_action( 'admin_head', array( $this, 'activate_xml_update' ) );
-                add_action( 'mrkvuamp_update_xml_twicedaily', array( $this, 'do_this_twicedaily' ) );
+                add_action( 'mrkvuamp_update_xml_hook', array( $this, 'update_xml_exec' ) );
             }
         }
     }
 
     public function activate_xml_update()
     {
-        if( ! wp_next_scheduled( 'mrkvuamp_update_xml_twicedaily' ) ) {
-            wp_schedule_event( time(), 'twicedaily', 'mrkvuamp_update_xml_twicedaily' );
+        if( ! wp_next_scheduled( 'mrkvuamp_update_xml_hook' ) ) {
+            wp_schedule_event( time(), 'twicedaily', 'mrkvuamp_update_xml_hook' );
         }
     }
 
-    public function do_this_twicedaily()
+    public function update_xml_exec()
     {
         // Create WooCommerce internet-shop Object
         $mrkv_uamrkpl_shop = new WCShopCollation('shop');

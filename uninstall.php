@@ -10,15 +10,13 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	die;
 }
 
-// Clear Database stored data
-$books = get_posts( array( 'post_type' => 'book', 'numberposts' => -1 ) );
+// Delete all added by the plugin WorlPress options with `mrkv_uamrkpl_` prefix
+mrkv_uamrkpl_delete_wp_options_prefixed( 'mrkv_uamrkpl_' );
 
-foreach( $books as $book ) {
-	wp_delete_post( $book->ID, true );
+function mrkv_uamrkpl_delete_wp_options_prefixed( $prefix ) {
+    global $wpdb;
+    $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '{$prefix}%'" );
 }
 
-// Access the database via SQL
-global $wpdb;
-$wpdb->query( "DELETE FROM wp_posts WHERE post_type = 'book'" );
-$wpdb->query( "DELETE FROM wp_postmeta WHERE post_id NOT IN (SELECT id FROM wp_posts)" );
-$wpdb->query( "DELETE FROM wp_term_relationships WHERE object_id NOT IN (SELECT id FROM wp_posts)" );
+// Delete the main plugin option
+delete_option( 'mrkv_ua_marketplaces' );
