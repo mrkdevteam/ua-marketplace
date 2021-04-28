@@ -48,8 +48,7 @@ $xml_fileurl = '/uploads/mrkvuamprozetka.xml';
         <div id="main-configuration" class="link-pane active">
 
             <?php // Last xml-file link ?>
-            <?php //if ( file_exists( $xml->xml_filepath ) ) : ?>
-                <div class="mrkvuamp_collation_xml_link">
+                <div class="mrkvuamp_collation_xml_link" >
                     <form action="">
                         <p>Посилання на
                             <a  class="mrkvuamp_xml_link" target="_blank" href="<?php echo content_url() . $xml_fileurl; ?>">останній згенерований xml</a>

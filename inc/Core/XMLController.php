@@ -72,10 +72,16 @@ class XMLController {
 
     public function last_xml_file_date()
     {
-        // header('Clear-Site-Data: "cache"'); // Clear browser cache for read last xml file
-        if ( ! \file_exists( $this->xml_filepath ) ) {
+        // For remove xml link on 'Rozetka' tab when xml-file is not exists yet
+        if ( 'mrkv_ua_marketplaces_rozetka' == $_GET['page'] ) {
+            header('Clear-Site-Data: "cache"'); // Clear browser cache for read last xml file
+        }
+
+        if ( ! \file_exists( $this->xml_filepath ) ) { // This if may be only here!
             return;
         }
+
+        // Add date and time after xml-link
         if ( isset($_POST["mrkvuamp_submit_collation"] ) ) :
             echo '<span>( ' . date( " d.m.Y H:i:s" ) . ' UTC )</span>';
         else :

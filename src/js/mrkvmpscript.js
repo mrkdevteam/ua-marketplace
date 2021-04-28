@@ -83,15 +83,25 @@ jQuery(document).ready(function(){
 
     // Rozetka tab
     // AJAX  handler of mrkv_uamrkpl_collation Form in Rozetka tab
+    var protocol = jQuery(location).attr('protocol'); // http or https
+    var host = jQuery(location).attr('host'); // example.com
     if (location.search.indexOf('page=mrkv_ua_marketplaces_rozetka') !== -1) { // Only Rozetka tab
         jQuery( '#mrkv_uamrkpl_collation' ).on('submit', function(){
             var $form = jQuery(this);
             var $formData = $form.serialize();
-            var protocol = jQuery(location).attr('protocol'); // http or https
-            var host = jQuery(location).attr('host'); // example.com
+
+            // Sweetalert2 modal
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Ваш XML-прайс створено!',
+                showConfirmButton: false,
+
+            });
 
             jQuery.ajax({
                 url: ajaxurl,
+                headers: { 'Clear-Site-Data': "cache" },
                 data: $formData,
                 cache: false,
                 ifModified: true,
@@ -104,19 +114,23 @@ jQuery(document).ready(function(){
                     jQuery('.mrkv_uamrkpl_collation input.button-primary').css({"margin-right":"10px"});
                     jQuery('#mrkv_uamrkpl_collation #mrkvuamp_submit_collation').addClass('mrkv_uamrkpl_collation_desabled');
                     jQuery('#mrkvuamp_loader').append(image);
-                    console.log('mrkvuamp_collation_form - Good Request!');
-                    
-                    // Sweetalert2 modal
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Ваш XML-прайс створено!',
-                        showConfirmButton: false,
 
-                    });
+                    console.log('mrkvuamp_collation_form - Good Request!');
                 }
             });
         }); // on('submit', ...)
+
+        // Remove xml link on 'Rozetka' tab when xml-file is not exists yet
+        jQuery.ajax({
+            url: protocol + '\/\/' + host + '/wp-content/uploads/mrkvuamprozetka.xml',
+            type:'HEAD',
+            error: function() { //file not exists
+              jQuery('.mrkvuamp_collation_xml_link').fadeOut(100);
+            },
+            success: function() { //file exists
+                jQuery('.mrkvuamp_collation_xml_link').fadeIn(700);
+            }
+        });
 
     } // Rozetka tab
 

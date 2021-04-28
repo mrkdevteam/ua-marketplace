@@ -58,7 +58,7 @@ class Promua extends BaseController
 				),
 				array(
 					'option_group'	=> 'mrkv_ua_promua_option_group',
-					'option_name'	=> 'mrkv_uamrkpl_promua_brends',
+					'option_name'	=> 'mrkv_uamrkpl_promua_brands',
 					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
 				)
 			);

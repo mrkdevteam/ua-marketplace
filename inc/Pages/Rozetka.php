@@ -58,7 +58,7 @@ class Rozetka extends BaseController
 				),
 				array(
 					'option_group'	=> 'mrkv_ua_rozetka_option_group',
-					'option_name'	=> 'mrkv_uamrkpl_rozetka_brends',
+					'option_name'	=> 'mrkv_uamrkpl_rozetka_brands',
 					'callback'		=> array( $this->callbacks_rozetka, 'optionGroup' )
 				)
 			);
