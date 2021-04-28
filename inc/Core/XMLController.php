@@ -72,7 +72,7 @@ class XMLController {
 
     public function last_xml_file_date()
     {
-        header('Clear-Site-Data: "cache"'); // Clear browser cache for read last xml file
+        // header('Clear-Site-Data: "cache"'); // Clear browser cache for read last xml file
         if ( ! \file_exists( $this->xml_filepath ) ) {
             return;
         }

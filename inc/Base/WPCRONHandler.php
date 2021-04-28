@@ -15,6 +15,9 @@ class WPCRONHandler extends BaseController
 
     public function register()
     {
+        if ( empty( get_option( 'mrkv_ua_marketplaces') ) ) {
+            return;
+        }        
         $activation_options_name = get_option( 'mrkv_ua_marketplaces');
         foreach ( $activation_options_name as $key => $value ) {
             $marketplace = $this->activations[$key];
