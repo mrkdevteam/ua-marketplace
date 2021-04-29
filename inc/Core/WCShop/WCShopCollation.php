@@ -38,18 +38,19 @@ class WCShopCollation extends WCShopController {
 
     public static function get_collation_option($id)
     {
-        // if ( empty( get_option( 'mrkv_uamrkpl_collation' ) ) ||
-        //     ! is_object(json_decode(get_option( 'mrkv_uamrkpl_collation' ) ) ) ) {
-        //     return;
-        // }
-        if ( empty( get_option( 'mrkv_uamrkpl_collation' ) ) ) {
+
+        if ( ! is_array( get_option( 'mrkv_uamrkpl_collation_option' ) ) ) {
             return;
         }
 
-        if ( isset( $_POST["mrkv-uamp-{$id}"])) {
+        if ( empty( $_POST["mrkv-uamp-{$id}"] ) ) {
+            return;
+        }
+
+        if ( isset( $_POST["mrkv-uamp-{$id}"] ) ) {
             return $_POST["mrkv-uamp-{$id}"];
         }
-        return get_option( 'mrkv_uamrkpl_collation' )["mrkv-uamp-{$id}"];
+        return get_option( 'mrkv_uamrkpl_collation_option' )["mrkv-uamp-{$id}"];
     }
 
 }

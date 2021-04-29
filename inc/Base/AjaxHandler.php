@@ -21,7 +21,7 @@ class AjaxHandler extends BaseController
     }
 
     public function mrkvuamp_collation_action() {
-        if ( ! check_ajax_referer( 'mrkv_uamrkpl_collation_nonce' )){
+        if ( ! check_ajax_referer( 'mrkv_uamrkpl_collation_form_nonce' )){
         	wp_die();
         }
 
@@ -29,7 +29,7 @@ class AjaxHandler extends BaseController
             $response = $_REQUEST;
         }
 
-        // Get categories collations from mrkv_uamrkpl_collation Form on Rozetka tab
+        // Get categories collations from '#mrkv_uamrkpl_collation_form' Form on Rozetka tab
         if ( is_array( $response )  ) {
             foreach ( $response as $key => $value ) {
                 if ( strpos( $key, 'mrkv-uamp-') !== false ) {
@@ -37,7 +37,7 @@ class AjaxHandler extends BaseController
                 }
             }
         }
-        update_option( 'mrkv_uamrkpl_collation', $cats_collation_arr );
+        update_option( 'mrkv_uamrkpl_collation_option', $cats_collation_arr );
 
         // Create WooCommerce internet-shop Object
         $mrkv_uamrkpl_shop = new WCShopCollation('shop');

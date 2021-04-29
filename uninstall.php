@@ -10,13 +10,12 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	die;
 }
 
-// Delete all added by the plugin WorlPress options with `mrkv_uamrkpl_` prefix
-mrkv_uamrkpl_delete_wp_options_prefixed( 'mrkv_uamrkpl_' );
-
+// Delete all added by the plugin WordPress options with `mrkv_uamrkpl_` prefix
 function mrkv_uamrkpl_delete_wp_options_prefixed( $prefix ) {
     global $wpdb;
     $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '{$prefix}%'" );
 }
+mrkv_uamrkpl_delete_wp_options_prefixed( 'mrkv_uamrkpl_' );
 
 // Delete the main plugin option
 delete_option( 'mrkv_ua_marketplaces' );

@@ -41,7 +41,6 @@ jQuery(document).ready(function(){
                 xmlString = (new XMLSerializer()).serializeToString(fileContent); // convert xml Object to String
                 var promise = navigator.clipboard.writeText(xmlString); // set promise to write in Clipboard
                 var selval = jQuery("input[name=mrkvuamp_clipboard]").val(xmlString).select(); // write to hidden input element
-                console.log(selval);
 
                 document.execCommand("copy");
                 // Sweetalert2 modal
@@ -70,7 +69,6 @@ jQuery(document).ready(function(){
                 ++marketplaces_checked_count;
                 jQuery('.' + checkboxBlock).css("display", "none");
             }
-
         });
 
         // remove Dashboard subtitle and 'Зберегти зміни' button when all checkboxes checked
@@ -82,11 +80,11 @@ jQuery(document).ready(function(){
     } // Dashboard tab
 
     // Rozetka tab
-    // AJAX  handler of mrkv_uamrkpl_collation Form in Rozetka tab
+    // AJAX  handler of '#mrkv_uamrkpl_collation_form' Form in Rozetka tab
     var protocol = jQuery(location).attr('protocol'); // http or https
     var host = jQuery(location).attr('host'); // example.com
     if (location.search.indexOf('page=mrkv_ua_marketplaces_rozetka') !== -1) { // Only Rozetka tab
-        jQuery( '#mrkv_uamrkpl_collation' ).on('submit', function(){
+        jQuery( '#mrkv_uamrkpl_collation_form' ).on('submit', function(event){
             var $form = jQuery(this);
             var $formData = $form.serialize();
 
@@ -95,8 +93,7 @@ jQuery(document).ready(function(){
                 position: 'center',
                 icon: 'success',
                 title: 'Ваш XML-прайс створено!',
-                showConfirmButton: false,
-
+                showConfirmButton: false
             });
 
             jQuery.ajax({
@@ -105,32 +102,57 @@ jQuery(document).ready(function(){
                 data: $formData,
                 cache: false,
                 ifModified: true,
+                context: document.body,
 
                 success: function( data ) {
+                    // Get spinner gif-file data
                     var loaderUrl = protocol + '\/\/' + host + '/wp-content/plugins/ua-marketplace/assets/images/spinner.gif';
                     var image = new Image();
                     image.src = loaderUrl;
                     // Activate spinner and make 'Співставити' button disabled
-                    jQuery('.mrkv_uamrkpl_collation input.button-primary').css({"margin-right":"10px"});
-                    jQuery('#mrkv_uamrkpl_collation #mrkvuamp_submit_collation').addClass('mrkv_uamrkpl_collation_desabled');
+                    jQuery('#mrkv_uamrkpl_collation_form #mrkvuamp_submit_collation').css({"margin-right":"10px"});
+                    jQuery('#mrkv_uamrkpl_collation_form #mrkvuamp_submit_collation').addClass('mrkv_uamrkpl_collation_btn_desabled');
                     jQuery('#mrkvuamp_loader').append(image);
+                },
 
+                error: function( data ) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                        timer: 2000
+                        // footer: '<a href>Why do I have this issue?</a>'
+                    })
+                },
+                complete: function( data ) {
+                    // Get spinner gif-file data
+                    var loaderUrl = protocol + '\/\/' + host + '/wp-content/plugins/ua-marketplace/assets/images/spinner.gif';
+                    var image = new Image();
+                    image.src = loaderUrl;
+                    // Activate spinner and make 'Співставити' button disabled
+                    jQuery('#mrkv_uamrkpl_collation_form #mrkvuamp_submit_collation').css({"margin-right":"10px"});
+                    jQuery('#mrkv_uamrkpl_collation_form #mrkvuamp_submit_collation').addClass('mrkv_uamrkpl_collation_btn_desabled');
+                    jQuery('#mrkvuamp_loader').append(image);
                     console.log('mrkvuamp_collation_form - Good Request!');
                 }
             });
         }); // on('submit', ...)
 
         // Remove xml link on 'Rozetka' tab when xml-file is not exists yet
-        jQuery.ajax({
-            url: protocol + '\/\/' + host + '/wp-content/uploads/mrkvuamprozetka.xml',
-            type:'HEAD',
-            error: function() { //file not exists
-              jQuery('.mrkvuamp_collation_xml_link').fadeOut(100);
-            },
-            success: function() { //file exists
-                jQuery('.mrkvuamp_collation_xml_link').fadeIn(700);
-            }
-        });
+        setTimeout(function() {
+            jQuery.ajax({
+                url: protocol + '\/\/' + host + '/wp-content/uploads/mrkvuamprozetka.xml',
+                headers: { 'Clear-Site-Data': "cache" },
+                type:'HEAD',
+                cache: false,
+                error: function() { //file not exists
+                    jQuery('.mrkvuamp_collation_xml_link').addClass('hidden');
+                },
+                success: function() { //file exists
+                    jQuery('.mrkvuamp_collation_xml_link').removeClass('hidden');
+                }
+            });
+        }, 1500);
 
     } // Rozetka tab
 

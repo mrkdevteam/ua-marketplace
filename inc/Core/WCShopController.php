@@ -42,14 +42,10 @@ class WCShopController {
     public function get_collation_category_ids()
     {
 
-        // if ( empty( get_option( 'mrkv_uamrkpl_collation' ) ) ||
-        //     ! is_object(json_decode(get_option( 'mrkv_uamrkpl_collation' ) ) ) ) {
-        //     return;
-        // }
-        if ( empty( get_option( 'mrkv_uamrkpl_collation' ) ) ) {
+        if ( empty( get_option( 'mrkv_uamrkpl_collation_option' ) ) ) {
             return;
         }
-        $category_collation_ids = get_option( 'mrkv_uamrkpl_collation' );
+        $category_collation_ids = get_option( 'mrkv_uamrkpl_collation_option' );
 
         foreach ( $category_collation_ids as $key => $value ) {
             if ( strpos( $key, 'mrkv-uamp-') !== false) {

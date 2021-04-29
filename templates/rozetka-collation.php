@@ -1,5 +1,4 @@
 <?php
-// header('Clear-Site-Data: "cache"'); // Clear browser cache for read last xml file
 
 use \Inc\Core\WCShop\WCShopCollation;
 use \Inc\Core\XMLController;
@@ -11,10 +10,10 @@ use \Inc\Core\XMLController;
     <p>Додайте ідентифікатори категорій з сайту Rozetka для співставлення</p>
 
     <div class="mrkvuamp_collation_form_wrap">
-        <form id="mrkv_uamrkpl_collation" class="mrkv_uamrkpl_collation" method="post" action="<?php //echo admin_url('admin-ajax.php'); ?>">
+        <form id="mrkv_uamrkpl_collation_form" class="mrkv_uamrkpl_collation_form" method="post" action="">
             <?php echo WCShopCollation::get_hierarchical_tree_categories(); ?>
             <input type="hidden" name="action" value="mrkvuamp_collation_action">
-            <?php wp_nonce_field( 'mrkv_uamrkpl_collation_nonce' ); ?>
+            <?php wp_nonce_field( 'mrkv_uamrkpl_collation_form_nonce' ); ?>
             <?php submit_button( __( 'Співставити', 'mrkv-ua-marketplaces'), 'primary', 'mrkvuamp_submit_collation', false ); ?>
             <span style="display:inline;" id="mrkvuamp_loader"> </span>
         </form>

@@ -39,16 +39,16 @@ $xml_fileurl = '/uploads/mrkvuamprozetka.xml';
 
     <?php // Links ?>
     <ul class="mrkv-nav-links">
-        <li class="active"><a href="#main-configuration">Загальні налаштування</a></li>
+        <li class="active"><a href="#mrkvuamp_main-configuration">Загальні налаштування</a></li>
         <li><a href="#category-matching">Співставлення категорій</a></li>
         <li><a href="#my-orders">Мої замовлення</a></li>
     </ul>
 
     <div class="mrkv-nav-links-content">
-        <div id="main-configuration" class="link-pane active">
+        <div id="mrkvuamp_main-configuration" class="link-pane active">
 
             <?php // Last xml-file link ?>
-                <div class="mrkvuamp_collation_xml_link" >
+                <div class="mrkvuamp_collation_xml_link hidden" >
                     <form action="">
                         <p>Посилання на
                             <a  class="mrkvuamp_xml_link" target="_blank" href="<?php echo content_url() . $xml_fileurl; ?>">останній згенерований xml</a>

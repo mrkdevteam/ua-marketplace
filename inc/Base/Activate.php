@@ -17,6 +17,7 @@ class Activate
 		$default = array();
 
 		update_option( 'mrkv_ua_marketplaces', $default );
+		update_option( 'mrkv_uamrkpl_collation_option', $default );
 	}
-	
+
 }
