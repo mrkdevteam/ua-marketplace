@@ -72,7 +72,7 @@ class Rozetka extends BaseController
 			array(
 				'id'		=> 'mrkvuamp_rozetka_section',
 				'title'		=> __( 'Rozetka Загальні Налаштування', 'mrkv-ua-marketplaces' ),
-				'callback'	=> array( $this->callbacks_rozetka, 'settingsSection' ),
+				'callback'	=> array( $this->callbacks_rozetka, 'setSettingsSectionSubtitle' ),
 				'page'		=> 'mrkv_ua_marketplaces_rozetka'
 			)
 		);
@@ -86,7 +86,7 @@ class Rozetka extends BaseController
 			array(
 				'id'		=> 'mrkv_uamrkpl_rozetka_shop_name',
 				'title'		=> __( 'Назва магазину', 'mrkv-ua-marketplaces' ),
-				'callback'	=> array( $this->callbacks_rozetka, 'shopName' ),
+				'callback'	=> array( $this->callbacks_rozetka, 'getShopName' ),
 				'page'		=> 'mrkv_ua_marketplaces_rozetka',
 				'section'	=> 'mrkvuamp_rozetka_section',
 				'args'		=> array(
@@ -97,7 +97,7 @@ class Rozetka extends BaseController
 			array(
 				'id'		=> 'mrkv_uamrkpl_rozetka_company',
 				'title'		=> __( 'Назва компанії', 'mrkv-ua-marketplaces' ),
-				'callback'	=> array( $this->callbacks_rozetka, 'companyName' ),
+				'callback'	=> array( $this->callbacks_rozetka, 'getCompanyName' ),
 				'page'		=> 'mrkv_ua_marketplaces_rozetka',
 				'section'	=> 'mrkvuamp_rozetka_section',
 				'args'		=> array(
@@ -108,7 +108,7 @@ class Rozetka extends BaseController
 			array(
 				'id'		=> 'mrkv_uamrkpl_rozetka_main_maker',
 				'title'		=> __( 'Глобальний виробник', 'mrkv-ua-marketplaces' ),
-				'callback'	=> array( $this->callbacks_rozetka, 'mainMaker' ),
+				'callback'	=> array( $this->callbacks_rozetka, 'getGlobalVendor' ),
 				'page'		=> 'mrkv_ua_marketplaces_rozetka',
 				'section'	=> 'mrkvuamp_rozetka_section',
 				'args'		=> array(
@@ -117,14 +117,36 @@ class Rozetka extends BaseController
 				)
 			),
 			array(
-				'id'		=> 'mrkv_uamrkpl_rozetka_brendNames',
+				'id'		=> 'mrkv_uamrkpl_rozetka_setVendorNames',
 				'title'		=> __( 'Бренди', 'mrkv-ua-marketplaces' ),
-				'callback'	=> array( $this->callbacks_rozetka, 'brendNames' ),
+				'callback'	=> array( $this->callbacks_rozetka, 'setVendorNames' ),
 				'page'		=> 'mrkv_ua_marketplaces_rozetka',
 				'section'	=> 'mrkvuamp_rozetka_section',
 				'args'		=> array(
-					'label_for' => 'mrkv_uamrkpl_rozetka_brend_names',
-					'class'		=> 'mrkv_uamrkpl_class',
+					'label_for' => 'mrkv_uamrkpl_rozetka_setVendorNames',
+					'class'		=> 'mrkv_uamrkpl_rozetka_setVendorNames_class',
+				)
+			),
+			array(
+				'id'		=> 'mrkv_uamrkpl_vendor_by_attributes',
+				'title'		=> __( 'Атрибути в якості брендів', 'mrkv-ua-marketplaces' ),
+				'callback'	=> array( $this->callbacks_rozetka, 'setVendorByAttributes' ),
+				'page'		=> 'mrkv_ua_marketplaces_rozetka',
+				'section'	=> 'mrkvuamp_rozetka_section',
+				'args'		=> array(
+					'label_for' => 'mrkv_uamrkpl_vendor_by_attributes',
+					'class'		=> 'mrkv_uamrkpl_vendor_by_attributes_class',
+				)
+			),
+			array(
+				'id'		=> 'mrkv_uamrkpl_vendor_all_possibilities',
+				'title'		=> __( 'Всі можливі варіанти', 'mrkv-ua-marketplaces' ),
+				'callback'	=> array( $this->callbacks_rozetka, 'setVendorAllPossibilities' ),
+				'page'		=> 'mrkv_ua_marketplaces_rozetka',
+				'section'	=> 'mrkvuamp_rozetka_section',
+				'args'		=> array(
+					'label_for' => 'mrkv_uamrkpl_vendor_all_possibilities',
+					'class'		=> 'mrkv_uamrkpl_vendor_all_possibilities_class',
 				)
 			)
 		);

@@ -72,7 +72,7 @@ class Promua extends BaseController
 			array(
 				'id'		=> 'mrkvuamp_promua_section',
 				'title'		=> __( 'PromUA Загальні Налаштування', 'mrkv-ua-marketplaces' ),
-				'callback'	=> array( $this->callbacks_promua, 'settingsSection' ),
+				'callback'	=> array( $this->callbacks_promua, 'setSettingsSectionSubtitle' ),
 				'page'		=> 'mrkv_ua_marketplaces_promua'
 			)
 		);
@@ -86,7 +86,7 @@ class Promua extends BaseController
 			array(
 				'id'		=> 'mrkv_uamrkpl_promua_shop_name',
 				'title'		=> __( 'Назва магазину', 'mrkv-ua-marketplaces' ),
-				'callback'	=> array( $this->callbacks_promua, 'shopName' ),
+				'callback'	=> array( $this->callbacks_promua, 'getShopName' ),
 				'page'		=> 'mrkv_ua_marketplaces_promua',
 				'section'	=> 'mrkvuamp_promua_section',
 				'args'		=> array(
@@ -97,7 +97,7 @@ class Promua extends BaseController
 			array(
 				'id'		=> 'mrkv_uamrkpl_promua_company',
 				'title'		=> __( 'Назва компанії', 'mrkv-ua-marketplaces' ),
-				'callback'	=> array( $this->callbacks_promua, 'companyName' ),
+				'callback'	=> array( $this->callbacks_promua, 'getCompanyName' ),
 				'page'		=> 'mrkv_ua_marketplaces_promua',
 				'section'	=> 'mrkvuamp_promua_section',
 				'args'		=> array(
@@ -108,7 +108,7 @@ class Promua extends BaseController
 			array(
 				'id'		=> 'mrkv_uamrkpl_promua_main_maker',
 				'title'		=> __( 'Глобальний виробник', 'mrkv-ua-marketplaces' ),
-				'callback'	=> array( $this->callbacks_promua, 'mainMaker' ),
+				'callback'	=> array( $this->callbacks_promua, 'getGlobalVendor' ),
 				'page'		=> 'mrkv_ua_marketplaces_promua',
 				'section'	=> 'mrkvuamp_promua_section',
 				'args'		=> array(
@@ -117,13 +117,13 @@ class Promua extends BaseController
 				)
 			),
 			array(
-				'id'		=> 'mrkv_uamrkpl_promua_brendNames',
+				'id'		=> 'mrkv_uamrkpl_promua_setVendorNames',
 				'title'		=> __( 'Бренди', 'mrkv-ua-marketplaces' ),
-				'callback'	=> array( $this->callbacks_promua, 'brendNames' ),
+				'callback'	=> array( $this->callbacks_promua, 'setVendorNames' ),
 				'page'		=> 'mrkv_ua_marketplaces_promua',
 				'section'	=> 'mrkvuamp_promua_section',
 				'args'		=> array(
-					'label_for' => 'mrkv_uamrkpl_promua_brend_names',
+					'label_for' => 'mrkv_uamrkpl_promua_brand_names',
 					'class'		=> 'mrkv_uamrkpl_class',
 				)
 			)

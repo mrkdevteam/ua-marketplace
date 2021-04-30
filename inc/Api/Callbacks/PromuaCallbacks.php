@@ -15,19 +15,19 @@ class PromuaCallbacks extends BaseController
         return $input;
     }
 
-    public function settingsSection()
+    public function setSettingsSectionSubtitle()
     {
         echo '<p>Оберіть потрібні налаштування для створення xml-прайсу для сайту PromUA.</p>';
     }
 
-    public function shopName()
+    public function getShopName()
     {
         $value = esc_attr( get_option( 'mrkv_uamrkpl_promua_shop_name' ) );
         echo '<input type="text" class="regular-text" id="mrkv_uamrkpl_promua_shop_name"
         name="mrkv_uamrkpl_promua_shop_name" value="'. $value .'" placeholder="Введіть назву інтернет-магазину">';
     }
 
-    public function companyName()
+    public function getCompanyName()
     {
         $value = esc_attr( get_option( 'mrkv_uamrkpl_promua_company' ) );
         echo '<input type="text" class="regular-text" id="mrkv_uamrkpl_promua_company"
@@ -35,7 +35,7 @@ class PromuaCallbacks extends BaseController
         echo '<div class="blank-block"></dive>';
     }
 
-    public function mainMaker()
+    public function getGlobalVendor()
     {
         $value = esc_attr( get_option( 'mrkv_uamrkpl_promua_main_maker' ) );
         echo '<input type="text" class="regular-text" id="mrkv_uamrkpl_promua_main_maker"
@@ -43,10 +43,10 @@ class PromuaCallbacks extends BaseController
         echo '<p class="mrkv-font-italic">Для монобрендових магазинів. Це значення автоматично присвоюється всім товарам у вигрузці.</p>';
     }
 
-    public function brendNames()
+    public function setVendorNames()
     {
-        $value = esc_attr( get_option( 'mrkv_uamrkpl_promua_brend_names' ) );
-        echo '<select name="mrkv_uamrkpl_promua_brend_names" id="mrkv_uamrkpl_promua_brend_names">
+        $value = esc_attr( get_option( 'mrkv_uamrkpl_promua_brand_names' ) );
+        echo '<select name="mrkv_uamrkpl_promua_brand_names" id="mrkv_uamrkpl_promua_brand_names">
                 <option value="">Визначте як формуються бренди на вашому сайті</option>
                 <option value="volvo">Volvo</option>
                 <option value="saab">Saab</option>
