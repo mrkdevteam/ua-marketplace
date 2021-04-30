@@ -37,15 +37,15 @@ class RozetkaCallbacks extends BaseController
 
     public function getGlobalVendor()
     {
-        $value = esc_attr( get_option( 'mrkv_uamrkpl_rozetka_main_maker' ) );
-        echo '<input type="text" class="regular-text" id="mrkv_uamrkpl_rozetka_main_maker"
-        name="mrkv_uamrkpl_rozetka_main_maker" value="'. $value .'" placeholder="Введіть назву виробника">';
+        $value = esc_attr( get_option( 'mrkv_uamrkpl_rozetka_global_vendor' ) );
+        echo '<input type="text" class="regular-text" id="mrkv_uamrkpl_rozetka_global_vendor"
+        name="mrkv_uamrkpl_rozetka_global_vendor" value="'. $value .'" placeholder="Введіть назву виробника">';
         echo '<p class="mrkv-font-italic">Для монобрендових магазинів. Це значення автоматично присвоюється всім товарам у вигрузці.</p>';
     }
 
     public function setVendorNames()
     {
-        $value = esc_attr( get_option( 'mrkv_uamrkpl_rozetka_brand_names' ) );
+        $value = esc_attr( get_option( 'mrkv_uamrkpl_rozetka_vendor_names' ) );
         $vendor_values = array( 'vendor_pwb_brand' , 'vendor_by_attributes', 'vendor_all_possibilities' );
         $vendorTypeChoice = array(
             'Плагін "Perfect Brands for WooCommerce"',
@@ -58,7 +58,7 @@ class RozetkaCallbacks extends BaseController
               $addSelected[$i] = 'selected';
             }
         }
-        echo '<select ' . $value . ' id="mrkvuamp_choose_vendor" name="mrkvuamps_choose_vendor">';
+        echo '<select ' . $value . ' id="mrkv_uamrkpl_rozetka_vendor_names" name="mrkv_uamrkpl_rozetka_vendor_names">';
         echo '<option value="your_vendor_choice">' . __( 'Ваш вибір...', 'mrkv-ua-marketplaces') . '</option>';
         for( $i = 0; $i < sizeof( $vendor_values ); $i++) {
             echo '<option '. $addSelected[$i] . ' value="' . $vendor_values[$i] . '">' . $vendorTypeChoice[$i] . '</option>';
@@ -68,7 +68,7 @@ class RozetkaCallbacks extends BaseController
     }
 
     public function setVendorByAttributes() {
-        $value = get_option( 'mrkv_uamrkpl_vendor_by_attributes' );
+        $value = get_option( 'mrkv_uamrkpl_rozetka_vendor_by_attributes' );
         $array_attributes = array();
         $attribute_taxonomies = wc_get_attribute_taxonomies();
 
@@ -97,7 +97,7 @@ class RozetkaCallbacks extends BaseController
                 $selected_vendors[$i] = 'selected';
             }
         }
-        echo '<form><select '. $value . ' id="mrkv_uamrkpl_vendor_by_attributes" name="mrkv_uamrkpl_vendor_by_attributes">';
+        echo '<form><select '. $value . ' id="mrkv_uamrkpl_rozetka_vendor_by_attributes" name="mrkv_uamrkpl_rozetka_vendor_by_attributes">';
         echo '<option value="">' . __( 'Виберіть атрибут, що задає бренди на вашому сайті', 'mrkv-ua-marketplaces' ) . '</option>';
 
         for( $j = 0; $j < sizeof( $vendor_values ); $j++) {
@@ -106,7 +106,7 @@ class RozetkaCallbacks extends BaseController
     }
 
     public function setVendorAllPossibilities() {
-        $value = get_option( 'mrkv_uamrkpl_vendor_all_possibilities' );
+        $value = get_option( 'mrkv_uamrkpl_rozetka_vendor_all_possibilities' );
         $postmetas = array();
         $posts = get_posts( array(
             'numberposts' => -1,
@@ -136,7 +136,7 @@ class RozetkaCallbacks extends BaseController
                 $add_selected_html_attrs[$i] = '';
             }
         }
-        echo '<form><select '. $value . ' id="mrkv_uamrkpl_vendor_all_possibilities" name="mrkv_uamrkpl_vendor_all_possibilities">';
+        echo '<form><select '. $value . ' id="mrkv_uamrkpl_rozetka_vendor_all_possibilities" name="mrkv_uamrkpl_rozetka_vendor_all_possibilities">';
         echo '<option value="">' . __( 'Виберіть метадані, що задають бренди на вашому сайті', 'mrkv-ua-marketplaces' ) . '</option>';
         for( $j = 0; $j < sizeof( $all_possible_vendor_keys ); $j++) {
             $all_possible_vendor_values[$j] = isset( $all_possible_vendor_values[$j] ) ? $all_possible_vendor_values[$j] : '';
