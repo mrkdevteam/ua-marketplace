@@ -28,7 +28,7 @@ class WCShopCollation extends WCShopController {
                 $categories_html .= '<li><label for="mrkv-uamp-' . $cat->term_id . '" >' . $cat->name . '
                     <span style="font-weight:400;">(' . $cat->count . ')</span>' . '</label>';
                 $categories_html .= '<input type="text" id="mrkv-uamp-' . $cat->term_id . '" name="mrkv-uamp-' . $cat->term_id .
-                    '" placeholder="' . $cat->name . '" value="' . self::get_collation_option( $cat->term_id ) . '">';
+                    '" placeholder="' . $cat->name . '" value="' . self::get_collation_marketplace_cats_ids( $cat->term_id ) . '">';
                 $categories_html .= $cat->term_id !== 0 ? self::get_hierarchical_tree_categories($cat->term_id) : null;
             }
             $categories_html .= '</li></ul>';
@@ -36,7 +36,7 @@ class WCShopCollation extends WCShopController {
         return $categories_html;
     }
 
-    public static function get_collation_option($id)
+    public static function get_collation_marketplace_cats_ids($id)
     {
         if ( ! is_array( get_option( 'mrkv_uamrkpl_collation_option' ) ) ) {
             return;

@@ -6,6 +6,7 @@
 namespace Inc\Core;
 
 use \Inc\Core\WCShopController;
+use \Inc\Core\WCShop\WCShopOffer;
 
 class XMLController {
 
@@ -28,6 +29,12 @@ class XMLController {
         $this->xml_header = '<yml_catalog date="' . $this->current_date . '"></yml_catalog>';
 
         $this->xml_filepath = WP_CONTENT_DIR . '/uploads/mrkvuamp' . $this->marketplace . '.xml';
+
+        if ( ! \class_exists( 'WooCommerce' ) ) {
+            return;
+        }
+
+        global $woocommerce, $product;
 
     }
 
@@ -63,11 +70,7 @@ class XMLController {
                     $offers = $shop->addChild('offers'); // XML tag <offers>
                     foreach ($value as $k => $v) {
                         if ( $v ) {
-                            $offer = $offers->addChild( 'offer' ); // XML tag <offer>
-                            $offer->addAttribute('id', $v);
-                            $offer->addAttribute('available', 'true'); // TODO
-                            $url = $offer->addChild( 'url', \get_permalink( $v ) );
-                            $price = $offer->addChild( 'price', 19 ); // TODO
+                            $offer = WCShopOffer::set_offer( $v, $offers ); // XML tag <offer>
                         }
                     }
                 } else {

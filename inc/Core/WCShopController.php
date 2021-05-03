@@ -45,25 +45,28 @@ class WCShopController {
 
         $this->categories = $this->get_marketplace_collation_category_ids();
 
-        $this->offers = $this->get_offers_ids();
+        $this->offers = $this->get_wc_offers_ids();
 
 
     }
 
-    public function get_offers_ids()
+    public function get_wc_offers_ids()
     {
-        $collation_cats_ids = $this->get_wc_collation_categories_ids();
-        foreach ( $collation_cats_ids as $collation_cats_id ) {
-            if ( $term = get_term_by( 'id', $collation_cats_id, 'product_cat' ) ) {
+        // Get collated category slugs from wc-site
+        $collation_wc_cats_ids = $this->get_wc_collation_categories_ids();
+        foreach ( $collation_wc_cats_ids as $collation_wc_cats_id ) {
+            if ( $term = get_term_by( 'id', $collation_wc_cats_id, 'product_cat' ) ) {
                 $collation_cats_slugs[] = $term->slug;
             }
         }
 
+        // Get collated wc-products
         $args = array(
             'status' => array( 'publish' ),
             'category' => $collation_cats_slugs,
         );
         $products = \wc_get_products( $args );
+
         foreach ( $products as $product ) {
             $offer_ids[] = $product->get_id();
         }
@@ -143,7 +146,7 @@ class WCShopController {
 
     }
 
-    public static function get_category_name_by_id($id) // function is not in use
+    public static function get_category_name_by_id($id)
     {
         $term = get_term( $id );
         return $term->name;
