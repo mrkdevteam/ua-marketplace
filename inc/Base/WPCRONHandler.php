@@ -15,14 +15,19 @@ class WPCRONHandler extends BaseController
 
     public function register()
     {
-        if ( empty( get_option( 'mrkv_ua_marketplaces') ) ) {
+        if ( empty( get_option( 'mrkv_ua_marketplaces' ) ) ) {
             return;
-        }        
+        }
         $activation_options_name = get_option( 'mrkv_ua_marketplaces');
+
         foreach ( $activation_options_name as $key => $value ) {
             $marketplace = $this->activations[$key];
             $xml = new XMLController( strtolower( $marketplace ) );
+            
+            // Create xml-file name for each marketplace
             $xml_fileurl = '/uploads/mrkvuamp' . strtolower( $marketplace ) . '.xml';
+
+            // Activate CRON-task for generation xml-прайс twice daily
             if ( file_exists( $xml->xml_filepath ) ) {
                 add_action( 'admin_head', array( $this, 'activate_xml_update' ) );
                 add_action( 'mrkvuamp_update_xml_hook', array( $this, 'update_xml_exec' ) );

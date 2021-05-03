@@ -20,6 +20,8 @@ class WCShopController {
 
     public $categories = array();
 
+    public $offers = array();
+
     public function __construct()
     {
 
@@ -33,13 +35,65 @@ class WCShopController {
 
         $this->url = \get_bloginfo( 'url' );
 
+        if ( ! \class_exists( 'WooCommerce' ) ) {
+            return;
+        }
+
+        global $woocommerce, $product;
+
         $this->currencies[] = \get_option( 'woocommerce_currency' );
 
-        $this->categories = $this->get_collation_category_ids();
+        $this->categories = $this->get_marketplace_collation_category_ids();
+
+        $this->offers = $this->get_offers_ids();
+
 
     }
 
-    public function get_collation_category_ids()
+    public function get_offers_ids()
+    {
+        $collation_cats_ids = $this->get_wc_collation_categories_ids();
+        foreach ( $collation_cats_ids as $collation_cats_id ) {
+            if ( $term = get_term_by( 'id', $collation_cats_id, 'product_cat' ) ) {
+                $collation_cats_slugs[] = $term->slug;
+            }
+        }
+
+        $args = array(
+            'status' => array( 'publish' ),
+            'category' => $collation_cats_slugs,
+        );
+        $products = \wc_get_products( $args );
+        foreach ( $products as $product ) {
+            $offer_ids[] = $product->get_id();
+        }
+
+        return $offer_ids;
+    }
+
+    public function get_wc_collation_categories_ids()
+    {
+
+        if ( empty( get_option( 'mrkv_uamrkpl_collation_option' ) ) ) {
+            return;
+        }
+        $collation_option_ids = get_option( 'mrkv_uamrkpl_collation_option' );
+
+        foreach ( $collation_option_ids as $key => $value ) {
+            if ( strpos( $key, 'mrkv-uamp-') !== false) {
+                // Get WooCommerce catigories ids collations
+                $wc_cat_id = substr( $key , strpos( $key, 'mrkv-uamp-' ) + strlen( 'mrkv-uamp-' ) );
+
+                if ( $value ) {
+                    $wc_cats_collation_arr[] = $wc_cat_id;
+                }
+            }
+        }
+
+        return $wc_cats_collation_arr;
+    }
+
+    public function get_marketplace_collation_category_ids()
     {
 
         if ( empty( get_option( 'mrkv_uamrkpl_collation_option' ) ) ) {

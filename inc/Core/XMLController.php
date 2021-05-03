@@ -37,7 +37,9 @@ class XMLController {
             $xml = new \SimpleXMLElement( "<?xml version='1.0' encoding='UTF-8'?>
                 <!DOCTYPE yml_catalog SYSTEM 'shops.dtd'>" . $this->xml_header );
         }
-        $shop = $xml->addChild('shop');
+
+        $shop = $xml->addChild('shop'); // XML tag <shop>
+\error_log('$array');\error_log(print_r($array,1));
         foreach( $array as $key => $value ){
             if ( is_array( $value ) ) {
 
@@ -51,12 +53,23 @@ class XMLController {
                     $categories = $shop->addChild( 'categories' );
                     foreach ($value as $k => $v) {
                         if ( $v ) {
-                            $category = $categories->addChild( 'category', WCShopController::get_collation_category_name_by_id($v) );
+                            $category = $categories->addChild( 'category',
+                                WCShopController::get_collation_category_name_by_id($v) );
                             $category->addAttribute('id', $v);
                             $category->addAttribute('rz_id', $v);
                         }
                     }
-
+                } else if ( 'offers' == $key ) {
+                    $offers = $shop->addChild('offers'); // XML tag <offers>
+                    foreach ($value as $k => $v) {
+                        if ( $v ) {
+                            $offer = $offers->addChild( 'offer' ); // XML tag <offer>
+                            $offer->addAttribute('id', $v);
+                            $offer->addAttribute('available', 'true'); // TODO
+                            $url = $offer->addChild( 'url', \get_permalink( $v ) );
+                            $price = $offer->addChild( 'price', 19 ); // TODO
+                        }
+                    }
                 } else {
                     $this->array2xml( $value, $shop->addChild( $key ) );
                 }
@@ -66,6 +79,8 @@ class XMLController {
                 }
             }
         }
+
+        // Create XML-file
         $xml->saveXML();
         return $xml->asXML( WP_CONTENT_DIR . "/uploads/mrkvuamp" . $this->marketplace . ".xml" );
     }

@@ -50,7 +50,7 @@
         </div>
 
         <div id="category-matching" class="link-pane">
-            <h2>PromUA Співставлення категорій</h2>
+            <h2>PromUA Співставлення категорій та генерація XML</h2>
         </div>
 
         <div id="my-orders" class="link-pane">

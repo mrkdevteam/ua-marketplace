@@ -92,7 +92,7 @@ jQuery(document).ready(function(){
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Ваш XML-прайс створено!',
+                title: 'XML-прайс створюється...',
                 showConfirmButton: false
             });
 
@@ -123,18 +123,18 @@ jQuery(document).ready(function(){
                         timer: 2000
                         // footer: '<a href>Why do I have this issue?</a>'
                     })
-                },
-                complete: function( data ) {
-                    // Get spinner gif-file data
-                    var loaderUrl = protocol + '\/\/' + host + '/wp-content/plugins/ua-marketplace/assets/images/spinner.gif';
-                    var image = new Image();
-                    image.src = loaderUrl;
-                    // Activate spinner and make 'Співставити' button disabled
-                    jQuery('#mrkv_uamrkpl_collation_form #mrkvuamp_submit_collation').css({"margin-right":"10px"});
-                    jQuery('#mrkv_uamrkpl_collation_form #mrkvuamp_submit_collation').addClass('mrkv_uamrkpl_collation_btn_desabled');
-                    jQuery('#mrkvuamp_loader').append(image);
-                    console.log('mrkvuamp_collation_form - Good Request!');
                 }
+                // complete: function( data ) {
+                    // // Get spinner gif-file data
+                    // var loaderUrl = protocol + '\/\/' + host + '/wp-content/plugins/ua-marketplace/assets/images/spinner.gif';
+                    // var image = new Image();
+                    // image.src = loaderUrl;
+                    // // Activate spinner and make 'Співставити' button disabled
+                    // jQuery('#mrkv_uamrkpl_collation_form #mrkvuamp_submit_collation').css({"margin-right":"10px"});
+                    // jQuery('#mrkv_uamrkpl_collation_form #mrkvuamp_submit_collation').addClass('mrkv_uamrkpl_collation_btn_desabled');
+                    // jQuery('#mrkvuamp_loader').append(image);
+                    // console.log('mrkvuamp_collation_form - Good Request!');
+                // }
             }); // jQuery.ajax
         }); // on('submit', ...)
 

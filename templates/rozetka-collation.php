@@ -6,7 +6,7 @@ use \Inc\Core\XMLController;
 ?>
 
 <div id="category-matching" class="link-pane">
-    <h2>Rozetka Співставлення категорій</h2>
+    <h2>Rozetka Співставлення категорій та генерація XML</h2>
     <p>Додайте ідентифікатори категорій з сайту Rozetka для співставлення</p>
 
     <div class="mrkvuamp_collation_form_wrap">
