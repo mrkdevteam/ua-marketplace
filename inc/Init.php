@@ -33,6 +33,8 @@ final class Init
 			Core\WCShopController::class,
 			Core\WCShop\WCShopCollation::class,
 			Core\WCShop\WCShopOffer::class,
+			Core\WCShop\WCShopOfferSimple::class,
+			Core\WCShop\WCShopOfferVariable::class,
 
 			// Core\XMLController::class, // Прибрав, тому що є параметр у класа
 
