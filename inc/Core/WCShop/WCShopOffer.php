@@ -26,6 +26,36 @@ class WCShopOffer extends WCShopController {
         }
     }
 
+    public static function get_marketplace_category_id()
+    {
+        if ( empty( get_option( 'mrkv_uamrkpl_collation_option' ) ) ) {
+            return;
+        }
+
+        // Get all product categories
+        $product_category_ids = self::$_product->get_category_ids();
+        // Get wc-categories and marketplace-categories collation array
+        $collation_option_ids = get_option( 'mrkv_uamrkpl_collation_option' );
+
+        foreach ( $collation_option_ids as $key => $value ) {
+
+            // Get first wc-category id
+            $wc_cat_id = substr( $key , strpos( $key, 'mrkv-uamp-' ) + strlen( 'mrkv-uamp-' ) );
+
+            if ( $value ) { // Is set marketplace-category?
+                if ( \in_array( $wc_cat_id, $product_category_ids ) ) {
+                    return $value;
+                }
+            }
+        }
+    }
+
+    public static function get_wc_currency_id()
+    {
+        $wc_shop = new WCShopController();
+        return $wc_shop->currencies[0];
+    }
+
     public static function is_available($id, $offers, $_product)
     {
         $is_manage_stock = $_product->get_manage_stock();

@@ -38,6 +38,10 @@ class WCShopOfferVariable extends WCShopOffer {
 
                 $price = self::$variation->get_regular_price();
                 $price = $offer->addChild( 'price', $price ); // XML tag <price>
+
+                $currencyId = $offer->addChild( 'currencyId', parent::get_wc_currency_id() ); // XML tag <currencyId>
+
+                $currencyId = $offer->addChild( 'categoryId', parent::get_marketplace_category_id() ); // XML tag <categoryId>
         }
     }
 
