@@ -29,31 +29,16 @@ class WCShopOfferVariable extends WCShopOffer {
                 $offer->addAttribute( 'group_id', $id );
                 $offer->addAttribute( 'id', $variation_id );
 
-                $is_available = self::is_available( $id, $offer );
-                $offer->addAttribute( 'available', $is_available ); // TODO
+                $is_available = parent::is_available( $id, $offer, self::$variation );
+                $offer->addAttribute( 'available', $is_available );
 
                 $url = $offer->addChild( 'url',
                     esc_html( $variation_permalink . '?' .
                         self::get_variation_params( self::$variation, $variation_attrs ) ) ); // XML tag <url>
-        }
-    }
 
-    public static function is_available($id, $offers)
-    {
-        $is_manage_stock = self::$variation->get_manage_stock();
-        $stock_status = self::$variation->get_stock_status();
-        $stock_qty = self::$variation->get_stock_quantity();
-
-        if ( ! $is_manage_stock ) { // If manage_stock == false
-            if ( 'instock' == $stock_status ) {
-                return 'true';
-            }
-            return 'false';
+                $price = self::$variation->get_regular_price();
+                $price = $offer->addChild( 'price', $price ); // XML tag <price>
         }
-        if ( $stock_qty > 0) { // If manage_stock == true
-            return 'true';
-        }
-        return 'false';
     }
 
     // Create GET parameters for product variation URLs
@@ -72,30 +57,7 @@ class WCShopOfferVariable extends WCShopOffer {
 
     public static function get_product_prices( $id, $product_type ) // TODO
     {
-        $_product = wc_get_product( $id );
-
-        if ( 'simple' == $product_type ) {
-            $priceval = intval( $_product->get_regular_price() );
-        }
-
-        if ( 'variable' == $product_type ) {
-\error_log('$_product');\error_log(print_r($_product,1));
-            $variations = $_product->get_available_variations();
-\error_log('$variations');\error_log(print_r($variations,1));
-        }
-
-// \error_log('$_product');\error_log(print_r($_product,1));
-        // $priceval = intval( $_product->get_regular_price() );
-        // $pricesale = intval( $product->get_price() );
-        // $products = \wc_get_products( $args );
-//         $wc_product_types = \wc_get_product_types();
-// \error_log('$wc_product_types');\error_log(print_r($wc_product_types,1));
-//         foreach ( $products as $product ) {
-//             $offer_ids[] = $product->get_id();
-//             $wc_product_type = $product->get_type( $offer_ids );
-// \error_log('$wc_product_type');\error_log(print_r($wc_product_type,1));
-//         }
-        return $priceval;
+        // \error_log('self::$variation');\error_log(print_r(self::$variation,1));
     }
 
     public static function get_product_pictures() // TODO
