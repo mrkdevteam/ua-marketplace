@@ -11,6 +11,7 @@ class WCShopOffer extends WCShopController {
 
     public static $_product;
 
+    // Set <offer> xml-tag
     public static function set_offer($id, $offers)
     {
         // Get product object from collation list
@@ -26,6 +27,36 @@ class WCShopOffer extends WCShopController {
         }
     }
 
+    // Get product Title for <name> xml-tag
+    public static function get_product_title()
+    {
+        $product_title = self::$_product->get_title();
+        return $product_title;
+    }
+
+    // Get product image URLs for <picture> xml-tag
+    public static function get_product_image_urls()
+    {
+        $image_urls = array();
+        $image_id  = self::$_product->get_image_id(); // Get main product image id
+        $image_urls[] = wp_get_attachment_image_url( $image_id, 'full' );
+
+        // If exists only main product image
+        if ( empty( self::$_product->get_gallery_image_ids() ) && ! empty( $image_urls ) ) {
+            return $image_urls;
+        }
+
+        // If exists product image gallery
+        $gallery_image_ids = self::$_product->get_gallery_image_ids(); // Get product gallery ids
+        $gallery_image_urls = array();
+
+        foreach ( $gallery_image_ids as $gallery_image_id ) {
+            $gallery_image_urls[] = wp_get_attachment_image_url( $gallery_image_id, 'full' );
+        }
+        return \array_merge( $image_urls, $gallery_image_urls );
+    }
+
+    // Get marketplace category id for <categoryId> xml-tag
     public static function get_marketplace_category_id()
     {
         if ( empty( get_option( 'mrkv_uamrkpl_collation_option' ) ) ) {
@@ -50,12 +81,14 @@ class WCShopOffer extends WCShopController {
         }
     }
 
+    // Get currency value (UAH, USD, EUR, RUR) attribute for <currencyId> xml-tag
     public static function get_wc_currency_id()
     {
         $wc_shop = new WCShopController();
         return $wc_shop->currencies[0];
     }
 
+    // Get 'available' attribute for <offer> xml-tag
     public static function is_available($id, $offers, $_product)
     {
         $is_manage_stock = $_product->get_manage_stock();

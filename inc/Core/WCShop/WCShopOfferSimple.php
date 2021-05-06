@@ -25,16 +25,16 @@ class WCShopOfferSimple extends WCShopOffer {
             $currencyId = $offer->addChild( 'currencyId', parent::get_wc_currency_id() ); // XML tag <currencyId>
 
             $currencyId = $offer->addChild( 'categoryId', parent::get_marketplace_category_id() ); // XML tag <categoryId>
-    }
 
-    public static function get_product_prices( $id, $product_type ) // TODO
-    {
-        // \error_log('parent::$_product');\error_log(print_r(parent::$_product,1));
-    }
+            $image_urls = parent::get_product_image_urls();
+            foreach ( $image_urls as $image_url ) {
+                if ( empty( $image_url ) ) {
+                    continue;
+                }
+                $picture = $offer->addChild( 'picture', $image_url ); // XML tag <picture>
+            }
 
-    public static function get_product_pictures() // TODO
-    {
-
+            $name = $offer->addChild( 'name', parent::get_product_title() ); // XML tag <name>
     }
 
 }

@@ -42,6 +42,16 @@ class WCShopOfferVariable extends WCShopOffer {
                 $currencyId = $offer->addChild( 'currencyId', parent::get_wc_currency_id() ); // XML tag <currencyId>
 
                 $currencyId = $offer->addChild( 'categoryId', parent::get_marketplace_category_id() ); // XML tag <categoryId>
+
+                $image_urls = parent::get_product_image_urls();
+                foreach ( $image_urls as $image_url ) {
+                    if ( empty( $image_url ) ) {
+                        continue;
+                    }
+                    $picture = $offer->addChild( 'picture', $image_url ); // XML tag <picture>
+                }
+
+                $name = $offer->addChild( 'name', parent::get_product_title() ); // XML tag <name>
         }
     }
 
@@ -57,16 +67,6 @@ class WCShopOfferVariable extends WCShopOffer {
         }
 
         return join( "&", $params );
-    }
-
-    public static function get_product_prices( $id, $product_type ) // TODO
-    {
-        // \error_log('self::$variation');\error_log(print_r(self::$variation,1));
-    }
-
-    public static function get_product_pictures() // TODO
-    {
-
     }
 
 }
