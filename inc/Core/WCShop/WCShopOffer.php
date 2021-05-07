@@ -34,6 +34,23 @@ class WCShopOffer extends WCShopController {
         return $product_title;
     }
 
+    // Get product description for <description> xml-tag
+    public static function get_product_description()
+    {
+        $description = self::$_product->get_description();
+        if ( ! empty ($description ) ) {
+            return $description;
+        }
+        return self::get_product_short_description();
+    }
+
+    // Get product short description for $this->get_product_description()
+    public static function get_product_short_description()
+    {
+        $short_description = self::$_product->get_short_description();
+        return $short_description;
+    }
+
     // Get product brand for <vendor> xml-tag
     public static function get_product_vendor($id)
     {
@@ -75,7 +92,7 @@ class WCShopOffer extends WCShopController {
                 $vendor_taxonomy = \get_option('mrkv_uamrkpl_rozetka_vendor_all_possibilities');
                 $vendor_name = ( null !== get_post_meta( $id, $vendor_taxonomy ) )
                     ? get_post_meta( $id, $vendor_taxonomy ) : ' ';
-                    
+
                 if ( ! empty( $vendor_name[0] ) ) {
                     return $vendor_name[0];
                 }

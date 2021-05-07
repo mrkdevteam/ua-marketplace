@@ -39,6 +39,9 @@ class WCShopOfferSimple extends WCShopOffer {
             $vendor_name = parent::get_product_vendor($id);
             $vendor = $offer->addChild( 'vendor', $vendor_name ); // XML tag <vendor>
 
+            // XML tag <description>
+            $description = $offer->addChildWithCDATA( 'description', nl2br( parent::get_product_description() ) );
+
     }
 
 }

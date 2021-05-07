@@ -8,6 +8,8 @@ namespace Inc\Core;
 use \Inc\Core\WCShopController;
 use \Inc\Core\WCShop\WCShopOffer;
 
+require_once ('SimpleXMLElementExtended.php');
+
 class XMLController {
 
     public $marketplace; // замість хардкоду mrkvuamprozetka.xml (може бути 'rozetka', 'promua')
@@ -41,7 +43,7 @@ class XMLController {
     public function array2xml($array, $xml = null)
     {
         if ( $xml === null ) {
-            $xml = new \SimpleXMLElement( "<?xml version='1.0' encoding='UTF-8'?>
+            $xml = new SimpleXMLElementExtended( "<?xml version='1.0' encoding='UTF-8'?>
                 <!DOCTYPE yml_catalog SYSTEM 'shops.dtd'>" . $this->xml_header );
         }
 
