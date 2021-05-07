@@ -58,7 +58,7 @@ class Rozetka extends BaseController
 				),
 				array(
 					'option_group'	=> 'mrkv_ua_rozetka_option_group',
-					'option_name'	=> 'mrkv_uamrkpl_rozetka_vendor_names',
+					'option_name'	=> 'mrkv_uamrkpl_rozetka_custom_vendor',
 					'callback'		=> array( $this->callbacks_rozetka, 'optionGroup' )
 				),
 				array(
@@ -150,7 +150,7 @@ class Rozetka extends BaseController
 			),
 			array(
 				'id'		=> 'mrkv_uamrkpl_rozetka_vendor_all_possibilities',
-				'title'		=> __( 'Всі можливі варіанти', 'mrkv-ua-marketplaces' ),
+				'title'		=> __( 'Метадані в якості брендів', 'mrkv-ua-marketplaces' ),
 				'callback'	=> array( $this->callbacks_rozetka, 'setVendorAllPossibilities' ),
 				'page'		=> 'mrkv_ua_marketplaces_rozetka',
 				'section'	=> 'mrkvuamp_rozetka_section',

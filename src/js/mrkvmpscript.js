@@ -87,43 +87,75 @@ jQuery(document).ready(function(){
         jQuery( '#mrkv_uamrkpl_collation_form' ).on('submit', function(event){
             var $form = jQuery(this);
             var $formData = $form.serialize();
+/*const promise = collationCats($form, $formData);
+// alert('stop-1');
+    promise
+    .then(showSpinner())
+    .then(
+        // Sweetalert2 modal
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'XML-прайс створюється...',
+            showConfirmButton: false
+        })
+    )
+    .then(functionTimeOut)
+    .then(showXmlLink)
+    .catch();*/
+
+async function go() {
+    var $form = jQuery( '#mrkv_uamrkpl_collation_form' );
+    var $formData = $form.serialize();
+    let a = await collationCats($form, $formData);
+    let b = await SweetAl();
+    let c = await showSpinner();
+    // let d = await SweetAl();
+    // window.history.back()
+    // let c = await functionTimeOut();
+    // let d = await SweetAl();
+}
+
+go();
+            // var $form = jQuery(this);
+            // var $formData = $form.serialize();
 
             // Sweetalert2 modal
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'XML-прайс створюється...',
-                showConfirmButton: false
-            });
+            // Swal.fire({
+            //     position: 'center',
+            //     icon: 'success',
+            //     title: 'XML-прайс створюється...',
+            //     showConfirmButton: false
+            // });
 
-            jQuery.ajax({
-                url: ajaxurl,
-                headers: { 'Clear-Site-Data': "cache" },
-                data: $formData,
-                cache: false,
-                ifModified: true,
-                context: document.body,
+            // jQuery.ajax({
+            //     url: ajaxurl,
+            //     headers: { 'Clear-Site-Data': "cache" },
+            //     data: $formData,
+            //     cache: false,
+            //     ifModified: true,
+            //     context: document.body,
 
-                success: function( data ) {
-                    // Get spinner gif-file data
-                    var loaderUrl = protocol + '\/\/' + host + '/wp-content/plugins/ua-marketplace/assets/images/spinner.gif';
-                    var image = new Image();
-                    image.src = loaderUrl;
-                    // Activate spinner and make 'Співставити' button disabled
-                    jQuery('#mrkv_uamrkpl_collation_form #mrkvuamp_submit_collation').css({"margin-right":"10px"});
-                    jQuery('#mrkv_uamrkpl_collation_form #mrkvuamp_submit_collation').addClass('mrkv_uamrkpl_collation_btn_desabled');
-                    jQuery('#mrkvuamp_loader').append(image);
-                },
+                // success: function( data ) {
+                //     // Get spinner gif-file data
+                //     var loaderUrl = protocol + '\/\/' + host + '/wp-content/plugins/ua-marketplace/assets/images/spinner.gif';
+                //     var image = new Image();
+                //     image.src = loaderUrl;
+                //     // Activate spinner and make 'Співставити' button disabled
+                //     jQuery('#mrkv_uamrkpl_collation_form #mrkvuamp_submit_collation').css({"margin-right":"10px"});
+                //     jQuery('#mrkv_uamrkpl_collation_form #mrkvuamp_submit_collation').addClass('mrkv_uamrkpl_collation_btn_desabled');
+                //     jQuery('#mrkvuamp_loader').append(image);
+                // },
 
-                error: function( data ) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Something went wrong!',
-                        timer: 2000
-                        // footer: '<a href>Why do I have this issue?</a>'
-                    })
-                }
+                // error: function( data ) {
+                //     Swal.fire({
+                //         icon: 'error',
+                //         title: 'Oops...',
+                //         text: 'Something went wrong!',
+                //         timer: 2000
+                //         // footer: '<a href>Why do I have this issue?</a>'
+                //     })
+                // }
                 // complete: function( data ) {
                     // // Get spinner gif-file data
                     // var loaderUrl = protocol + '\/\/' + host + '/wp-content/plugins/ua-marketplace/assets/images/spinner.gif';
@@ -135,11 +167,13 @@ jQuery(document).ready(function(){
                     // jQuery('#mrkvuamp_loader').append(image);
                     // console.log('mrkvuamp_collation_form - Good Request!');
                 // }
-            }); // jQuery.ajax
+            // }); // jQuery.ajax
         }); // on('submit', ...)
 
+
+
         // Remove xml link on 'Rozetka' tab when xml-file is not exists yet
-        setTimeout(function() {
+        // setTimeout(function() {
             jQuery.ajax({
                 url: protocol + '\/\/' + host + '/wp-content/uploads/mrkvuamprozetka.xml',
                 headers: { 'Clear-Site-Data': "cache" },
@@ -152,30 +186,98 @@ jQuery(document).ready(function(){
                     jQuery('.mrkvuamp_collation_xml_link').removeClass('hidden');
                 }
             });
-        }, 1500);
+        // }, 1500);
+
+        async function collationCats($form, $formData) {
+                // var $form = jQuery(this);
+                // var $formData = $form.serialize();
+                // const promise = jQuery.ajax({
+                // return new Promise((resolve, reject) => {
+                    // const res = await jQuery.ajax({
+                    jQuery.ajax({
+                        url: ajaxurl,
+                        headers: { 'Clear-Site-Data': "cache" },
+                        data: $formData,
+                        cache: false,
+                        ifModified: true,
+                        // context: document.body
+                    });
+                    // return res;
+                // alert('stop-0');
+                // console.log(promise);
+                // return promise;
+            // })
+        }
+
+        async function showSpinner() {
+            // const res = await function() {
+                var protocol = jQuery(location).attr('protocol'); // http or https
+                var host = jQuery(location).attr('host'); // example.com
+                // Get spinner gif-file data
+                var loaderUrl = protocol + '\/\/' + host + '/wp-content/plugins/ua-marketplace/assets/images/spinner.gif';
+                var image = new Image();
+                image.src = loaderUrl;
+                // Activate spinner and make 'Співставити' button disabled
+                jQuery('#mrkv_uamrkpl_collation_form #mrkvuamp_submit_collation').css({"margin-right":"10px"});
+                jQuery('#mrkv_uamrkpl_collation_form #mrkvuamp_submit_collation').addClass('mrkv_uamrkpl_collation_btn_desabled');
+                jQuery('#mrkvuamp_loader').append(image);
+            // }
+            // return res;
+        }
+
+        async function SweetAl() {
+            // Sweetalert2 modal
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'XML-прайс створюється...',
+                showConfirmButton: false
+                // timer: 2000,
+            })
+        }
+
+        async function functionTimeOut() {
+            setTimeout(function(){ /*alert("Hello");*/ }, 3000);
+        }
+
+        function showXmlLink() {
+            jQuery.ajax({
+                url: protocol + '\/\/' + host + '/wp-content/uploads/mrkvuamprozetka.xml',
+                // headers: { 'Clear-Site-Data': "cache" },
+                type:'HEAD',
+                cache: false,
+                error: function() { //file not exists
+                    jQuery('.mrkvuamp_collation_xml_link').addClass('hidden');
+                },
+                success: function() { //file exists
+                    jQuery('.mrkvuamp_collation_xml_link').removeClass('hidden');
+                }
+            });
+        }
+
 
         // 'Бренди' Settings show/hide functionality
-        if ( ( jQuery( '#mrkv_uamrkpl_rozetka_vendor_names' ).val() == 'your_vendor_choice' ) ||
-             ( jQuery( '#mrkv_uamrkpl_rozetka_vendor_names' ).val() == 'vendor_pwb_brand' ) ) {
+        if ( ( jQuery( '#mrkv_uamrkpl_rozetka_custom_vendor' ).val() == 'your_vendor_choice' ) ||
+             ( jQuery( '#mrkv_uamrkpl_rozetka_custom_vendor' ).val() == 'vendor_pwb_brand' ) ) {
             jQuery( '.mrkv_uamrkpl_rozetka_vendor_by_attributes_class' ).hide();
             jQuery( '.mrkv_uamrkpl_rozetka_vendor_all_possibilities_class' ).hide();
         }
-        if ( jQuery( '#mrkv_uamrkpl_rozetka_vendor_names' ).val() == 'vendor_by_attributes' ) {
+        if ( jQuery( '#mrkv_uamrkpl_rozetka_custom_vendor' ).val() == 'vendor_by_attributes' ) {
             // Add 'Атрибути в якості брендів' field
             jQuery( '.mrkv_uamrkpl_rozetka_vendor_all_possibilities_class' ).hide();
             jQuery( '.mrkv_uamrkpl_rozetka_vendor_all_possibilities_class' ).css( ' display', 'none' );
             jQuery( '.mrkv_uamrkpl_rozetka_vendor_by_attributes_class' ).show();
             jQuery( '.mrkv_uamrkpl_rozetka_vendor_by_attributes_class' ).css( ' display', 'block' );
-        } else if ( jQuery( '#mrkv_uamrkpl_rozetka_vendor_names' ).val() == 'vendor_all_possibilities' ) {
-            // Add 'Всі можливі варіанти' field
+        } else if ( jQuery( '#mrkv_uamrkpl_rozetka_custom_vendor' ).val() == 'vendor_all_possibilities' ) {
+            // Add 'Метадані в якості брендів' field
             jQuery( '.mrkv_uamrkpl_rozetka_vendor_by_attributes_class' ).hide();
             jQuery( '.mrkv_uamrkpl_rozetka_vendor_by_attributes_class' ).css( ' display', 'none' );
             jQuery( '.mrkv_uamrkpl_rozetka_vendor_all_possibilities_class' ).show();
             jQuery( '.mrkv_uamrkpl_rozetka_vendor_all_possibilities_class' ).css( ' display', 'block' );
         }
-        jQuery( '#mrkv_uamrkpl_rozetka_vendor_names' ).on( 'change', (function() {
-            if ( ( jQuery( '#mrkv_uamrkpl_rozetka_vendor_names' ).val() == 'your_vendor_choice' ) ||
-                 ( jQuery( '#mrkv_uamrkpl_rozetka_vendor_names' ).val() == 'vendor_pwb_brand' ) ) {
+        jQuery( '#mrkv_uamrkpl_rozetka_custom_vendor' ).on( 'change', (function() {
+            if ( ( jQuery( '#mrkv_uamrkpl_rozetka_custom_vendor' ).val() == 'your_vendor_choice' ) ||
+                 ( jQuery( '#mrkv_uamrkpl_rozetka_custom_vendor' ).val() == 'vendor_pwb_brand' ) ) {
                 jQuery( '.mrkv_uamrkpl_rozetka_vendor_by_attributes_class' ).hide();
                 jQuery( '.mrkv_uamrkpl_rozetka_vendor_all_possibilities_class' ).hide();
             }

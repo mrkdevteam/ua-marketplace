@@ -45,12 +45,12 @@ class RozetkaCallbacks extends BaseController
 
     public function setVendorNames()
     {
-        $value = esc_attr( get_option( 'mrkv_uamrkpl_rozetka_vendor_names' ) );
+        $value = esc_attr( get_option( 'mrkv_uamrkpl_rozetka_custom_vendor' ) );
         $vendor_values = array( 'vendor_pwb_brand' , 'vendor_by_attributes', 'vendor_all_possibilities' );
         $vendorTypeChoice = array(
             'Плагін "Perfect Brands for WooCommerce"',
             'Використовувати атрибути як бренди',
-            'Всі можливі варіанти'
+            'Метадані в якості брендів'
         );
         $addSelected = array( ' ', ' ', ' ' );
         for ( $i = 0; $i < sizeof( $vendor_values ); $i++ ){
@@ -58,7 +58,7 @@ class RozetkaCallbacks extends BaseController
               $addSelected[$i] = 'selected';
             }
         }
-        echo '<select ' . $value . ' id="mrkv_uamrkpl_rozetka_vendor_names" name="mrkv_uamrkpl_rozetka_vendor_names">';
+        echo '<select ' . $value . ' id="mrkv_uamrkpl_rozetka_custom_vendor" name="mrkv_uamrkpl_rozetka_custom_vendor">';
         echo '<option value="your_vendor_choice">' . __( 'Ваш вибір...', 'mrkv-ua-marketplaces') . '</option>';
         for( $i = 0; $i < sizeof( $vendor_values ); $i++) {
             echo '<option '. $addSelected[$i] . ' value="' . $vendor_values[$i] . '">' . $vendorTypeChoice[$i] . '</option>';

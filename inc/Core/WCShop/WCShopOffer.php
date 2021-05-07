@@ -34,6 +34,56 @@ class WCShopOffer extends WCShopController {
         return $product_title;
     }
 
+    // Get product brand for <vendor> xml-tag
+    public static function get_product_vendor($id)
+    {
+        $global_vendor = ( null !== \get_option( 'mrkv_uamrkpl_rozetka_global_vendor' ) )
+            ? \get_option( 'mrkv_uamrkpl_rozetka_global_vendor' ) : '';
+        $custom_vendor = ( null !== \get_option( 'mrkv_uamrkpl_rozetka_custom_vendor' ) )
+            ? \get_option( 'mrkv_uamrkpl_rozetka_custom_vendor' ) : '';
+        if ( isset( $global_vendor ) ) { // If Global Vendor is exists
+            if ( ! empty( $global_vendor ) ) {
+                return $global_vendor;
+            }
+        }
+
+        if ( empty( $global_vendor ) ) {  // If Global Vendor is not exists
+            // If `Perfect Brands for WooCommerce` plugin is active
+            if ( 'vendor_pwb_brand' == $custom_vendor ) {
+                $vendor_taxonomy = 'pwb-brand';
+                $pwb_brand_obj = get_the_terms( $id, $vendor_taxonomy );
+
+                if ( ! empty( $pwb_brand_obj[0]->name ) ) {
+                    return $pwb_brand_obj[0]->name;
+                }
+                return ' ';
+            }
+
+            // If brands set by product attributes
+            if ( 'vendor_by_attributes' == $custom_vendor ) {
+                $vendor_taxonomy = \get_option('mrkv_uamrkpl_rozetka_vendor_by_attributes');
+                $vendor_name = self::$_product->get_attribute( 'pa_' . $vendor_taxonomy );
+
+                if ( ! empty( $vendor_name ) ) {
+                    return $vendor_name;
+                }
+                return ' ';
+            }
+
+            // If brands set by other product metadata
+            if ( 'vendor_all_possibilities' == $custom_vendor ) {
+                $vendor_taxonomy = \get_option('mrkv_uamrkpl_rozetka_vendor_all_possibilities');
+                $vendor_name = ( null !== get_post_meta( $id, $vendor_taxonomy ) )
+                    ? get_post_meta( $id, $vendor_taxonomy ) : ' ';
+                    
+                if ( ! empty( $vendor_name[0] ) ) {
+                    return $vendor_name[0];
+                }
+                return ' ';
+            }
+        }
+    }
+
     // Get product image URLs for <picture> xml-tag
     public static function get_product_image_urls()
     {
