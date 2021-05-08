@@ -170,7 +170,28 @@ class WCShopOffer extends WCShopController {
     }
 
     // Get 'available' attribute for <offer> xml-tag
-    public static function is_available($id, $offers, $_product)
+    // public static function is_available($id, $offers, $_product)
+    // {
+    //     $is_manage_stock = $_product->get_manage_stock();
+    //     $stock_status = $_product->get_stock_status();
+    //     $stock_qty = $_product->get_stock_quantity();
+    //
+    //     if ( ! $is_manage_stock ) { // If manage_stock == false
+    //
+    //         if ( 'instock' == $stock_status ) {
+    //             return 'true';
+    //         }
+    //         return 'false';
+    //     }
+    //     if ( $stock_qty > 0) { // If manage_stock == true
+    //         return 'true';
+    //     }
+    //     return 'false';
+    // }
+
+    // Get stock quantity for <stock_quantity> xml-tag
+    // Uses for getting 'available' attribute for <offer> xml-tag
+    public static function get_product_stock_quantity($id, $offers, $_product)
     {
         $is_manage_stock = $_product->get_manage_stock();
         $stock_status = $_product->get_stock_status();
@@ -179,14 +200,14 @@ class WCShopOffer extends WCShopController {
         if ( ! $is_manage_stock ) { // If manage_stock == false
 
             if ( 'instock' == $stock_status ) {
-                return 'true';
+                return 1;
             }
-            return 'false';
+            return 0;
         }
         if ( $stock_qty > 0) { // If manage_stock == true
-            return 'true';
+            return $stock_qty;
         }
-        return 'false';
+        return 0;
     }
 
 }

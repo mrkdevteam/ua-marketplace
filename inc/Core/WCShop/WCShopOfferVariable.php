@@ -30,7 +30,8 @@ class WCShopOfferVariable extends WCShopOffer {
                 $offer->addAttribute( 'group_id', $id );
                 $offer->addAttribute( 'id', $variation_id );
 
-                $is_available = parent::is_available( $id, $offer, self::$variation );
+                // $is_available = parent::is_available( $id, $offer, self::$variation );
+                $is_available = parent::get_product_stock_quantity( $id, $offer, self::$variation ) ? 'true' : 'false';
                 $offer->addAttribute( 'available', $is_available );
 
                 $url = $offer->addChild( 'url',
@@ -66,7 +67,10 @@ class WCShopOfferVariable extends WCShopOffer {
                     $param = $offer->addChild( 'param', $param_values[$i] );
                     $param->addAttribute( 'name', $param_labels[$i] );
                 }
-                
+
+                // XML tag <stock_quantity>
+                $quantity = parent::get_product_stock_quantity( $id, $offers, self::$variation );
+                $stock_quantity = $offer->addChild( 'stock_quantity', $quantity );
         }
     }
 
