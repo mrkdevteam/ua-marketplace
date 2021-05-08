@@ -48,7 +48,7 @@ class XMLController {
         }
 
         $shop = $xml->addChild('shop'); // XML tag <shop>
-\error_log('$array');\error_log(print_r($array,1));
+
         foreach( $array as $key => $value ){
             if ( is_array( $value ) ) {
 

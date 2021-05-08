@@ -38,13 +38,13 @@ $xml_fileurl = '/uploads/mrkvuamprozetka.xml';
     </nav>
 
     <?php // Links ?>
-    <ul class="mrkv-nav-links">
+    <ul class="mrkvuamp-nav-links">
         <li class="active"><a href="#mrkvuamp_main-configuration">Загальні налаштування</a></li>
-        <li><a href="#category-matching">Співставлення категорій</a></li>
-        <li><a href="#my-orders">Мої замовлення</a></li>
+        <li><a href="#mrkvuamp-category-matching">Співставлення категорій</a></li>
+        <li><a href="#mrkvuamp-my-orders">Мої замовлення</a></li>
     </ul>
 
-    <div class="mrkv-nav-links-content">
+    <div class="mrkvuamp-nav-links-content">
         <div id="mrkvuamp_main-configuration" class="link-pane active">
 
             <?php // Last xml-file link ?>
@@ -71,8 +71,9 @@ $xml_fileurl = '/uploads/mrkvuamprozetka.xml';
 
         <?php require_once( 'rozetka-collation.php' ); ?>
 
-        <div id="my-orders" class="link-pane">
+        <div id="mrkvuamp-my-orders" class="link-pane">
             <h2>Rozetka Мої замовлення</h2>
+            <p>Доступно лише у Про-версії. Детальніше тут: <a href="">url</a></p>
         </div>
 
     </div>

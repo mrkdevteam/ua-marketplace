@@ -30,12 +30,12 @@
      </nav>
 
      <?php // Links ?>
-     <ul class="mrkv-nav-links">
+     <ul class="mrkvuamp-nav-links">
          <li class="active"><a href="#mrkvuamp_main-configuration">Загальні налаштування</a></li>
          <li><a href="#category-matching">Співставлення категорій</a></li>
          <li><a href="#my-orders">Мої замовлення</a></li>
      </ul>
-     <div class="mrkv-nav-links-content">
+     <div class="mrkvuamp-nav-links-content">
          <div id="mrkvuamp_main-configuration" class="link-pane active">
 
              <form method="post" action="options.php">

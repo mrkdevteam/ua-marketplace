@@ -3,7 +3,7 @@ window.addEventListener("load", function() {
     // Dashboard tab
     // Show/hide link's content on marketplace's tabs (Rozetka, PromUA, ..., Підтримка):
     // 'Загальні налаштування', 'Співставлення категорій', 'Мої замовлення'
-    var mrkvRozetkaNavLinks = document.querySelectorAll("ul.mrkv-nav-links > li");
+    var mrkvRozetkaNavLinks = document.querySelectorAll("ul.mrkvuamp-nav-links > li");
 
 	for (i = 0; i < mrkvRozetkaNavLinks.length; i++) {
 		mrkvRozetkaNavLinks[i].addEventListener("click", mrkvSwitchLink);
@@ -12,7 +12,7 @@ window.addEventListener("load", function() {
 	function mrkvSwitchLink(event) {
 		event.preventDefault();
 
-		document.querySelector("ul.mrkv-nav-links li.active").classList.remove("active");
+		document.querySelector("ul.mrkvuamp-nav-links li.active").classList.remove("active");
 		document.querySelector(".link-pane.active").classList.remove("active");
 
 		var clickedLink = event.currentTarget;
@@ -117,6 +117,18 @@ async function go() {
 }
 
 go();
+
+async function clicLinkCollate() {
+    var $form = jQuery( '#mrkv_uamrkpl_collation_form' );
+    var $formData = $form.serialize();
+    let a = await collationCats($form, $formData);
+    // let b = await SweetAl();
+    // let c = await showSpinner();
+    // let d = await SweetAl();
+    // window.history.back()
+    // let c = await functionTimeOut();
+    // let d = await SweetAl();
+}
             // var $form = jQuery(this);
             // var $formData = $form.serialize();
 
@@ -174,6 +186,11 @@ go();
 
         // Remove xml link on 'Rozetka' tab when xml-file is not exists yet
         // setTimeout(function() {
+        jQuery( '#mrkvuamp-category-matching' ).on('click', function(event){
+            // go();
+            clicLinkCollate();
+        }); // on('click', ...)
+
             jQuery.ajax({
                 url: protocol + '\/\/' + host + '/wp-content/uploads/mrkvuamprozetka.xml',
                 headers: { 'Clear-Site-Data': "cache" },
@@ -186,6 +203,7 @@ go();
                     jQuery('.mrkvuamp_collation_xml_link').removeClass('hidden');
                 }
             });
+
         // }, 1500);
 
         async function collationCats($form, $formData) {
