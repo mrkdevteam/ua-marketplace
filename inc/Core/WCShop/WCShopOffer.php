@@ -27,6 +27,20 @@ class WCShopOffer extends WCShopController {
         }
     }
 
+    // Get product params (attributes) for <param> xml-tag
+    public static function get_product_attributes($id, $product)
+    {
+        $param_labels = array();
+        $param_values = array();
+        $params = $product->get_attributes();
+
+        foreach ( $params as $key => $value ) {
+            $param_labels[] = wc_attribute_label( $key );
+            $param_values[] = $product->get_attribute( $key );
+        }
+        return [ $param_labels, $param_values ];
+    }
+
     // Get product Title for <name> xml-tag
     public static function get_product_title()
     {
@@ -44,7 +58,7 @@ class WCShopOffer extends WCShopController {
         return self::get_product_short_description();
     }
 
-    // Get product short description for $this->get_product_description()
+    // Get product short description for self::get_product_description()
     public static function get_product_short_description()
     {
         $short_description = self::$_product->get_short_description();
