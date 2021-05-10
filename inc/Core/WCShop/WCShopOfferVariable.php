@@ -63,6 +63,15 @@ class WCShopOfferVariable extends WCShopOffer {
 
                 // XML tag <param>
                 [ $param_labels, $param_values ] = parent::get_product_attributes( $id );
+                // Get product variation attributes
+                $variation_params = self::$variation->get_attributes();
+                foreach ( $variation_params as $key => $value ) {
+                    $variation_param_label = wc_attribute_label( $key );
+                    $variation_param_value = self::$variation->get_attribute( $key );
+                    $param = $offer->addChild( 'param', $variation_param_value );
+                    $param->addAttribute( 'name', $variation_param_label );
+                }
+                // Get product attributes
                 for ( $i = 0; $i < \sizeof( $param_values ) ; $i++ ) {
                     $param = $offer->addChild( 'param', $param_values[$i] );
                     $param->addAttribute( 'name', $param_labels[$i] );
