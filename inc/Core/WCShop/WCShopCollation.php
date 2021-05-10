@@ -42,7 +42,7 @@ class WCShopCollation extends WCShopController {
             return;
         }
 
-        if ( isset( $_POST["mrkv-uamp-{$id}"] ) && ! empty( $_POST["mrkv-uamp-{$id}"] ) ) {
+        if ( isset( $_POST["mrkv-uamp-{$id}"] ) ) {
             return $_POST["mrkv-uamp-{$id}"];
         }
 

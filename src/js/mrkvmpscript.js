@@ -84,7 +84,7 @@ jQuery(document).ready(function(){
     var protocol = jQuery(location).attr('protocol'); // http or https
     var host = jQuery(location).attr('host'); // example.com
     if (location.search.indexOf('page=mrkv_ua_marketplaces_rozetka') !== -1) { // Only Rozetka tab
-        jQuery( '#mrkv_uamrkpl_collation_form' ).on('submit', function(event){
+        jQuery( '#mrkv_uamrkpl_collation_form' ).on('submit', async function(event) {
             var $form = jQuery(this);
             var $formData = $form.serialize();
 /*const promise = collationCats($form, $formData);
@@ -103,32 +103,65 @@ jQuery(document).ready(function(){
     .then(functionTimeOut)
     .then(showXmlLink)
     .catch();*/
+go();
+
+// let results = await Promise.all([
+//     collationCats($form, $formData),
+//     showSpinner(),
+//     SweetAl(),
+//     collationCats($form, $formData)
+// ]);
 
 async function go() {
     var $form = jQuery( '#mrkv_uamrkpl_collation_form' );
     var $formData = $form.serialize();
-    let a = await collationCats($form, $formData);
-    let b = await SweetAl();
-    let c = await showSpinner();
-    // let d = await SweetAl();
-    // window.history.back()
-    // let c = await functionTimeOut();
-    // let d = await SweetAl();
-}
+    try {
+        let a = await collationCats($form, $formData);
+        debugger;
+        let b = await SweetAl();
+        let c = showSpinner();
+        // event.preventDefault();
+    } catch(err) {
+        // alert(err);
+        await SweetAlErr(err);
+        await functionTimeOut();
 
-go();
-
-async function clicLinkCollate() {
-    var $form = jQuery( '#mrkv_uamrkpl_collation_form' );
-    var $formData = $form.serialize();
-    let a = await collationCats($form, $formData);
+    }
+    // let a = await collationCats($form, $formData);
     // let b = await SweetAl();
     // let c = await showSpinner();
+    // let d = await collationCats($form, $formData);
     // let d = await SweetAl();
     // window.history.back()
     // let c = await functionTimeOut();
     // let d = await SweetAl();
 }
+
+async function SweetAl() {
+    // Sweetalert2 modal
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'XML-прайс створюється...',
+        showConfirmButton: false,
+        timer: 2000,
+        allowOutsideClick: false
+    })
+}
+
+async function SweetAlErr(err) {
+    // Sweetalert2 modal
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        // text: 'Something went wrong!' + err,
+        text: err,
+        timer: 8000
+        // footer: '<a href>Why do I have this issue?</a>'
+    })
+}
+
+
             // var $form = jQuery(this);
             // var $formData = $form.serialize();
 
@@ -188,7 +221,20 @@ async function clicLinkCollate() {
         // setTimeout(function() {
         jQuery( '#mrkvuamp-category-matching' ).on('click', function(event){
             // go();
-            clicLinkCollate();
+            clickLinkCollate();
+            async function clickLinkCollate() {
+                var $form = jQuery( '#mrkv_uamrkpl_collation_form' );
+                var $formData = $form.serialize();
+                let response = collationCats($form, $formData);
+                let a = await response;
+                // let b = await SweetAl();
+                // let c = await showSpinner();
+                // let d = await SweetAl();
+                // window.history.back()
+                // let c = await functionTimeOut();
+                // let d = await SweetAl();
+                return a;
+            }
         }); // on('click', ...)
 
             jQuery.ajax({
@@ -206,6 +252,7 @@ async function clicLinkCollate() {
 
         // }, 1500);
 
+        // async function collationCats($form, $formData) {
         async function collationCats($form, $formData) {
                 // var $form = jQuery(this);
                 // var $formData = $form.serialize();
@@ -243,22 +290,11 @@ async function clicLinkCollate() {
             // return res;
         }
 
-        async function SweetAl() {
-            // Sweetalert2 modal
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'XML-прайс створюється...',
-                showConfirmButton: false
-                // timer: 2000,
-            })
-        }
-
         async function functionTimeOut() {
-            setTimeout(function(){ /*alert("Hello");*/ }, 3000);
+            setTimeout(function(){ /*alert("Hello");*/ }, 10000);
         }
 
-        function showXmlLink() {
+        async function showXmlLink() {
             jQuery.ajax({
                 url: protocol + '\/\/' + host + '/wp-content/uploads/mrkvuamprozetka.xml',
                 // headers: { 'Clear-Site-Data': "cache" },

@@ -44,7 +44,7 @@ class WCShopOfferSimple extends WCShopOffer {
             $description = $offer->addChildWithCDATA( 'description', nl2br( parent::get_product_description() ) );
 
             // XML tag <param>
-            [ $param_labels, $param_values ] = parent::get_product_attributes( $id, parent::$_product );
+            [ $param_labels, $param_values ] = parent::get_product_attributes( $id );
             for ( $i = 0; $i < \sizeof( $param_values ) ; $i++ ) {
                 $param = $offer->addChild( 'param', $param_values[$i] );
                 $param->addAttribute( 'name', $param_labels[$i] );

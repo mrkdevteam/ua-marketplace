@@ -28,15 +28,15 @@ class WCShopOffer extends WCShopController {
     }
 
     // Get product params (attributes) for <param> xml-tag
-    public static function get_product_attributes($id, $product)
+    public static function get_product_attributes($id)
     {
         $param_labels = array();
         $param_values = array();
-        $params = $product->get_attributes();
+        $params = self::$_product->get_attributes();
 
         foreach ( $params as $key => $value ) {
             $param_labels[] = wc_attribute_label( $key );
-            $param_values[] = $product->get_attribute( $key );
+            $param_values[] = self::$_product->get_attribute( $key );
         }
         return [ $param_labels, $param_values ];
     }

@@ -73,7 +73,8 @@ $xml_fileurl = '/uploads/mrkvuamprozetka.xml';
 
         <div id="mrkvuamp-my-orders" class="link-pane">
             <h2>Rozetka Мої замовлення</h2>
-            <p>Доступно лише у Про-версії. Детальніше тут: <a href="">url</a></p>
+            <p>Доступно лише у Про-версії. Детальніше:
+                <a target="_blank" href="https://morkva.co.ua/shop-2/ua-marketplaces-woocommerce-plugin"> дивіться тут</a></p>
         </div>
 
     </div>
