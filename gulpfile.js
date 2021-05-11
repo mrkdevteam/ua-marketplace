@@ -46,7 +46,10 @@ function browsersync() {
 function scripts() {
 	return src([ // Берём файлы из источников
 		//'node_modules/jquery/dist/jquery.min.js', // Пример подключения библиотеки
-		'src/js/mrkvmpscript.js' // Пользовательские скрипты, использующие библиотеку, должны быть подключены в конце
+		'src/js/dashboardtab.js',
+		'src/js/rozetkalinks.js',
+		'src/js/rozetkasettings.js',
+		'src/js/rozetkacollation.js' // Пользовательские скрипты, использующие библиотеку, должны быть подключены в конце
 		])
 	.pipe(concat('mrkvmpscript.min.js')) // Конкатенируем в один файл
 	.pipe(uglify({
@@ -131,113 +134,3 @@ exports.build = series(styles, scripts);
 
 // Экспортируем дефолтный таск с нужным набором функций
 exports.default = parallel(styles, scripts, browsersync, startwatch);
-
-
-
-// Load Gulp...of course
-// var gulp         = require( 'gulp' );
-//
-// // CSS related plugins
-// var sass         = require( 'gulp-sass' );
-// var autoprefixer = require( 'gulp-autoprefixer' );
-// var minifycss    = require( 'gulp-uglifycss' );
-//
-// // JS related plugins
-// var concat       = require( 'gulp-concat' );
-// var uglify       = require( 'gulp-uglify' );
-// var babelify     = require( 'babelify' );
-// var browserify   = require( 'gulp-browserify' );
-// var source       = require( 'vinyl-source-stream' );
-// var buffer       = require( 'vinyl-buffer' );
-// var stripDebug   = require( 'gulp-strip-debug' );
-//
-// // Utility plugins
-// var rename       = require( 'gulp-rename' );
-// var sourcemaps   = require( 'gulp-sourcemaps' );
-// var notify       = require( 'gulp-notify' );
-// var plumber      = require( 'gulp-plumber' );
-// var options      = require( 'gulp-options' );
-// var gulpif       = require( 'gulp-if' );
-//
-// // Browers related plugins
-// var browserSync  = require( 'browser-sync' ).create();
-// var reload       = browserSync.reload;
-//
-// // Project related variables
-// var projectURL   = 'localhost:8001';
-//
-// var styleSRC     = './src/scss/mrkvmpstyle.scss';
-// var styleURL     = './assets/';
-// var mapURL       = './';
-//
-// var jsSRC        = './src/js/mrkvmpscript.js';
-// var jsURL        = './assets/';
-//
-// var styleWatch   = './src/scss/**/*.scss';
-// var jsWatch      = './src/js/**/*.js';
-// var phpWatch     = './**/*.php';
-//
-// // Tasks
-// gulp.task( 'browser-sync', function() {
-// 	browserSync.init({
-// 		proxy: projectURL,
-// 		// https: {
-// 		// 	key: '/Users/alecaddd/.valet/Certificates/test.dev.key',
-// 		// 	cert: '/Users/alecaddd/.valet/Certificates/test.dev.crt'
-// 		// },
-// 		injectChanges: true,
-// 		open: false
-// 	});
-// });
-//
-// gulp.task( 'styles', function(done) {
-// 	gulp.src( styleSRC )
-// 		.pipe( sourcemaps.init() )
-// 		.pipe( sass({
-// 			errLogToConsole: true,
-// 			outputStyle: 'compressed'
-// 		}) )
-// 		.on( 'error', console.error.bind( console ) )
-// 		.pipe( autoprefixer({ browsers: [ 'last 2 versions', '> 5%', 'Firefox ESR' ] }) )
-// 		.pipe( sourcemaps.write( mapURL ) )
-// 		.pipe( gulp.dest( styleURL ) )
-// 		.pipe( browserSync.stream() );
-//     done();
-// });
-//
-// gulp.task( 'js', async function(done) {
-// 	return browserify({
-// 		entries: [jsSRC]
-// 	})
-// 	// .transform( babelify, { presets: [ 'env' ] } )
-// 	// .bundle()
-// 	.pipe( source( 'mrkvmpscript.js' ) )
-// 	.pipe( buffer() )
-// 	.pipe( gulpif( options.has( 'production' ), stripDebug() ) )
-// 	.pipe( sourcemaps.init({ loadMaps: true }) )
-// 	.pipe( uglify() )
-// 	.pipe( sourcemaps.write( '.' ) )
-// 	.pipe( gulp.dest( jsURL ) )
-// 	.pipe( browserSync.stream() );
-//     done();
-//  });
-//
-// function triggerPlumber( src, url ) {
-// 	return gulp.src( src )
-// 	.pipe( plumber() )
-// 	.pipe( gulp.dest( url ) );
-// }
-//
-//  gulp.task( 'default', gulp.series('styles', 'js', function(done) {
-// 	gulp.src( jsURL + 'mrkvmpscript.min.js' )
-// 		.pipe( notify({ message: 'Assets Compiled!' }) );
-//     done();
-//  }));
-//
-//  gulp.task( 'watch', gulp.series('default', 'browser-sync', function() {
-// 	gulp.watch( phpWatch, reload );
-// 	gulp.watch( styleWatch, [ 'styles' ] );
-// 	gulp.watch( jsWatch, [ 'js', reload ] );
-// 	gulp.src( jsURL + 'mrkvmpscript.min.js' )
-// 		.pipe( notify({ message: 'Gulp is Watching, Happy Coding!' }) );
-//  }));
