@@ -53,6 +53,9 @@ class WCShopController {
     public function get_wc_offers_ids()
     {
         // Get collated category slugs from wc-site
+        if ( ! $this->get_wc_collation_categories_ids() ) {
+            return;
+        }
         $collation_wc_cats_ids = $this->get_wc_collation_categories_ids();
         foreach ( $collation_wc_cats_ids as $collation_wc_cats_id ) {
             if ( $term = get_term_by( 'id', $collation_wc_cats_id, 'product_cat' ) ) {
@@ -78,7 +81,7 @@ class WCShopController {
     {
 
         if ( empty( get_option( 'mrkv_uamrkpl_collation_option' ) ) ) {
-            return;
+            return false;
         }
         $collation_option_ids = get_option( 'mrkv_uamrkpl_collation_option' );
 
