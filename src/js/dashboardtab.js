@@ -1,6 +1,10 @@
 if (location.search.indexOf('page=mrkv_ua_marketplaces') !== -1) { // Only Dashboard tab
     jQuery(document).ready(function(){
 
+        // Make PromUa checkbox disabled
+        jQuery( '#mrkvuamp_promua_activation' ).attr('disabled', 'disabled');
+        jQuery( '.promua_activation_class label' ).css('color', 'gray');
+
         // Copy xml content as string to browser Clipboard with 'Скопіювати' button on Dashboard tab
         jQuery( '.mrkvuamp_xml_link_copy' ).on('click', function(){
 
@@ -27,9 +31,9 @@ if (location.search.indexOf('page=mrkv_ua_marketplaces') !== -1) { // Only Dashb
 
         // Remove checked checkbox fields after its activation on Dashboard tab
         var marketplaces_checked_count = 0; // how many marketplaces was clicked (selected)
-        var checkboxes_qty = jQuery('#mrkvuamp-dashboard-form .mrkv_chk').length; // total marketplaces quantity
+        var checkboxes_qty = jQuery('#mrkvuamp-dashboard-form .mrkvuamp_chekbox').length; // total marketplaces quantity
 
-        jQuery('input[type=checkbox].mrkv_chk:checked').each(function () { // all checkboxes loop
+        jQuery('input[type=checkbox].mrkvuamp_chekbox:checked').each(function () { // all checkboxes loop
             var status = (this.checked ? jQuery(this).val() : "");
             var id = jQuery(this).attr("id");
             // create css-class e.g. 'rozetka_activation_class' name from checkbox name id 'mrkvuamp_rozetka_activation'

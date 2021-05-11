@@ -19,3 +19,9 @@ mrkv_uamrkpl_delete_wp_options_prefixed( 'mrkv_uamrkpl_' );
 
 // Delete the main plugin option
 delete_option( 'mrkv_ua_marketplaces' );
+
+// Remove xml-file
+$file_pointer = WP_CONTENT_DIR . '/uploads/mrkvuamprozetka.xml';
+if ( \file_exists( $file_pointer ) ) {
+	\unlink( $file_pointer );
+}
