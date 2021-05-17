@@ -11,7 +11,7 @@
 *.jpg
 *.jpeg
 *.png
-*.txt
+# *.txt
 *.csv
 
 # WP dirs.
@@ -80,6 +80,13 @@ wp-snapshots/*
 *.rar
 *.tar
 *.zip
+
+# ignore service dev files
+composer.lock
+gulpfile.js
+package.json
+package-lock.json
+src/*
 
 # -------------------------
 # BEGIN Whitelisted Files
