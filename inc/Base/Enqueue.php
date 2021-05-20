@@ -40,6 +40,8 @@ class Enqueue extends BaseController
 		wp_register_script( 'Sweetalert2', 'https://cdn.jsdelivr.net/npm/sweetalert2@10', null, null, true );
 		wp_enqueue_script('Sweetalert2');
 
+// wp_enqueue_media();
+
 		// pass Ajax Url to script.js
     	// wp_localize_script('morkvauamarketplacescript', 'ajaxurl', admin_url('admin-ajax.php'));
 		// wp_deregister_script( 'jquery' );

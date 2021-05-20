@@ -3,7 +3,7 @@ Contributors: bandido, olegkovalyov
 Tags: woocommerce, розетка, rozetka, ecommerce, xml
 Requires at least: 3.9.9
 Tested up to: 5.7.2
-Stable tag: 1.0.0
+Stable tag: 1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,13 +17,13 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Швидкість генерації xml зросла втричі, в порівнянні зі старим кодом.
 
-Підтримуються монобрендові та мультибрендові магазини.
+Підтримуються монобрендові та мультибрендові магазини. 
 
 Автоматична ре-генерація xml двічі на добу (wp-cron).
 
 Підтримує маркетплейси Rozetka та Prom (скоро).
 
-Pro-версія:
+Pro-версія: 
 
 https://morkva.co.ua/shop-2/ua-marketplaces-woocommerce-plugin
 
@@ -34,6 +34,9 @@ https://youtu.be/CYhov5nuET4
 
 
 == Що нового? ==
+
+= 1.0.2 =
+* [new] додана вкладка Rozetka до Дані товару
 
 = 1.0.1 =
 * [fix] прибрані службові файли
@@ -51,4 +54,4 @@ https://youtu.be/CYhov5nuET4
 
 == Підтримка ==
 
-Якщо виникла помилка при встановленні чи використанні плагіна, - пишіть на support@morkva.co.ua або в нашу групу в Facebook https://www.facebook.com/groups/morkvasupport/.
+Якщо виникла помилка при встановленні чи використанні плагіну, - пишіть на support@morkva.co.ua або в нашу групу в Facebook https://www.facebook.com/groups/morkvasupport/.

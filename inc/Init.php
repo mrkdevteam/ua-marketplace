@@ -27,8 +27,11 @@ final class Init
 			Base\PromuaSettingsController::class, // for free version not use PromUA
 			Base\SupportController::class,
 
+            // Addons
 			Base\AjaxHandler::class,
 			Base\WPCRONHandler::class,
+			
+			Core\WCShop\EditProduct\ExtraProductSettings::class,
 
 			Core\WCShopController::class,
 			Core\WCShop\WCShopCollation::class,
