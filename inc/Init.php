@@ -32,6 +32,7 @@ final class Init
 			Base\WPCRONHandler::class,
 			
 			Core\WCShop\EditProduct\ExtraProductSettings::class,
+			Core\WCShop\EditProduct\ExtraVariationSettings::class,
 
 			Core\WCShopController::class,
 			Core\WCShop\WCShopCollation::class,
