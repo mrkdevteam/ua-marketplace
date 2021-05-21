@@ -15,6 +15,7 @@ jQuery(document).ready(function(){
                     let a = await collateCategories($form, $formData);
                     let b = await SweetAlert2Resolve();
                     let c = await showSpinner();
+                    let cc = await removeHiddenLink();
                 } catch(err) {
                     let d = await SweetAlert2Reject(err);
                     let e = await functionTimeOut();
@@ -71,18 +72,21 @@ jQuery(document).ready(function(){
         }); // on('submit', ...)
 
         // Remove xml link on 'Rozetka' tab when xml-file is not exists yet
-        jQuery.ajax({
-            url: protocol + '\/\/' + host + '/wp-content/uploads/mrkvuamprozetka.xml',
-            headers: { 'Clear-Site-Data': "cache" },
-            type:'HEAD',
-            cache: false,
-            error: function() { //file not exists
-                jQuery('.mrkvuamp_collation_xml_link').addClass('hidden');
-            },
-            success: function() { //file exists
-                jQuery('.mrkvuamp_collation_xml_link').removeClass('hidden');
-            }
-        });
+        removeHiddenLink();
+        async function removeHiddenLink() {
+            jQuery.ajax({
+                url: protocol + '\/\/' + host + '/wp-content/uploads/mrkvuamprozetka.xml',
+                headers: { 'Clear-Site-Data': "cache" },
+                type:'HEAD',
+                cache: false,
+                error: function() { //file not exists
+                    jQuery('.mrkvuamp_collation_xml_link').addClass('hidden');
+                },
+                success: function() { //file exists
+                    jQuery('.mrkvuamp_collation_xml_link').removeClass('hidden');
+                }
+            });
+        }
 
     } // Rozetka tab
 
