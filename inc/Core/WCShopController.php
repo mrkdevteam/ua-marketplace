@@ -149,7 +149,7 @@ class WCShopController {
 
     }
 
-    public static function get_category_name_by_id($id)
+    public function get_category_name_by_id($id)
     {
         $term = get_term( $id );
         return $term->name;

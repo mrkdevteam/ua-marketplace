@@ -10,49 +10,110 @@ use \Inc\Core\WCShop\WCShopOffer;
 
 class WCShopOfferSimple extends WCShopOffer {
 
-    public static function set_simple_offer($id, $offers)
+    public function set_simple_offer($id, $offers)
     {
-        $offer = $offers->addChild( 'offer' ); // XML tag <offer>
-            $offer->addAttribute('id', $id);
-            // $is_available = parent::is_available( $id, $offer, parent::$_product );
-            $is_available = parent::get_product_stock_quantity( $id, $offer, parent::$_product ) ? 'true' : 'false';
-            $offer->addAttribute( 'available', $is_available );
+        // Checkbox '{Marketplace} xml' custom field
+        foreach ( $this->activations as $activation  ) {
+            $slug =  \strtolower( $activation );
+            $mrktplc_not_xml = get_post_meta( $id , "mrkvuamp_{$slug}_not_xml", true);
+            if ( $mrktplc_not_xml ) return;
+        }
 
-            $url = $offer->addChild( 'url', \get_permalink( $id ) ); // XML tag <url>
+        $offer = $this->set_offer_content( $id, $offers ); // XML tag <offer>
 
-            $price = parent::$_product->get_regular_price();
-            $price = $offer->addChild( 'price', $price ); // XML tag <price>
+            $url = $this->set_url( $id, $offer ); // XML tag <url>
 
-            $currencyId = $offer->addChild( 'currencyId', parent::get_wc_currency_id() ); // XML tag <currencyId>
+            $price = $this->set_price( $offer ); // XML tag <price>
 
-            $currencyId = $offer->addChild( 'categoryId', parent::get_marketplace_category_id() ); // XML tag <categoryId>
+            $currencyId = $this->set_currency_id( $offer ); // XML tag <currencyId>
 
-            $image_urls = parent::get_product_image_urls();
-            foreach ( $image_urls as $image_url ) {
-                if ( empty( $image_url ) ) {
-                    continue;
-                }
-                $picture = $offer->addChild( 'picture', $image_url ); // XML tag <picture>
+            $categoryId = $this->set_category_id( $offer ); // XML tag <categoryId>
+
+            $picture = $this->set_picture( $offer ); // XML tag <picture>
+
+            $name = $this->set_name( $id, $offer ); // XML tag <name>
+
+            $vendor = $this->set_vendor( $id, $offer ); // XML tag <vendor>
+
+            $description = $this->set_description( $offer ); // XML tag <description>
+
+            $param = $this->set_param( $id, $offer ); // XML tag <param>
+
+            $stock_quantity = $this->set_stock_quantity($id, $offer, $offers); // XML tag <stock_quantity>
+    }
+
+    public function set_offer_content($id, $offers) // XML tag <offer>
+    {
+        $offer = $offers->addChild( 'offer' );
+        $offer->addAttribute('id', $id);
+        $is_available = $this->get_product_stock_quantity( $id, $offer ) ? 'true' : 'false';
+        $offer->addAttribute( 'available', $is_available );
+        return $offer;
+    }
+
+    public function set_url($id, $offer) // XML tag <url>
+    {
+        return $offer->addChild( 'url', \get_permalink( $id ) );
+    }
+
+    public function set_price($offer) // XML tag <price>
+    {
+        $price = $this->_product->get_regular_price();
+        return $offer->addChild( 'price', $price );
+    }
+
+    public function set_currency_id($offer) // XML tag <currencyId>
+    {
+        return $offer->addChild( 'currencyId', $this->get_wc_currency_id() );
+    }
+
+    public function set_category_id($offer) // XML tag <categoryId>
+    {
+        return $offer->addChild( 'categoryId', $this->get_marketplace_category_id() );
+    }
+
+    public function set_picture($offer) // XML tag <picture>
+    {
+        $image_urls = $this->get_product_image_urls();
+        foreach ( $image_urls as $image_url ) {
+            if ( empty( $image_url ) ) {
+                continue;
             }
+            return $offer->addChild( 'picture', $image_url );
+        }
+    }
 
-            $name = $offer->addChild( 'name', parent::get_product_title() ); // XML tag <name>
+    public function set_name($id, $offer) // XML tag <name>
+    {
+        return $offer->addChild( 'name', $this->get_product_title() );
+        // return $offer->addChild( 'name', static::get_product_title() );
+        // return $offer->addChild( 'name', WCShopOfferPro::get_product_title() );
+    }
 
-            $vendor_name = parent::get_product_vendor($id);
-            $vendor = $offer->addChild( 'vendor', $vendor_name ); // XML tag <vendor>
+    public function set_vendor($id, $offer) // XML tag <vendor>
+    {
+        $vendor_name = $this->get_product_vendor( $id );
+        return $offer->addChild( 'vendor', $vendor_name );
+    }
 
-            // XML tag <description>
-            $description = $offer->addChildWithCDATA( 'description', nl2br( parent::get_product_description() ) );
+    public function set_description($offer) // XML tag <description>
+    {
+        return $offer->addChildWithCDATA( 'description', nl2br( $this->get_product_description() ) );
+    }
 
-            // XML tag <param>
-            [ $param_labels, $param_values ] = parent::get_product_attributes( $id );
-            for ( $i = 0; $i < \sizeof( $param_values ) ; $i++ ) {
-                $param = $offer->addChild( 'param', $param_values[$i] );
-                $param->addAttribute( 'name', $param_labels[$i] );
-            }
+    public function set_param($id, $offer) // XML tag <param>
+    {
+        [ $param_labels, $param_values ] = $this->get_product_attributes( $id );
+        for ( $i = 0; $i < \sizeof( $param_values ) ; $i++ ) {
+            $param = $offer->addChild( 'param', $param_values[$i] );
+            $param->addAttribute( 'name', $param_labels[$i] );
+        }
+    }
 
-            // XML tag <stock_quantity>
-            $quantity = parent::get_product_stock_quantity( $id, $offers, parent::$_product );
-            $stock_quantity = $offer->addChild( 'stock_quantity', $quantity );
+    public function set_stock_quantity($id, $offer, $offers) // XML tag <stock_quantity>
+    {
+        $quantity = $this->get_product_stock_quantity( $id, $offers );
+        return $offer->addChild( 'stock_quantity', $quantity );
     }
 
 }

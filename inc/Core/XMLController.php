@@ -46,6 +46,8 @@ class XMLController {
             $xml = new SimpleXMLElementExtended( "<?xml version='1.0' encoding='UTF-8'?>
                 <!DOCTYPE yml_catalog SYSTEM 'shops.dtd'>" . $this->xml_header );
         }
+        $wcShopController = new WCShopController();
+        $wcShopOffer = new WCShopOffer();
 
         $shop = $xml->addChild('shop'); // XML tag <shop>
 
@@ -63,7 +65,7 @@ class XMLController {
                     foreach ($value as $k => $v) {
                         if ( $v ) {
                             $category = $categories->addChild( 'category',
-                                WCShopController::get_collation_category_name_by_id($v) );
+                                $wcShopController->get_collation_category_name_by_id($v) );
                             $category->addAttribute('id', $v);
                             $category->addAttribute('rz_id', $v);
                         }
@@ -72,7 +74,7 @@ class XMLController {
                     $offers = $shop->addChild('offers'); // XML tag <offers>
                     foreach ($value as $k => $v) {
                         if ( $v ) {
-                            $offer = WCShopOffer::set_offer( $v, $offers ); // XML tag <offer>
+                            $offer = $wcShopOffer->set_offer( $v, $offers ); // XML tag <offer>
                         }
                     }
                 } else {
