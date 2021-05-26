@@ -43,7 +43,7 @@ class WCShopOfferVariable extends WCShopOffer {
 
                 $categoryId = $this->set_category_id( $offer ); // XML tag <categoryId>
 
-                $picture = $this->set_picture( $offer ); // XML tag <picture>
+                $picture = $this->set_picture( $id, $offer ); // XML tag <picture>
 
                 $name = $this->set_name( $id, $offer ); // XML tag <name>
 
@@ -91,20 +91,20 @@ class WCShopOfferVariable extends WCShopOffer {
         return $offer->addChild( 'categoryId', $this->get_marketplace_category_id() );
     }
 
-    public function set_picture($offer) // XML tag <picture>
+    public function set_picture($id, $offer) // XML tag <picture>
     {
-        $image_urls = $this->get_product_image_urls();
-        foreach ( $image_urls as $image_url ) {
-            if ( empty( $image_url ) ) {
+        $image_urls = $this->get_product_image_urls( $id );
+        foreach ( $image_urls as $key => $value ) {
+            if ( empty( $value ) ) {
                 continue;
             }
-            return $offer->addChild( 'picture', $image_url );
+            $offer->addChild( 'picture', $value );
         }
     }
 
     public function set_name( $id, $offer) // XML tag <name>
     {
-        return $offer->addChild( 'name', $this->get_product_title() );
+        return $offer->addChild( 'name', $this->get_product_title( $id ) );
     }
 
     public function set_vendor($id, $offer) // XML tag <vendor>

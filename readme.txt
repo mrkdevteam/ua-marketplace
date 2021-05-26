@@ -35,6 +35,9 @@ https://youtu.be/CYhov5nuET4
 
 == Що нового? ==
 
+= 1.0.5 =
+* [new] доданий функціонал для вкладки Rozetka в Дані товару
+
 = 1.0.3 =
 * [new] додане поле Rozetka Variation Image до варіацій
 

@@ -59,7 +59,6 @@ class WCShopOffer extends WCShopController {
     {
         $this->_product = \wc_get_product( $id ); // Get product object from collation list
         $product_title = $this->_product->get_title();
-        $id = $this->_product->get_id();
 
         // Title from '{Marketplace} Title' custom field
         foreach ( $this->activations as $activation  ) {
@@ -139,13 +138,21 @@ class WCShopOffer extends WCShopController {
     }
 
     // Get product image URLs for <picture> xml-tag
-    public function get_product_image_urls()
+    public function get_product_image_urls($id)
     {
         $image_urls = array();
         $image_id  = $this->_product->get_image_id(); // Get main product image id
-        $image_urls[] = wp_get_attachment_image_url( $image_id, 'full' );
+        $image_urls[0] = wp_get_attachment_image_url( $image_id, 'full' );
 
-        // If exists only main product image
+        // Image from '{Marketplace} Image URL' custom field
+        foreach ( $this->activations as $activation  ) {
+            $slug =  \strtolower( $activation );
+            if (  ! empty( get_post_meta( $id , "mrkvuamp_{$slug}_image", true) ) ) {
+                $image_urls[0] = get_post_meta( $id , "mrkvuamp_{$slug}_image", true);
+            }
+        }
+
+        // If not exists product image gallary
         if ( empty( $this->_product->get_gallery_image_ids() ) && ! empty( $image_urls ) ) {
             return $image_urls;
         }
