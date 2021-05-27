@@ -43,7 +43,7 @@ class WCShopOfferVariable extends WCShopOffer {
 
                 $categoryId = $this->set_category_id( $offer ); // XML tag <categoryId>
 
-                $picture = $this->set_picture( $id, $offer ); // XML tag <picture>
+                $picture = $this->set_picture( $id, $offer, $variation_id ); // XML tag <picture>
 
                 $name = $this->set_name( $id, $offer ); // XML tag <name>
 
@@ -91,14 +91,14 @@ class WCShopOfferVariable extends WCShopOffer {
         return $offer->addChild( 'categoryId', $this->get_marketplace_category_id() );
     }
 
-    public function set_picture($id, $offer) // XML tag <picture>
+    public function set_picture($id, $offer, $variation_id) // XML tag <picture>
     {
-        $image_urls = $this->get_product_image_urls( $id );
-        foreach ( $image_urls as $key => $value ) {
-            if ( empty( $value ) ) {
-                continue;
+        $image_urls = $this->get_variable_image_urls( $id, $variation_id );
+        if ( \is_array( $image_urls ) ) {
+            foreach ( $image_urls as $key => $value ) {
+                if ( empty( $value ) ) continue;
+                $offer->addChild( 'picture', $value );
             }
-            $offer->addChild( 'picture', $value );
         }
     }
 
@@ -154,6 +154,24 @@ class WCShopOfferVariable extends WCShopOffer {
         }
 
         return join( "&", $params );
+    }
+
+    // Get variable image URLs for <picture> xml-tag
+    public function get_variable_image_urls($id, $variation_id)
+    {
+        // Get product image urls
+        $product_image_urls = array();
+        $product_image_urls = $this->get_product_image_urls( $id );
+        // Get variation image urls
+        $variation_image_urls = array();
+        foreach ( $this->activations as $activation  ) {
+            $slug =  \strtolower( $activation );
+            if (  ! empty( get_post_meta( $variation_id , "mrkvuamp_{$slug}_variation_image", true) ) ) {
+                $variation_image_urls[0] = get_post_meta( $variation_id , "mrkvuamp_{$slug}_variation_image", true);
+                $product_image_urls[0] = $variation_image_urls[0];
+            }
+        }
+        return $product_image_urls;
     }
 
 }

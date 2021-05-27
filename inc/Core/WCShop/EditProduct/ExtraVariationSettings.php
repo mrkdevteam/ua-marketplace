@@ -29,7 +29,7 @@ class ExtraVariationSettings {
 
         add_action( 'woocommerce_variation_options_pricing', array( $this, 'add_image_field' ), 10, 3 );
         add_action( 'woocommerce_save_product_variation', array( $this, 'save_image_field' ), 10, 2 );
-        add_filter( 'woocommerce_available_variation', array( $this, 'add_image_field_data' ) );
+        add_filter( 'woocommerce_available_variation', array( $this, 'add_image_field_data' ), 10, 3 );
     }
 
     public function add_image_field( $loop, $variation_data, $variation )

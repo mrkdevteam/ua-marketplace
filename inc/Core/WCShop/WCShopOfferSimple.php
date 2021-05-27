@@ -75,11 +75,11 @@ class WCShopOfferSimple extends WCShopOffer {
     public function set_picture($id, $offer) // XML tag <picture>
     {
         $image_urls = $this->get_product_image_urls( $id );
-        foreach ( $image_urls as $key => $value ) {
-            if ( empty( $value ) ) {
-                continue;
+        if ( \is_array( $image_urls ) ) {
+            foreach ( $image_urls as $key => $value ) {
+                if ( empty( $value ) ) continue;
+                $offer->addChild( 'picture', $value );
             }
-            $offer->addChild( 'picture', $value );
         }
     }
 
