@@ -13,8 +13,7 @@ class WCShopOfferSimple extends WCShopOffer {
     public function set_simple_offer($id, $offers)
     {
         // Checkbox '{Marketplace} xml' custom field
-        foreach ( $this->activations as $activation  ) {
-            $slug =  \strtolower( $activation );
+        foreach ( $this->slug_activations as $slug  ) {
             $mrktplc_not_xml = get_post_meta( $id , "mrkvuamp_{$slug}_not_xml", true);
             if ( $mrktplc_not_xml ) return;
         }
@@ -35,7 +34,7 @@ class WCShopOfferSimple extends WCShopOffer {
 
             $vendor = $this->set_vendor( $id, $offer ); // XML tag <vendor>
 
-            $description = $this->set_description( $offer ); // XML tag <description>
+            $description = $this->set_description( $id, $offer ); // XML tag <description>
 
             $param = $this->set_param( $id, $offer ); // XML tag <param>
 
@@ -94,9 +93,9 @@ class WCShopOfferSimple extends WCShopOffer {
         return $offer->addChild( 'vendor', $vendor_name );
     }
 
-    public function set_description($offer) // XML tag <description>
+    public function set_description($id, $offer) // XML tag <description>
     {
-        return $offer->addChildWithCDATA( 'description', nl2br( $this->get_product_description() ) );
+        return $offer->addChildWithCDATA( 'description', nl2br( $this->get_product_description( $id ) ) );
     }
 
     public function set_param($id, $offer) // XML tag <param>

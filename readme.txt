@@ -35,6 +35,9 @@ https://youtu.be/CYhov5nuET4
 
 == Що нового? ==
 
+= 1.0.7 =
+* [new] доданий функціонал для поля Rozetka Description
+
 = 1.0.6 =
 * [new] доданий функціонал для поля Rozetka Variation Image
 

@@ -14,10 +14,13 @@ class WCShopOffer extends WCShopController {
 
     public $activations = array();
 
+    public $slug_activations = array();
+
     public function __construct()
     {
         $baseController = new BaseController();
         $this->activations = $baseController->activations;
+        $this->slug_activations = $baseController->slug_activations;
     }
 
     // Set <offer> xml-tag
@@ -60,27 +63,27 @@ class WCShopOffer extends WCShopController {
         $this->_product = \wc_get_product( $id ); // Get product object from collation list
         $product_title = $this->_product->get_title();
 
-        // Title from '{Marketplace} Title' custom field
-        foreach ( $this->activations as $activation  ) {
-            $slug =  \strtolower( $activation );
+        foreach ( $this->slug_activations as $slug  ) {
+            // Title from '{Marketplace} Title' custom field
             $mrktplc_title = get_post_meta( $id , "mrkvuamp_{$slug}_title", true);
-
             if ( isset( $mrktplc_title ) && ! empty( $mrktplc_title ) ) return $mrktplc_title;
         }
         return $product_title;
     }
 
     // Get product description for <description> xml-tag
-    public function get_product_description()
+    public function get_product_description($id)
     {
         $description = $this->_product->get_description();
-        if ( ! empty ($description ) ) {
-            return $description;
+        foreach ( $this->slug_activations as $slug  ) {
+            // Description from '{Marketplace} Description' custom field
+            $description = get_post_meta( $id , "mrkvuamp_{$slug}_description", true );
+            if (  ! empty( $description ) ) return $description;
         }
-        return $this->get_product_short_description();
+        return $description;
     }
 
-    // Get product short description for self::get_product_description()
+    // Get product short description
     public function get_product_short_description()
     {
         $short_description = $this->_product->get_short_description();
@@ -144,9 +147,8 @@ class WCShopOffer extends WCShopController {
         $image_id  = $this->_product->get_image_id(); // Get main product image id
         $image_urls[0] = wp_get_attachment_image_url( $image_id, 'full' );
 
-        // Image from '{Marketplace} Image URL' custom field
-        foreach ( $this->activations as $activation  ) {
-            $slug =  \strtolower( $activation );
+        foreach ( $this->slug_activations as $slug  ) {
+            // Image from '{Marketplace} Image URL' custom field
             if (  ! empty( get_post_meta( $id , "mrkvuamp_{$slug}_image", true) ) ) {
                 $image_urls[0] = get_post_meta( $id , "mrkvuamp_{$slug}_image", true);
             }
@@ -186,9 +188,8 @@ class WCShopOffer extends WCShopController {
             if ( $value ) { // Is set marketplace-category?
                 if ( \in_array( $wc_cat_id, $product_category_ids ) ) {
 
-                    // Category id from '{Marketplace} ID Category' custom field
-                    foreach ( $this->activations as $activation  ) {
-                        $slug =  \strtolower( $activation );
+                    foreach ( $this->slug_activations as $slug  ) {
+                        // Category id from '{Marketplace} ID Category' custom field
                         $cat_id = get_post_meta( $id , "mrkvuamp_{$slug}_cat_id", true);
                         if ( isset( $cat_id ) && ! empty( $cat_id ) )
                         {

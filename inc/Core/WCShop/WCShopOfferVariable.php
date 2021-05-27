@@ -15,8 +15,7 @@ class WCShopOfferVariable extends WCShopOffer {
     public function set_variable_offer($id, $offers)
     {
         // Checkbox '{Marketplace} xml' custom field
-        foreach ( $this->activations as $activation  ) {
-            $slug =  \strtolower( $activation );
+        foreach ( $this->slug_activations as $slug  ) {
             $mrktplc_not_xml = get_post_meta( $id , "mrkvuamp_{$slug}_not_xml", true);
             if ( $mrktplc_not_xml ) return;
         }
@@ -49,7 +48,7 @@ class WCShopOfferVariable extends WCShopOffer {
 
                 $vendor = $this->set_vendor( $id, $offer ); // XML tag <vendor>
 
-                $description = $this->set_description( $offer ); // XML tag <description>
+                $description = $this->set_description( $id, $offer ); // XML tag <description>
 
                 $param = $this->set_param( $id, $offer ); // XML tag <param>
 
@@ -113,9 +112,9 @@ class WCShopOfferVariable extends WCShopOffer {
         return $offer->addChild( 'vendor', $vendor_name );
     }
 
-    public function set_description($offer) // XML tag <description>
+    public function set_description($id, $offer) // XML tag <description>
     {
-        return $offer->addChildWithCDATA( 'description', nl2br( $this->get_product_description() ) );
+        return $offer->addChildWithCDATA( 'description', nl2br( $this->get_product_description( $id ) ) );
     }
 
     public function set_param($id, $offer) // XML tag <param>
@@ -164,8 +163,7 @@ class WCShopOfferVariable extends WCShopOffer {
         $product_image_urls = $this->get_product_image_urls( $id );
         // Get variation image urls
         $variation_image_urls = array();
-        foreach ( $this->activations as $activation  ) {
-            $slug =  \strtolower( $activation );
+        foreach ( $this->slug_activations as $slug  ) {
             if (  ! empty( get_post_meta( $variation_id , "mrkvuamp_{$slug}_variation_image", true) ) ) {
                 $variation_image_urls[0] = get_post_meta( $variation_id , "mrkvuamp_{$slug}_variation_image", true);
                 $product_image_urls[0] = $variation_image_urls[0];

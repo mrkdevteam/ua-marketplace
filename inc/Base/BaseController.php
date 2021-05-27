@@ -18,6 +18,8 @@ class BaseController
     public $plugin_ver;
 
     public $activations = array();
+    
+    public $slug_activations = array();
 
 	public function __construct() {
 		$this->plugin_path = plugin_dir_path( dirname( __FILE__, 2 ) );
@@ -30,6 +32,10 @@ class BaseController
             'mrkvuamp_rozetka_activation'   => 'Rozetka',
             'mrkvuamp_promua_activation'    => 'PromUA' // for free version use only Rozetka
         );
+        
+        foreach ( $this->activations as $key => $value ) {
+            $this->slug_activations[$key] = \strtolower( $value );
+        }
 	}
 
     public function activated( string $key )
