@@ -77,8 +77,8 @@ class WCShopOffer extends WCShopController {
         $description = $this->_product->get_description();
         foreach ( $this->slug_activations as $slug  ) {
             // Description from '{Marketplace} Description' custom field
-            $description = get_post_meta( $id , "mrkvuamp_{$slug}_description", true );
-            if (  ! empty( $description ) ) return $description;
+            $mrktplc_description = get_post_meta( $id , "mrkvuamp_{$slug}_description", true );
+            if (  ! empty( $mrktplc_description ) ) $description = $mrktplc_description;
         }
         return $description;
     }
