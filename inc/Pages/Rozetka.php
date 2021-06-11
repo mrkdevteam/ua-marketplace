@@ -43,32 +43,32 @@ class Rozetka extends BaseController
 			$args = array(
 				array(
 					'option_group'	=> 'mrkv_ua_rozetka_option_group',
-					'option_name'	=> 'mrkv_uamrkpl_rozetka_shop_name',
+					'option_name'	=> 'mrkv_uamrkpl_rozetka_shop_name', // Назва магазину
 					'callback'		=> array( $this->callbacks_rozetka, 'optionGroup' )
 				),
 				array(
 					'option_group'	=> 'mrkv_ua_rozetka_option_group',
-					'option_name'	=> 'mrkv_uamrkpl_rozetka_company',
+					'option_name'	=> 'mrkv_uamrkpl_rozetka_company', // Назва компанії
 					'callback'		=> array( $this->callbacks_rozetka, 'optionGroup' )
 				),
 				array(
 					'option_group'	=> 'mrkv_ua_rozetka_option_group',
-					'option_name'	=> 'mrkv_uamrkpl_rozetka_global_vendor',
+					'option_name'	=> 'mrkv_uamrkpl_rozetka_global_vendor', // Глобальний виробник
 					'callback'		=> array( $this->callbacks_rozetka, 'optionGroup' )
 				),
 				array(
 					'option_group'	=> 'mrkv_ua_rozetka_option_group',
-					'option_name'	=> 'mrkv_uamrkpl_rozetka_custom_vendor',
+					'option_name'	=> 'mrkv_uamrkpl_rozetka_custom_vendor', // Бренди
 					'callback'		=> array( $this->callbacks_rozetka, 'optionGroup' )
 				),
 				array(
 					'option_group'	=> 'mrkv_ua_rozetka_option_group',
-					'option_name'	=> 'mrkv_uamrkpl_rozetka_vendor_by_attributes',
+					'option_name'	=> 'mrkv_uamrkpl_rozetka_vendor_by_attributes', // Атрибути в якості брендів
 					'callback'		=> array( $this->callbacks_rozetka, 'optionGroup' )
 				),
 				array(
 					'option_group'	=> 'mrkv_ua_rozetka_option_group',
-					'option_name'	=> 'mrkv_uamrkpl_rozetka_vendor_all_possibilities',
+					'option_name'	=> 'mrkv_uamrkpl_rozetka_vendor_all_possibilities', // Метадані в якості брендів
 					'callback'		=> array( $this->callbacks_rozetka, 'optionGroup' )
 				)
 			);

@@ -48,7 +48,7 @@ class WCShopOfferVariable extends WCShopOffer {
 
                 $vendor = $this->set_vendor( $id, $offer ); // XML tag <vendor>
 
-                $description = $this->set_description( $id, $offer ); // XML tag <description>
+                $description = $this->set_description( $id, $offer, $variation_id ); // XML tag <description>
 
                 $param = $this->set_param( $id, $offer ); // XML tag <param>
 
@@ -112,7 +112,7 @@ class WCShopOfferVariable extends WCShopOffer {
         return $offer->addChild( 'vendor', $vendor_name );
     }
 
-    public function set_description($id, $offer) // XML tag <description>
+    public function set_description($id, $offer, $variation_id) // XML tag <description>
     {
         return $offer->addChildWithCDATA( 'description', nl2br( $this->get_product_description( $id ) ) );
     }

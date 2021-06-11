@@ -41,7 +41,7 @@ class ExtraVariationSettings {
                 array(
                     'id' => "mrkvuamp_{$slug}_variation_image[" . $loop . "]",
                     'name' => "mrkvuamp_{$slug}_variation_image[" . $loop . "]",
-                    'class' => 'short',
+                    'class' => 'short mrkvuamp-full-width',
                     'label' => __( "{$activation} Variation Image", 'mrkv-ua-marketplaces' ),
                     'value' => get_post_meta( $variation->ID, "mrkvuamp_{$slug}_variation_image", true ),
                     'type' => 'text',

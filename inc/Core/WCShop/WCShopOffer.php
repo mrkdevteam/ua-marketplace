@@ -74,6 +74,7 @@ class WCShopOffer extends WCShopController {
     // Get product description for <description> xml-tag
     public function get_product_description($id)
     {
+        $this->_product = \wc_get_product( $id ); // Get product object from collation list
         $description = $this->_product->get_description();
         foreach ( $this->slug_activations as $slug  ) {
             // Description from '{Marketplace} Description' custom field

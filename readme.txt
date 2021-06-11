@@ -35,6 +35,9 @@ https://youtu.be/CYhov5nuET4
 
 == Що нового? ==
 
+= 1.0.7.1 =
+* [fix] змінений алгоритм формування вмісту xml-тегу description
+
 = 1.0.7 =
 * [new] доданий функціонал для поля Rozetka Description
 
