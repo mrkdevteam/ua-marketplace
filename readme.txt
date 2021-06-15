@@ -8,27 +8,26 @@ License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
+- Створення прайсу для rozetka.ua та prom.ua
+- Кастомні описи, назви товарів
+- імпорт замовлень з rozetka.ua в адмінку сайту (Про-версія)
+та багато іншого...
 
-Синхронізуйтесь з українськими маркетплейсами швидко та зручно.
 
 == Description ==
-
-Написали "з нуля", враховуючи досвід 30-ти магазинів, що уже використовують наш плагін Woo Rozetka Sync.
-
-Швидкість генерації xml зросла втричі, в порівнянні зі старим кодом.
 
 Підтримуються монобрендові та мультибрендові магазини. 
 
 Автоматична ре-генерація xml двічі на добу (wp-cron).
 
-Підтримує маркетплейси Rozetka та Prom (скоро).
+Підтримує маркетплейси Rozetka та Prom.
 
 Pro-версія: 
 
 https://morkva.co.ua/shop-2/ua-marketplaces-woocommerce-plugin
 
 
-== Інструкція ==
+== Відео-інструкція ==
 
 https://youtu.be/CYhov5nuET4
 
@@ -64,7 +63,7 @@ https://youtu.be/CYhov5nuET4
 = 1.0 =
 * реліз
 * WordPress tested 5.7.2
-* WooCommerce tested 5.2
+* WooCommerce tested 5.3
 
 
 == Screenshots ==
