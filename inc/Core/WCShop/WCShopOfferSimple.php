@@ -100,7 +100,7 @@ class WCShopOfferSimple extends WCShopOffer {
 
     public function set_param($id, $offer) // XML tag <param>
     {
-        [ $param_labels, $param_values ] = $this->get_product_attributes( $id );
+        list( $param_labels, $param_values ) = $this->get_product_attributes( $id );
         for ( $i = 0; $i < \sizeof( $param_values ) ; $i++ ) {
             $param = $offer->addChild( 'param', $param_values[$i] );
             $param->addAttribute( 'name', $param_labels[$i] );
