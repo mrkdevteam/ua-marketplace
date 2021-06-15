@@ -9,8 +9,8 @@
  * Plugin URI:        https://morkva.co.ua/shop-2/woocommerce-rozetka-sync
  * Description:       Забезпечує взаїмодію WooCommerce інетернет-магазину з маркетплейсами Rozetka та PromUA.
  * Version:           1.1
- * Author:            MORKVA (Oleg Kovalyov)
- * Author URI:        https://github.com/OlegOKovalyov/
+ * Author:            MORKVA
+ * Author URI:        https://morkva.co.ua
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       mrkv-ua-marketplaces
