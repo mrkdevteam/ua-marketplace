@@ -26,15 +26,15 @@ class WCShopOfferSimple extends WCShopOffer {
 
             $currencyId = $this->set_currency_id( $offer ); // XML tag <currencyId>
 
-            $categoryId = $this->set_category_id( $offer ); // XML tag <categoryId>
+            $categoryId = $this->set_category_id( $id, $offer ); // XML tag <categoryId>
 
             $picture = $this->set_picture( $id, $offer ); // XML tag <picture>
 
-            $name = $this->set_name( $id, $offer ); // XML tag <name>
+            $name = $this->set_name( $id, $offer, $this->xml_tag_name ); // XML tag <name>
 
             $vendor = $this->set_vendor( $id, $offer ); // XML tag <vendor>
 
-            $description = $this->set_description( $id, $offer ); // XML tag <description>
+            $description = $this->set_description( $id, $offer, $variation_id=null, $this->xml_tag_description ); // XML tag <description>
 
             $param = $this->set_param( $id, $offer ); // XML tag <param>
 
@@ -45,7 +45,8 @@ class WCShopOfferSimple extends WCShopOffer {
     {
         $offer = $offers->addChild( 'offer' );
         $offer->addAttribute('id', $id);
-        $is_available = $this->get_product_stock_quantity( $id, $offer ) ? 'true' : 'false';
+        $this->_product = \wc_get_product( $id ); // Get product object
+        $is_available = $this->_product->is_in_stock() ? 'true' : 'false';
         $offer->addAttribute( 'available', $is_available );
         return $offer;
     }
@@ -66,9 +67,9 @@ class WCShopOfferSimple extends WCShopOffer {
         return $offer->addChild( 'currencyId', $this->get_wc_currency_id() );
     }
 
-    public function set_category_id($offer) // XML tag <categoryId>
+    public function set_category_id($id, $offer) // XML tag <categoryId>
     {
-        return $offer->addChild( 'categoryId', $this->get_marketplace_category_id() );
+        return $offer->addChild( 'categoryId', $this->get_wc_category_id() );
     }
 
     public function set_picture($id, $offer) // XML tag <picture>
@@ -82,9 +83,9 @@ class WCShopOfferSimple extends WCShopOffer {
         }
     }
 
-    public function set_name($id, $offer) // XML tag <name>
+    public function set_name($id, $offer, $xml_tag) // XML tag <name>
     {
-        return $offer->addChild( 'name', $this->get_product_title( $id ) );
+        return $offer->addChild( $xml_tag, $this->get_product_title( $id ) );
     }
 
     public function set_vendor($id, $offer) // XML tag <vendor>
@@ -93,14 +94,26 @@ class WCShopOfferSimple extends WCShopOffer {
         return $offer->addChild( 'vendor', $vendor_name );
     }
 
-    public function set_description($id, $offer) // XML tag <description>
+    public function set_description($id, $offer, $variation_id, $xml_tag) // XML tag <description>
     {
-        return $offer->addChildWithCDATA( 'description', nl2br( $this->get_product_description( $id ) ) );
+        return $offer->addChildWithCDATA( $xml_tag, nl2br( $this->get_product_description( $id, $variation_id ) ) );
     }
 
     public function set_param($id, $offer) // XML tag <param>
     {
-        list( $param_labels, $param_values ) = $this->get_product_attributes( $id );
+        $param_labels = array();
+        $param_values = array();
+        $params = $this->_product->get_attributes();
+        foreach ( $params as $key => $value ) {
+            if ( false !== strpos( $key, 'pa_' ) ) {
+                $param_labels[] = \wc_attribute_label( $key );
+            } else {
+                $param_labels[] = $value->get_name();
+            }
+            $param_values[] = $this->_product->get_attribute( $key );
+            continue;
+        }
+
         for ( $i = 0; $i < \sizeof( $param_values ) ; $i++ ) {
             $param = $offer->addChild( 'param', $param_values[$i] );
             $param->addAttribute( 'name', $param_labels[$i] );
@@ -109,8 +122,14 @@ class WCShopOfferSimple extends WCShopOffer {
 
     public function set_stock_quantity($id, $offer, $offers) // XML tag <stock_quantity>
     {
-        $quantity = $this->get_product_stock_quantity( $id, $offers );
-        return $offer->addChild( 'stock_quantity', $quantity );
+        $is_in_stock = $this->_product->is_in_stock();
+        $stock_quantity = $this->_product->get_stock_quantity() ?? 0;
+
+        if ( 0 === $stock_quantity && $is_in_stock ) {
+            return $offer->addChild( 'stock_quantity', 1 );
+        }
+
+        return $offer->addChild( 'stock_quantity', $stock_quantity );
     }
 
 }

@@ -6,6 +6,7 @@ use \Inc\Core\XMLController;
 ?>
 
 <div id="mrkvuamp-category-matching" class="link-pane">
+
     <h2>Rozetka Співставлення категорій та генерація XML</h2>
     <p>Додайте ідентифікатори категорій з сайту Rozetka для співставлення</p>
 
@@ -18,4 +19,13 @@ use \Inc\Core\XMLController;
             <span style="display:inline;" id="mrkvuamp_loader"> </span>
         </form>
     </div>
+
+    <div class="mrkvuamp_progress_bar hidden">
+        <form action="">
+            <progress id="mrkvuamp-progress-xml-upload" max="<?php echo \round( $site_total_product_qty * $progBarCoef ); ?>" value="0" style="width:37%;height:5px;"></progress>
+            <div class="hidden" id="mrkvuamp_progbar_hidden_msg" style="padding-left: 10px;"></div>
+            <input type="hidden" name="mrkvuamp_site_total_product_qty" value="<?php echo sanitize_text_field( $site_total_product_qty ); ?>" />
+        </form>
+    </div>
+
 </div>

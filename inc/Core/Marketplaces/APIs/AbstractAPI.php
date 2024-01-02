@@ -5,7 +5,7 @@
 
 namespace Inc\Core\Marketplaces\APIs;
 
-class AbstractAPI {
+abstract class AbstractAPI {
 
         /**
          * Base URL for the WordPress site that the client is connecting to.

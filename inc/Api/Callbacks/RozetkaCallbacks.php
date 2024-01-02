@@ -32,7 +32,29 @@ class RozetkaCallbacks extends BaseController
         $value = esc_attr( get_option( 'mrkv_uamrkpl_rozetka_company' ) );
         echo '<input type="text" class="regular-text" id="mrkv_uamrkpl_rozetka_company"
         name="mrkv_uamrkpl_rozetka_company" value="'. $value .'" placeholder="Введіть назву компанії">';
-        echo '<div class="blank-block"></dive>';
+        echo '<div class="blank-block"></div>';
+    }
+
+    public function setRozetkaXmlTagsLang()
+    {
+        $value = esc_attr( get_option( 'mrkv_uamrkpl_rozetka_xml_tags_lang' ) );
+        $xml_tags_lang_values = array( '_ua' , '' );
+        $xmlTagsLangChoice = array(
+            __('Українська', 'mrkv-ua-marketplaces' ),
+            __('Російська', 'mrkv-ua-marketplaces' )
+        );
+        $addSelected = array( ' ', ' ' );
+        for ( $i = 0; $i < sizeof( $xml_tags_lang_values ); $i++ ){
+            if ( $xml_tags_lang_values[$i] == $value ){
+              $addSelected[$i] = 'selected';
+            }
+        }
+        echo '<select ' . $value . ' id="mrkv_uamrkpl_rozetka_xml_tags_lang" name="mrkv_uamrkpl_rozetka_xml_tags_lang">';
+        for( $i = 0; $i < sizeof( $xml_tags_lang_values ); $i++) {
+            echo '<option '. $addSelected[$i] . ' value="' . $xml_tags_lang_values[$i] . '">' . $xmlTagsLangChoice[$i] . '</option>';
+        }
+        echo '</select>';
+        echo '<p class="mrkv-font-italic">' . __(' Українська сформує xml-теги name_ua та description_ua.', 'mrkv-ua-marketplaces' ).'</p>';
     }
 
     public function getGlobalVendor()
@@ -64,10 +86,11 @@ class RozetkaCallbacks extends BaseController
             echo '<option '. $addSelected[$i] . ' value="' . $vendor_values[$i] . '">' . $vendorTypeChoice[$i] . '</option>';
         }
         echo '</select>';
-        echo '<span>' . __(' Оберіть варіант, що формує бренди товарів на вашому сайті.', 'mrkv-ua-marketplaces' ).'</span>';
+        echo '<p class="mrkv-font-italic">' . __(' Оберіть варіант, що формує бренди товарів на вашому сайті.', 'mrkv-ua-marketplaces' ).'</p>';
     }
 
-    public function setVendorByAttributes() {
+    public function setVendorByAttributes()
+    {
         $value = get_option( 'mrkv_uamrkpl_rozetka_vendor_by_attributes' );
         $array_attributes = array();
         $attribute_taxonomies = wc_get_attribute_taxonomies();
@@ -103,9 +126,11 @@ class RozetkaCallbacks extends BaseController
         for( $j = 0; $j < sizeof( $vendor_values ); $j++) {
             echo '<option ' . $selected_vendors[$j] . ' value="' . $vendor_keys[$j] . '">' . $vendor_values[$j] . '</option>';
         }
+        echo '</select></form>';
     }
 
-    public function setVendorAllPossibilities() {
+    public function setVendorAllPossibilities()
+    {
         $value = get_option( 'mrkv_uamrkpl_rozetka_vendor_all_possibilities' );
         $postmetas = array();
         $posts = get_posts( array(
@@ -143,7 +168,7 @@ class RozetkaCallbacks extends BaseController
             echo '<option ' . $add_selected_html_attrs[$j] . ' value="' . $all_possible_vendor_keys[$j] . '">' . $all_possible_vendor_keys[$j] . '</option>';
             $index = $j;
         }
-        echo '</form>';
+        echo '</select></form>';
     }
 
 }

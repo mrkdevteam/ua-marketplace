@@ -43,24 +43,44 @@ class Promua extends BaseController
 			$args = array(
 				array(
 					'option_group'	=> 'mrkv_ua_promua_option_group',
-					'option_name'	=> 'mrkv_uamrkpl_promua_shop_name',
+					'option_name'	=> 'mrkv_uamrkpl_promua_shop_name', // Назва магазину
 					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
 				),
 				array(
 					'option_group'	=> 'mrkv_ua_promua_option_group',
-					'option_name'	=> 'mrkv_uamrkpl_promua_company',
+					'option_name'	=> 'mrkv_uamrkpl_promua_company', // Назва компанії
 					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
 				),
 				array(
 					'option_group'	=> 'mrkv_ua_promua_option_group',
-					'option_name'	=> 'mrkv_uamrkpl_promua_main_maker',
+					'option_name'	=> 'mrkv_uamrkpl_promua_global_vendor', // Глобальний виробник
 					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
 				),
 				array(
 					'option_group'	=> 'mrkv_ua_promua_option_group',
-					'option_name'	=> 'mrkv_uamrkpl_promua_brands',
+					'option_name'	=> 'mrkv_uamrkpl_promua_custom_vendor', // Бренди
 					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
-				)
+				),
+				array(
+					'option_group'	=> 'mrkv_ua_promua_option_group',
+					'option_name'	=> 'mrkv_uamrkpl_promua_vendor_by_attributes', // Атрибути в якості брендів
+					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
+				),
+				array(
+					'option_group'	=> 'mrkv_ua_promua_option_group',
+					'option_name'	=> 'mrkv_uamrkpl_promua_vendor_all_possibilities', // Метадані в якості брендів
+					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
+				),
+				array(
+					'option_group'	=> 'mrkv_ua_promua_option_group',
+					'option_name'	=> 'mrkv_uamrkpl_promua_background_proc_xml_chk', // Фоновий режим xml
+					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
+				),
+				array(
+					'option_group'	=> 'mrkv_ua_promua_option_group',
+					'option_name'	=> 'mrkv_uamrkpl_promua_background_proc_xml_step', // Кількість товарів за прохід
+					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
+				),
 			);
 
 		$this->settings->setSettings( $args );
@@ -83,6 +103,14 @@ class Promua extends BaseController
 	public function setFields()
 	{
 		$args = array(
+			// Store ('Магазин')
+			array(
+				'id' => 'mrkv_uamrkpl_promua_store',
+				'title' => '<h3 style="margin:0;font-weight:500;font-style:italic;">Магазин</h3>',
+				'callback' => function () {},
+				'page' => 'mrkv_ua_marketplaces_promua',
+				'section' => 'mrkvuamp_promua_section',
+			),
 			array(
 				'id'		=> 'mrkv_uamrkpl_promua_shop_name',
 				'title'		=> __( 'Назва магазину', 'mrkv-ua-marketplaces' ),
@@ -105,28 +133,88 @@ class Promua extends BaseController
 					'class'		=> 'mrkv_uamrkpl_class',
 				)
 			),
+			// Product ('Товар')
 			array(
-				'id'		=> 'mrkv_uamrkpl_promua_main_maker',
+				'id' => 'mrkv_uamrkpl_promua_product',
+				'title' => '<h3 style="margin:0;font-weight:500;font-style:italic;">Товар</h3>',
+				'callback' => function () {},
+				'page' => 'mrkv_ua_marketplaces_promua',
+				'section' => 'mrkvuamp_promua_section',
+			),
+			array(
+				'id'		=> 'mrkv_uamrkpl_promua_global_vendor',
 				'title'		=> __( 'Глобальний виробник', 'mrkv-ua-marketplaces' ),
 				'callback'	=> array( $this->callbacks_promua, 'getGlobalVendor' ),
 				'page'		=> 'mrkv_ua_marketplaces_promua',
 				'section'	=> 'mrkvuamp_promua_section',
 				'args'		=> array(
-					'label_for' => 'mrkv_uamrkpl_promua_main_maker',
+					'label_for' => 'mrkv_uamrkpl_promua_global_vendor',
 					'class'		=> 'mrkv_uamrkpl_class',
 				)
 			),
 			array(
-				'id'		=> 'mrkv_uamrkpl_promua_setVendorNames',
+				'id'		=> 'mrkv_uamrkpl_promua_set_vendor_names',
 				'title'		=> __( 'Бренди', 'mrkv-ua-marketplaces' ),
 				'callback'	=> array( $this->callbacks_promua, 'setVendorNames' ),
 				'page'		=> 'mrkv_ua_marketplaces_promua',
 				'section'	=> 'mrkvuamp_promua_section',
 				'args'		=> array(
-					'label_for' => 'mrkv_uamrkpl_promua_brand_names',
+					'label_for' => 'mrkv_uamrkpl_promua_set_vendor_names',
+					'class'		=> 'mrkv_uamrkpl_promua_set_vendor_names_class',
+				)
+			),
+			array(
+				'id'		=> 'mrkv_uamrkpl_promua_vendor_by_attributes',
+				'title'		=> __( 'Атрибути в якості брендів', 'mrkv-ua-marketplaces' ),
+				'callback'	=> array( $this->callbacks_promua, 'setVendorByAttributes' ),
+				'page'		=> 'mrkv_ua_marketplaces_promua',
+				'section'	=> 'mrkvuamp_promua_section',
+				'args'		=> array(
+					'label_for' => 'mrkv_uamrkpl_promua_vendor_by_attributes',
+					'class'		=> 'mrkv_uamrkpl_promua_vendor_by_attributes_class',
+				)
+			),
+			array(
+				'id'		=> 'mrkv_uamrkpl_promua_vendor_all_possibilities',
+				'title'		=> __( 'Метадані в якості брендів', 'mrkv-ua-marketplaces' ),
+				'callback'	=> array( $this->callbacks_promua, 'setVendorAllPossibilities' ),
+				'page'		=> 'mrkv_ua_marketplaces_promua',
+				'section'	=> 'mrkvuamp_promua_section',
+				'args'		=> array(
+					'label_for' => 'mrkv_uamrkpl_promua_vendor_all_possibilities',
+					'class'		=> 'mrkv_uamrkpl_promua_vendor_all_possibilities_class',
+				)
+			),
+			// Other ('Інше')
+			array(
+				'id' => 'mrkv_uamrkpl_promua_other',
+				'title' => '<h3 style="margin:0;font-weight:500;font-style:italic;">Інше</h3>',
+				'callback' => function () {},
+				'page' => 'mrkv_ua_marketplaces_promua',
+				'section' => 'mrkvuamp_promua_section',
+			),
+			array(
+				'id'		=> 'mrkv_uamrkpl_promua_background_proc_xml_chk',
+				'title'		=> __( 'Фоновий режим xml', 'mrkv-ua-marketplaces' ),
+				'callback'	=> array( $this->callbacks_promua, 'getCheckboxBackgroundProcessXml' ),
+				'page'		=> 'mrkv_ua_marketplaces_promua',
+				'section'	=> 'mrkvuamp_promua_section',
+				'args'		=> array(
+					'label_for' => 'mrkv_uamrkpl_promua_background_proc_xml_chk',
 					'class'		=> 'mrkv_uamrkpl_class',
 				)
-			)
+			),
+			array(
+				'id'		=> 'mrkv_uamrkpl_promua_background_proc_xml_step', // Кількість товарів за прохід
+				'title'		=> '',
+				'callback'	=> array( $this->callbacks_promua, 'getBackgroundProductStepQuantity' ),
+				'page'		=> 'mrkv_ua_marketplaces_promua',
+				'section'	=> 'mrkvuamp_promua_section',
+				'args'		=> array(
+					'label_for' => 'mrkv_uamrkpl_promua_background_proc_xml_step',
+					'class'		=> 'mrkv_uamrkpl_promua_background_proc_xml_step_class hidden',
+				)
+			),
 		);
 
 		$this->settings->setFields( $args );

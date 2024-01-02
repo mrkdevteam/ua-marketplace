@@ -24,16 +24,19 @@ final class Init
 
 			Base\DashboardSettingsController::class,
 			Base\RozetkaSettingsController::class,
-			Base\PromuaSettingsController::class, // for free version not use PromUA
+			Base\PromuaSettingsController::class,
 			Base\SupportController::class,
 
-            // Addons
+			// Addons
 			Base\AjaxHandler::class,
 			Base\WPCRONHandler::class,
-			
+			Core\Offer::class,
+
 			Core\WCShop\EditProduct\ExtraProductSettings::class,
 			Core\WCShop\EditProduct\ExtraVariationSettings::class,
+			Core\WCShop\EditProduct\QuickEditProductSettings::class,
 
+			// Rozetka
 			Core\WCShopController::class,
 			Core\WCShop\WCShopCollation::class,
 			Core\WCShop\WCShopOffer::class,
@@ -41,6 +44,13 @@ final class Init
 			Core\WCShop\WCShopOfferVariable::class,
 
 			// Core\XMLController::class, // Прибрав, тому що є параметр у класа
+
+			// PromUA
+			Core\OfferPromua::class,
+			Core\WCShopPromuaController::class,
+			Core\WCShop\WCShopPromua\WCShopPromuaOffer::class,
+			Core\WCShop\WCShopPromua\WCShopPromuaOfferSimple::class,
+			Core\WCShop\WCShopPromua\WCShopPromuaOfferVariable::class,
 
 			Core\Marketplaces\FactoryAPI::class,
 			Core\Marketplaces\APIs\RozetkaAPI::class

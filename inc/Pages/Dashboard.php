@@ -35,6 +35,8 @@ class Dashboard extends BaseController
 		$this->setFields();
 
 		$this->settings->addPages( $this->pages )->withSubPage( 'Dashboard' )->register();
+
+		add_action( 'admin_notices', array( $this, 'pluginCacheClamesNotice' ) ); 	// Set notices
 	}
 
 	public function setPages()
@@ -84,22 +86,42 @@ class Dashboard extends BaseController
 	{
 		$args = array();
 
-		foreach ( $this->activations as $key => $value ) {
+		foreach ( $this->marketplaces as $key => $value ) {
 			$args[] = array(
-				'id'		=> $key,
+				'id'		=> 'mrkvuamp_' . strtolower( $value ) . '_activation',
 				'title'		=> $value,
 				'callback'	=> array( $this->callbacks_activation, 'checkboxField' ),
 				'page'		=> 'mrkv_ua_marketplaces',
 				'section'	=> 'mrkvuamp_activation_section',
 				'args'		=> array(
 					'option_name'	=> 'mrkv_ua_marketplaces',
-					'label_for' 	=> $key,
+					'label_for' 	=> 'mrkvuamp_' . strtolower( $value ) . '_activation',
 					'class'			=> strtolower( $value ) . '_activation_class'
 				)
 			);
 		}
 
 		$this->settings->setFields( $args );
+	}
+
+	public function pluginCacheClamesNotice()
+	{
+		global $pagenow;
+		if ( ( $pagenow == 'admin.php' ) && ( 'mrkv_ua_marketplaces' === $_GET['page'] ) &&
+			( ! isset( $_COOKIE['mrkvuamp_dashboard_notice'] ) ) ) {
+			echo '<br><div id="mrkvuamp_dashboard_notice" class="notice notice-warning mrkvuamp_dashboard_notice" style="display:inline-block">
+					<div style="display:flex">
+						<div>
+							<p>' . __( 'Якщо на вашому сайті працює плагін кешування, налаштуйте виключення для xml файлів.', 'mrkv-ua-marketplaces' ) .
+					   		'</p>
+							<p>' . __( 'Якщо додаєте у прайс більше 200 товарів, збільшіть php execution time до максимально можливого (наприклад, 3600).', 'mrkv-ua-marketplaces' ) .
+					   		'</p>
+						</div>
+				   		<a id="mrkvuamp_dashboard_dismiss" type="button" class="notice-dismiss" href="?page=mrkv_ua_marketplaces&mrkvuamp_dismissed"
+							style="position:relative;display:flex;text-decoration:none;">Dismiss</a>
+					</div>
+			   </div>';
+		}
 	}
 
 }

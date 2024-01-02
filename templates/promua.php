@@ -1,5 +1,14 @@
 <?php
-    if ( ! $this->activated( 'mrkvuamp_promua_activation' ) ) return;
+
+use \Inc\Core\XMLController;
+
+if ( ! $this->activated( 'mrkvuamp_promua_activation' ) ) return;
+
+$xml = new XMLController( 'promua' ); // Get PromUA xml-file URL and plugin uploads dir path
+$xml_fileurl = $xml->plugin_uploads_dir_url . $xml->plugin_uploads_promua_xmlname;
+$plugin_uploads_dir_path = $xml->plugin_uploads_dir_path;
+$site_total_product_qty = $xml->site_total_product_qty;
+
 ?>
 
  <div class="wrap">
@@ -32,11 +41,27 @@
      <?php // Links ?>
      <ul class="mrkvuamp-nav-links">
          <li class="active"><a href="#mrkvuamp_main-configuration">Загальні налаштування</a></li>
-         <li><a href="#category-matching">Співставлення категорій</a></li>
-         <li><a href="#my-orders">Мої замовлення</a></li>
      </ul>
      <div class="mrkvuamp-nav-links-content">
+
+         <?php // Загальні налаштування link ?>
          <div id="mrkvuamp_main-configuration" class="link-pane active">
+
+             <?php // Last xml-file link ?>
+             <div class="mrkvuamp_promua_xml_link" >
+                 <form action="">
+                     <p>Посилання на
+                         <a  class="mrkvuamp_xml_link" target="_blank" href="<?php clearstatcache(); echo esc_url( $xml_fileurl ); clearstatcache(); ?>">останній згенерований xml</a>
+                             <?php $xml->last_promuaxml_file_date();
+                                 $xml_file_path = $plugin_uploads_dir_path . $xml->plugin_uploads_promua_xmlname;
+                                 $xml_file_size = ( file_exists( $xml_file_path ) ) ? filesize( $xml_file_path ) : '';
+                                 $progBarCoefPromua = ( $site_total_product_qty < 100 ) ? 1.2 : 3.7;
+                             ?>
+                             <input type="hidden" name="mrkvuamp_xml_file_path" value="<?php echo sanitize_text_field( $xml_file_path ); ?>" />
+                             <input type="hidden" name="mrkvuamp_xml_file_size" value="<?php echo sanitize_text_field( $xml_file_size ); ?>" />
+                     </p>
+                 </form>
+             </div>
 
              <form method="post" action="options.php">
 
@@ -47,16 +72,23 @@
 
             </form>
 
-        </div>
+            <form id="mrkv_uamrkpl_promuaxml_form" class="mrkv_uamrkpl_promuaxml_form" method="post" action="">
+                <input type="hidden" name="action" value="mrkvuamp_promuaxml_action">
+                <?php wp_nonce_field( 'mrkv_uamrkpl_collation_form_nonce' ); ?>
+                <?php submit_button( __( 'Створити xml', 'mrkv-ua-marketplaces'), 'primary', 'mrkvuamp_submit_promuaxml', false ); ?>
+                <span style="display:inline;" id="mrkvuamp_loader"> </span>
+            </form>
 
-        <div id="category-matching" class="link-pane">
-            <h2>PromUA Співставлення категорій та генерація XML</h2>
-        </div>
+            <div class="mrkvuamp_promua_progress_bar hidden"><?php // PromUA xml-file processing progress bar ?>
+                <form action="">
+                    <progress id="mrkvuamp-progress-xml-upload-promua" max="<?php echo \round( $site_total_product_qty * $progBarCoefPromua ); ?>" value="0" style="width:37%;height:5px;"></progress>
+                    <div class="hidden" id="mrkvuamp_progbar_hidden_msg" style="padding-left: 10px;"></div>
+                    <input type="hidden" name="mrkvuamp_site_total_product_qty" value="<?php echo sanitize_text_field( $site_total_product_qty ); ?>" />
+                </form>
+            </div>
 
-        <div id="my-orders" class="link-pane">
-            <h2>PromUA Мої замовлення</h2>
-        </div>
+        </div><!-- #mrkvuamp_main-configuration -->
 
-    </div>
+    </div><!-- .mrkvuamp-nav-links-content -->
 
 </div><!-- /.wrap -->

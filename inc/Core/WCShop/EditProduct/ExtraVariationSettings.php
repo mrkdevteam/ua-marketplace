@@ -29,20 +29,18 @@ class ExtraVariationSettings {
 
         add_action( 'woocommerce_variation_options_pricing', array( $this, 'add_image_field' ), 10, 3 );
         add_action( 'woocommerce_save_product_variation', array( $this, 'save_image_field' ), 10, 2 );
-        // add_filter( 'woocommerce_available_variation', array( $this, 'add_image_field_data' ), 10, 3 );
     }
 
-    public function add_image_field( $loop, $variation_data, $variation )
+    public function add_image_field( $loop, $variation_data, $variation ) // '{Marketplace} Variation Image URL' field
     {
         foreach ( $this->activations as $activation  ) {
-
             $slug =  \strtolower( $activation );
             woocommerce_wp_text_input(
                 array(
                     'id' => "mrkvuamp_{$slug}_variation_image[" . $loop . "]",
                     'name' => "mrkvuamp_{$slug}_variation_image[" . $loop . "]",
                     'class' => 'short mrkvuamp-full-width',
-                    'label' => __( "{$activation} Variation Image", 'mrkv-ua-marketplaces' ),
+                    'label' => __( "{$activation} Variation Image URL", 'mrkv-ua-marketplaces' ),
                     'value' => get_post_meta( $variation->ID, "mrkvuamp_{$slug}_variation_image", true ),
                     'type' => 'text',
                     'data_type' => 'url',
@@ -53,27 +51,16 @@ class ExtraVariationSettings {
         }
     }
 
-    public function save_image_field( $variation_id, $i )
+    public function save_image_field($variation_id, $i)
     {
         foreach ( $this->activations as $activation  ) {
             $slug =  \strtolower( $activation );
             $image_field = $_POST["mrkvuamp_{$slug}_variation_image"][$i];
 
-            if ( isset( $image_field ) ) {
+            if ( isset( $image_field ) ) { // Save '{Marketplace} Variation Image URL'
                 update_post_meta( $variation_id, "mrkvuamp_{$slug}_variation_image", esc_attr( $image_field ) );
             }
         }
     }
-
-    // public function add_image_field_data( $data, $product, $variations )
-    // {
-    //     foreach ( $this->activations as $activation  ) {
-    //         $slug =  \strtolower( $activation );
-    //         $image_field = $_POST["mrkvuamp_{$slug}_variation_image"];
-    //         $variations[$image_field] = get_post_meta( $variations[ 'variation_id' ], $image_field, true );
-    //
-    //         return $variations;
-    //     }
-    // }
 
 }

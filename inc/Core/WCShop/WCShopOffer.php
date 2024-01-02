@@ -5,37 +5,46 @@
 
 namespace Inc\Core\WCShop;
 
-use \Inc\Core\WCShopController;
 use \Inc\Base\BaseController;
+use \Inc\Core\WCShopController;
 
 class WCShopOffer extends WCShopController {
 
     public $_product;
 
+    public $product_type;
+
     public $activations = array();
 
     public $slug_activations = array();
+
+    public $xml_tag_name;
+
+    public $xml_tag_description;
 
     public function __construct()
     {
         $baseController = new BaseController();
         $this->activations = $baseController->activations;
         $this->slug_activations = $baseController->slug_activations;
+        $this->xml_tag_name = 'name' . get_option( 'mrkv_uamrkpl_rozetka_xml_tags_lang' );
+        $this->xml_tag_description = 'description' . get_option( 'mrkv_uamrkpl_rozetka_xml_tags_lang' );
     }
 
     // Set <offer> xml-tag
     public function set_offer($id, $offers)
     {
         $this->_product = \wc_get_product( $id ); // Get product object from collation list
+
         $wcShopOfferSimple = new WCShopOfferSimple();
         $wcShopOfferVariable = new WCShopOfferVariable();
 
-        $product_type = $this->_product->get_type();
-        if ( 'simple' == $product_type ) {
+        $this->product_type = $this->_product->get_type();
+        if ( 'simple' == $this->product_type ) {
             $wcShopOfferSimple->set_simple_offer( $id, $offers );
         }
 
-        if ( 'variable' == $product_type ) {
+        if ( 'variable' == $this->product_type ) {
             $wcShopOfferVariable->set_variable_offer( $id, $offers );
         }
     }
@@ -48,11 +57,8 @@ class WCShopOffer extends WCShopController {
         $params = $this->_product->get_attributes();
 
         foreach ( $params as $key => $value ) {
-            // Get only product (not variation) attributes
-            if ( ! $value->get_variation() ) {
-                $param_labels[] = wc_attribute_label( $key );
-                $param_values[] = $this->_product->get_attribute( $key );
-            }
+            $param_labels[] = \wc_attribute_label( $key );
+            $param_values[] = $this->_product->get_attribute( $key );
         }
         return [ $param_labels, $param_values ];
     }
@@ -72,15 +78,13 @@ class WCShopOffer extends WCShopController {
     }
 
     // Get product description for <description> xml-tag
-    public function get_product_description($id)
+    public function get_product_description($id, $variation_id=null)
     {
         $this->_product = \wc_get_product( $id ); // Get product object from collation list
         $description = $this->_product->get_description();
-        foreach ( $this->slug_activations as $slug  ) {
-            // Description from '{Marketplace} Description' custom field
-            $mrktplc_description = get_post_meta( $id , "mrkvuamp_{$slug}_description", true );
-            if (  ! empty( $mrktplc_description ) ) $description = $mrktplc_description;
-        }
+        // Description from 'Rozetka Description' custom field
+        $mrktplc_description = get_post_meta( $id , "mrkvuamp_rozetka_description", true );
+        if (  ! empty( $mrktplc_description ) ) $description = $mrktplc_description;
         return $description;
     }
 
@@ -155,7 +159,7 @@ class WCShopOffer extends WCShopController {
             }
         }
 
-        // If not exists product image gallary
+        // If product image gallery is not exists
         if ( empty( $this->_product->get_gallery_image_ids() ) && ! empty( $image_urls ) ) {
             return $image_urls;
         }
@@ -170,7 +174,25 @@ class WCShopOffer extends WCShopController {
         return \array_merge( $image_urls, $gallery_image_urls );
     }
 
-    // Get marketplace category id for <categoryId> xml-tag
+    // Get WooCommerce category id for <categoryId> xml-tag
+    public function get_wc_category_id()
+    {
+        if ( empty( get_option( 'mrkv_uamrkpl_collation_option' ) ) ) {
+            return;
+        }
+        // Get all product categories
+        $product_category_ids = $this->_product->get_category_ids();
+        // Get user collated categories
+        $wc_collation_categories_ids = $this->get_wc_collation_categories_ids();
+
+        foreach ( $product_category_ids as $key => $value ) {
+            if ( in_array( $value, $wc_collation_categories_ids ) ) {
+                return $value;
+            }
+        }
+    }
+
+    // Get marketplace category id for <categoryId> xml-tag (old function)
     public function get_marketplace_category_id()
     {
         if ( empty( get_option( 'mrkv_uamrkpl_collation_option' ) ) ) {
@@ -178,33 +200,17 @@ class WCShopOffer extends WCShopController {
         }
         // Get all product categories
         $product_category_ids = $this->_product->get_category_ids();
-        $id = $this->_product->get_id();
 
         // Get wc-categories and marketplace-categories collation array
         $collation_option_ids = get_option( 'mrkv_uamrkpl_collation_option' );
         foreach ( $collation_option_ids as $key => $value ) {
-
             // Get first wc-category id
             $wc_cat_id = substr( $key , strpos( $key, 'mrkv-uamp-' ) + strlen( 'mrkv-uamp-' ) );
-            if ( $value ) { // Is set marketplace-category?
-                if ( \in_array( $wc_cat_id, $product_category_ids ) ) {
-
-                    foreach ( $this->slug_activations as $slug  ) {
-                        // Category id from '{Marketplace} ID Category' custom field
-                        $cat_id = get_post_meta( $id , "mrkvuamp_{$slug}_cat_id", true);
-                        if ( isset( $cat_id ) && ! empty( $cat_id ) )
-                        {
-                            $value = $cat_id;
-                        }
-                    }
-
-                    return $value;
-                } else {
-                    continue;
-                }
+            // Is set marketplace-category?
+            if ( ! empty( $value ) && \in_array( $wc_cat_id, $product_category_ids ) ) {
+                return $value;
             }
-            return false;
-        } // foreach $collation_option_ids
+        }
     }
 
     // Get currency value (UAH, USD, EUR, RUR) attribute for <currencyId> xml-tag
@@ -212,29 +218,6 @@ class WCShopOffer extends WCShopController {
     {
         $wc_shop = new WCShopController();
         return $wc_shop->currencies[0];
-    }
-
-    // Get stock quantity for <stock_quantity> xml-tag
-    // Uses for getting 'available' attribute for <offer> xml-tag
-    public function get_product_stock_quantity($id, $offers)
-    {
-        $this->_product = \wc_get_product( $id ); // Get product object from collation list
-
-        $is_manage_stock = $this->_product->get_manage_stock();
-        $stock_status = $this->_product->get_stock_status();
-        $stock_qty = $this->_product->get_stock_quantity();
-
-        if ( ! $is_manage_stock ) { // If manage_stock == false
-
-            if ( 'instock' == $stock_status ) {
-                return 1;
-            }
-            return 0;
-        }
-        if ( $stock_qty > 0) { // If manage_stock == true
-            return $stock_qty;
-        }
-        return 0;
     }
 
 }

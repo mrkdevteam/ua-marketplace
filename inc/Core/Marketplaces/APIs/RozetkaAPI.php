@@ -61,8 +61,8 @@ class RozetkaAPI extends AbstractAPI {
         $result = wp_remote_get(
                 $url,
                 array(
-                    'timeout'     => 5,
-                    'redirection' => 5,
+                    'timeout'     => 45,
+                    'redirection' => 25,
                     'httpversion' => '1.0',
                     'user-agent'  => 'WordPress/5.3; ',
                     'headers'     => array('Content-Type'=> 'application/json', 'Authorization'=> 'Bearer ' . $token ),
@@ -83,7 +83,7 @@ class RozetkaAPI extends AbstractAPI {
 
     public function get_category_name_by_id( $collation_category_id )
     {
-        $args = array( 'timeout' => 17, 'httpversion' => '1.1' ); // потрібно буде поставити 'timeout' => 7
+        $args = array( 'timeout' => 47, 'httpversion' => '1.1' );
         $morkva_api_rozetka_cats_json = wp_remote_get( 'http://api.morkva.co.ua/morkvafiles/woo-rozetka/categories.json', $args );
         if ( is_wp_error( $morkva_api_rozetka_cats_json ) ){
         	echo '<div class="notice notice-error is-dismissible"> <p>'.

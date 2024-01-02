@@ -12,10 +12,26 @@ namespace Inc\Core\WCShop\EditProduct;
 
 use \Inc\Base\BaseController;
 
-class QuickEditProductSettings extends ExtraProductSettings {
+class QuickEditProductSettings {
 
-    public function __construct()
+    public $activations = array();
+
+    public function register()
     {
+        if ( empty( get_option( 'mrkv_ua_marketplaces' ) ) ) {
+            return;
+        }
+
+        $base_controller = new BaseController();
+        $marketplaces = $base_controller->activations;
+        $activated_marketplaces = get_option( 'mrkv_ua_marketplaces' );
+
+        foreach ( $activated_marketplaces as $key => $value ) {
+            if ( $value ) {
+                $this->activations[] = $marketplaces[$key];
+            }
+        }
+
         add_filter( 'manage_product_posts_columns', array( $this, 'add_product_columns' ) );
         add_action( 'manage_product_posts_custom_column', array( $this, 'render_title_column' ), 10, 2 );
         add_action( 'manage_product_posts_custom_column', array( $this, 'render_cat_id_column' ), 10, 2 );
@@ -31,14 +47,16 @@ class QuickEditProductSettings extends ExtraProductSettings {
     public function add_product_columns( $posts_columns ) {
         foreach ( $this->activations as $activation  ) {
             $slug =  \strtolower( $activation );
-            $posts_columns["mrkvuamp_{$slug}_title"] = __( "{$activation} Title", 'mrkv-ua-marketplaces' );
-            $posts_columns["mrkvuamp_{$slug}_cat_id"] = __( "{$activation} ID Category", 'mrkv-ua-marketplaces' );
+            if ( 'rozetka' == $slug ) {
+                $posts_columns["mrkvuamp_{$slug}_title"] = __( "{$activation} Title", 'mrkv-ua-marketplaces' );
+                // $posts_columns["mrkvuamp_{$slug}_cat_id"] = __( "{$activation} ID Category", 'mrkv-ua-marketplaces' );
+            }
         }
         return $posts_columns;
     }
 
     // Adds values to '{Marketplace} Title' column.
-    function render_title_column( $column_name, $post_id ) {
+    public function render_title_column( $column_name, $post_id ) {
         foreach ( $this->activations as $activation  ) {
             $slug =  \strtolower( $activation );
             if ( "mrkvuamp_{$slug}_title" == $column_name ) {
@@ -54,7 +72,7 @@ class QuickEditProductSettings extends ExtraProductSettings {
     }
 
     // Adds values to '{Marketplace} ID Category' column.
-    function render_cat_id_column( $column_name, $post_id ) {
+    public function render_cat_id_column( $column_name, $post_id ) {
         foreach ( $this->activations as $activation  ) {
             $slug =  \strtolower( $activation );
             if ( "mrkvuamp_{$slug}_cat_id" == $column_name ) {
@@ -70,13 +88,13 @@ class QuickEditProductSettings extends ExtraProductSettings {
     }
 
     // Sets header 'Дані товару для {Marketplace}',
-    // '{Marketplace} Title' and '{Marketplace} ID Category' custom fields to 'Quick Edit' ('Властивості') panel.
-    function add_quickedit_fields( $column_name, $post_type ) {
-    	global $post;
+    // '{Marketplace} Title' and
+    // '{Marketplace} ID Category' custom fields to 'Quick Edit' ('Властивості') panel.
+    public function add_quickedit_fields( $column_name, $post_id ) {
         foreach ( $this->activations as $activation  ) {
             $slug =  \strtolower( $activation );
             if ( "mrkvuamp_{$slug}_title" == $column_name ) {
-    		    $marketplace_title = get_post_meta( $post->ID, "mrkvuamp_{$slug}_title", true );
+    		    $marketplace_title = get_post_meta( $post_id, "mrkvuamp_{$slug}_title", true );
                 $marketplace_header = __('Дані товару для ', 'mrkv-ua-marketplaces' ) . $activation; ?>
     				<fieldset class="inline-edit-col-left" style="margin-left: 40%;">
     					<div id="mrkvuamp-woocommerce-fields" class="inline-edit-col">
@@ -92,15 +110,15 @@ class QuickEditProductSettings extends ExtraProductSettings {
     						</label> <?php
     		}
             if ( "mrkvuamp_{$slug}_cat_id" == $column_name ) {
-    		    $marketplace_cat_id = get_post_meta( $post->ID, "mrkvuamp_{$slug}_cat_id", true ); ?>
-    						<label class="inline-edit-group">
+    		    $marketplace_cat_id = get_post_meta( $post_id, "mrkvuamp_{$slug}_cat_id", true ); ?>
+    						<!-- <label class="inline-edit-group">
     							<span class="title">ID Category</span>
     							<span class="input-text-wrap">
-    								<input type="text" name="mrkvuamp_<?php echo $slug; ?>_cat_id"
-                                            class="mrkvuamp<?php echo $slug; ?>cat_id"
-                                            value="<?php echo $marketplace_cat_id; ?>">
+    								<input type="text" name="mrkvuamp_<?php // echo $slug; ?>_cat_id"
+                                            class="mrkvuamp<?php // echo $slug; ?>cat_id"
+                                            value="<?php // echo $marketplace_cat_id; ?>">
     							</span>
-    						</label>
+    						</label> -->
     					</div>
     				</fieldset>
     		    <?php
@@ -109,63 +127,65 @@ class QuickEditProductSettings extends ExtraProductSettings {
     }
 
     // Saves custom fields in DB
-    function save_quickedit_fields_data( $post_id, $post ) {
+    public function save_quickedit_fields_data( $post_id ) {
+
+        $post_type = get_post_type( $post_id );
         // verify if this is an auto save routine.
         // If it is our form has not been submitted, so we dont want to do anything
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
-            return;
+            return $post_id;
 
-        // if this "product" post type?
-        if ( $post->post_type != 'product' )
-            return;
+        if ( $post_type != 'product' )
+            return $post_id;
 
         // does this user have permissions?
          if ( ! current_user_can( 'edit_post', $post_id ) )
              return;
 
-         // check nonce
-    	if ( ! wp_verify_nonce( $_POST['mrkvuamp_qe_nonce'], 'mrkvuamp_quick_edit_nonce' ) ) {
+        // check nonce
+    	if ( ! isset( $_POST['mrkvuamp_qe_nonce'] ) ||
+                ! wp_verify_nonce( $_POST['mrkvuamp_qe_nonce'], 'mrkvuamp_quick_edit_nonce' ) ) {
     		return;
     	}
 
         // update!
         foreach ( $this->activations as $activation  ) {
             $slug =  \strtolower( $activation );
-            if ( isset( $_POST["mrkvuamp_{$slug}_title"] ) ) {
+            if ( isset( $_POST["mrkvuamp_{$slug}_title"] ) && ($post_type != 'revision') ) {
                 update_post_meta( $post_id, "mrkvuamp_{$slug}_title", $_POST["mrkvuamp_{$slug}_title"] );
             }
-            if ( isset( $_POST["mrkvuamp_{$slug}_cat_id"] ) ) {
+            if ( isset( $_POST["mrkvuamp_{$slug}_cat_id"] ) && ($post_type != 'revision') ) {
                 update_post_meta( $post_id, "mrkvuamp_{$slug}_cat_id", $_POST["mrkvuamp_{$slug}_cat_id"] );
             }
         }
     }
 
     // Adds JavaScript
-    function quickedit_rozetka_javascript() {
+    public function quickedit_rozetka_javascript() {
         $current_screen = get_current_screen();
         if ( $current_screen->id != 'edit-product' || $current_screen->post_type != 'product' ) return;
         ?>
         <script type="text/javascript">
-        	window.setTimeout(function(){
-    	        jQuery( function( $ ) {
-    	            jQuery( '#the-list' ).on( 'click', '.editinline', function( e ) {
-    	                e.preventDefault();
-    	                var editRozTitle = jQuery(this).data( 'edit-roz-title' );
-    	                var editRozCatId = jQuery(this).data( 'edit-roz-cat_id' );
-    	                inlineEditPost.revert();
-    	                jQuery( ".mrkvuamprozetkatitle" ).val( editRozTitle ? editRozTitle : '' );
-    	                jQuery( '.mrkvuamprozetkacat_id' ).val( editRozCatId ? editRozCatId : '' );
-    	            });
-    	        });
-    		}, 0);
+	        jQuery( function() {
+	            jQuery( '#the-list' ).on( 'click', '.editinline', function( e ) {
+	                e.preventDefault();
+	                var editRozTitle = jQuery(this).data( 'edit-roz-title' );
+                    console.log(editRozTitle);
+	                var editRozCatId = jQuery(this).data( 'edit-roz-cat_id' );
+	                inlineEditPost.revert();
+	                jQuery( ".mrkvuamprozetkatitle" ).val( editRozTitle ? editRozTitle : '' );
+	                jQuery( '.mrkvuamprozetkacat_id' ).val( editRozCatId ? editRozCatId : '' );
+	            });
+	        });
         </script>
         <?php
     }
 
     // Dynamically populates 'Rozetka Title' and 'Rozetka ID Category' custom fields from DB
-    function set_rozetka_data( $actions, $post ) {
+    public function set_rozetka_data( $actions, $post ) {
         foreach ( $this->activations as $activation  ) {
             $slug =  \strtolower( $activation );
+            $nonce = wp_create_nonce( "mrkvuamp_qe_{$slug}_set" . $post->ID );
             $title_value = get_post_meta( $post->ID, "mrkvuamp_{$slug}_title", true );
             $cat_id_value = get_post_meta( $post->ID, "mrkvuamp_{$slug}_cat_id", true );
 

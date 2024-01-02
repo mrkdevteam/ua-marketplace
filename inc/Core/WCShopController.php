@@ -47,7 +47,6 @@ class WCShopController {
 
         $this->offers = $this->get_wc_offers_ids();
 
-
     }
 
     public function get_wc_offers_ids()
@@ -65,8 +64,9 @@ class WCShopController {
 
         // Get collated wc-products
         $args = array(
+            'limit' => -1,
             'status' => array( 'publish' ),
-            'category' => $collation_cats_slugs,
+            'category' => $collation_cats_slugs
         );
         $products = \wc_get_products( $args );
 
@@ -95,25 +95,23 @@ class WCShopController {
                 }
             }
         }
-
+        $wc_cats_collation_arr = $wc_cats_collation_arr ?? array();
         return $wc_cats_collation_arr;
     }
 
     public function get_marketplace_collation_category_ids()
     {
-
         if ( empty( get_option( 'mrkv_uamrkpl_collation_option' ) ) ) {
             return;
         }
         $category_collation_ids = get_option( 'mrkv_uamrkpl_collation_option' );
-
         foreach ( $category_collation_ids as $key => $value ) {
-            if ( strpos( $key, 'mrkv-uamp-') !== false) {
-                $id_number = substr( $key ,strpos( $key, 'mrkv-uamp-' ) );
-                $cats_collation_arr[] = $value;
+            if ( ! empty( $value ) ) {
+                $id_number = substr( $key , strpos( $key, 'mrkv-uamp-' ) + strlen( 'mrkv-uamp-' ) );
+                $cats_collation_arr[$id_number] = $value;
             }
         }
-
+        $cats_collation_arr = $cats_collation_arr ?? array();
         return $cats_collation_arr;
     }
 

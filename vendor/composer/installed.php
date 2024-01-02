@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '98b71a427631dc2248e93270ff4dc273fdb48bc8',
+    'reference' => '3f0c692d2ebe690858452e39b22e732504fc5871',
     'name' => 'olegkovalyov/morkva-ua-marketplace-two',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '98b71a427631dc2248e93270ff4dc273fdb48bc8',
+      'reference' => '3f0c692d2ebe690858452e39b22e732504fc5871',
     ),
   ),
 );

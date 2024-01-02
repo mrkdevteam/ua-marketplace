@@ -7,7 +7,7 @@ namespace Inc\ExternalApi;
 
 use \Inc\Base\BaseController;
 
-class WoocommerceApi extends BaseController {
+class WoocommerceApi extends BaseController { // Цей php-клас поки не задіяний
 
     /**
      * Base URL for the WordPress site that the client is connecting to.
