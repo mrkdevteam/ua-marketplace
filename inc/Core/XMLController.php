@@ -189,11 +189,9 @@ class XMLController extends BaseController {
     public function get_total_site_product_quantity()
     {
         // Get total product quantity on the site
-        $args = array(
-            'limit' => -1,
-            'status' => array( 'publish' )
-        );
-        return count( wc_get_products( $args ) );
+        $count_posts = wp_count_posts( 'product' );
+
+        return $count_posts->publish;
     }
 
     public function array2promuaxml($array, $xml = null)
