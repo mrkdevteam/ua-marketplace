@@ -4,7 +4,7 @@ Tags: woocommerce, розетка, rozetka, ecommerce, xml
 Requires at least: 5.0
 Tested up to: 6.0
 Requires PHP: 7.0
-Stable tag: 1.4.6
+Stable tag: 1.4.7
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,9 @@ https://youtu.be/CYhov5nuET4
 
 
 == Що нового? ==
+
+= 1.4.7 =
+Перевірена сумісність з WooCommerce 8.8
 
 = 1.4.6 =
 * [fix] оптимізували запити
