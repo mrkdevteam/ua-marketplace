@@ -49,6 +49,14 @@ class WCShopPromuaOfferVariable extends WCShopPromuaOffer {
                 $stock_quantity = $this->set_available($id, $offer, $offers); // XML tag <available>
 
                 $stock_quantity = $this->set_quantity_in_stock( $id, $offer ); // XML tag <quantity_in_stock>
+
+                $vendor_сode = $this->set_vendorCode( $id, $offer ); // XML tag <quantity_in_stock>
+    }
+
+    public function set_vendorCode($id, $offer) // XML tag <vendorCode>
+    {
+        if ( empty( $this->variation->get_sku() ) ) return $offer->addChild( 'vendorCode', '' );
+        return $offer->addChild( 'vendorCode', $this->variation->get_sku() );
     }
 
     public function set_offer_content($id, $offers, $variation_id) // XML tag <offer>
