@@ -2,9 +2,9 @@
 Contributors: bandido, olegkovalyov
 Tags: woocommerce, розетка, rozetka, ecommerce, xml
 Requires at least: 5.0
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 1.4.10
+Stable tag: 1.4.11
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,9 +36,13 @@ https://youtu.be/CYhov5nuET4
 
 == Що нового? ==
 
+= 1.4.11 =
+* WP 6.8 - сумісний
+* WooCommerce 9.8 - сумісний
+
 = 1.4.10 =
 * WP 6.7 - сумісний
-* WooCommerce 9.4 - сумісний
+* WooCommerce 9.5 - сумісний
 
 = 1.4.9 =
 * [fix] виправили vendorCode для PromUA
