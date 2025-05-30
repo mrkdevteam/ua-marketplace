@@ -132,7 +132,8 @@ class Offer extends BaseController {
         }
         $param = array();
         for ( $i = 0; $i < \sizeof( $param_values ) ; $i++ ) {
-            $param[] = '<param name="' . $param_labels[$i] . '">' . $param_values[$i] . '</param>';
+            $param_name = str_replace('"', '', $param_labels[$i]);
+            $param[] = '<param name="' . $param_name . '">' . $param_values[$i] . '</param>';
         }
         return implode( PHP_EOL, $param );
     }

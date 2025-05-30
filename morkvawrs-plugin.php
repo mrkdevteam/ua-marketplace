@@ -8,7 +8,7 @@
  * Plugin Name:       UA Marketplace
  * Plugin URI:        https://morkva.co.ua/shop-2/woocommerce-rozetka-sync
  * Description:       Забезпечує взаїмодію WooCommerce інетернет-магазину з маркетплейсами Rozetka та PromUA.
- * Version:           1.4.11
+ * Version:           1.4.12
  * Author:            MORKVA
  * Author URI:        https://morkva.co.ua
  * License:           GPL-2.0+

@@ -108,43 +108,36 @@ class PromuaCallbacks extends BaseController
 
     public function setVendorAllPossibilities()
     {
-        $value = get_option( 'mrkv_uamrkpl_promua_vendor_all_possibilities' );
-        $postmetas = array();
-        $posts = get_posts( array(
-            'numberposts' => -1,
-            'post_type'         => 'product',
-            'suppress_filters'  => false,
-        ) );
-        if ( isset( $posts ) ) {
-            foreach( $posts as $post ){
-                $postmetas = get_post_meta($post->ID);
-            }
+        global $wpdb;
+
+        // Get the selected option
+        $selected_value = get_option('mrkv_uamrkpl_rozetka_vendor_all_possibilities');
+
+        // Fetch distinct post meta keys used by products only
+        $meta_keys = $wpdb->get_col("
+            SELECT DISTINCT meta_key
+            FROM $wpdb->postmeta pm
+            INNER JOIN $wpdb->posts p ON p.ID = pm.post_id
+            WHERE p.post_type = 'product'
+            LIMIT 500
+        ");
+
+        // Optional: filter meta keys you care about (e.g., ones starting with "attribute_")
+        $meta_keys = array_filter($meta_keys, function ($key) {
+            return strpos($key, 'attribute_') === 0;
+        });
+
+        // Render the <select>
+        echo '<form>';
+        echo '<select id="mrkv_uamrkpl_rozetka_vendor_all_possibilities" name="mrkv_uamrkpl_rozetka_vendor_all_possibilities">';
+        echo '<option value="">' . __('Виберіть метадані, що задають бренди на вашому сайті', 'mrkv-ua-marketplaces') . '</option>';
+
+        foreach ($meta_keys as $meta_key) {
+            $selected = ($selected_value === $meta_key) ? 'selected' : '';
+            echo '<option ' . $selected . ' value="' . esc_attr($meta_key) . '">' . esc_html($meta_key) . '</option>';
         }
-        $all_possible_vendor_keys = array();
-        $all_possible_vendor_values = array();
-        $add_selected_html_attrs = array();
-        $k = 0;
-        if ( is_array( $postmetas ) ) {
-            foreach( $postmetas as $meta_key => $meta_value ) {
-                $all_possible_vendor_keys[$k] = $meta_key;
-                $all_possible_vendor_values[$k] = isset( $meta_value[0] ) ? $meta_key : '';
-                $k++;
-            }
-        }
-        for ( $i = 0; $i < sizeof( $all_possible_vendor_values ); $i++ ) {
-            if ( $value == $all_possible_vendor_keys[$i] ){
-                $add_selected_html_attrs[$i] = 'selected';
-            } else {
-                $add_selected_html_attrs[$i] = '';
-            }
-        }
-        echo '<form><select '. $value . ' id="mrkv_uamrkpl_promua_vendor_all_possibilities" name="mrkv_uamrkpl_promua_vendor_all_possibilities">';
-        echo '<option value="">' . __( 'Виберіть метадані, що задають бренди на вашому сайті', 'mrkv-ua-marketplaces' ) . '</option>';
-        for( $j = 0; $j < sizeof( $all_possible_vendor_keys ); $j++) {
-            $all_possible_vendor_values[$j] = isset( $all_possible_vendor_values[$j] ) ? $all_possible_vendor_values[$j] : '';
-            echo '<option ' . $add_selected_html_attrs[$j] . ' value="' . $all_possible_vendor_keys[$j] . '">' . $all_possible_vendor_keys[$j] . '</option>';
-            $index = $j;
-        }
+
+        echo '</select>';
         echo '</form>';
     }
 

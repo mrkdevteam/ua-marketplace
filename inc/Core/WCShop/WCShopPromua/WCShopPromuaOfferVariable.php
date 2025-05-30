@@ -198,8 +198,9 @@ class WCShopPromuaOfferVariable extends WCShopPromuaOffer {
         }
 
         for ( $i = 0; $i < \sizeof( $param_values ) ; $i++ ) {
+            $param_name = str_replace('"', '', $param_labels[$i]);
             $param = $offer->addChild( 'param', $param_values[$i] );
-            $param->addAttribute( 'name', $param_labels[$i] );
+            $param->addAttribute( 'name', $param_name );
         }
     }
 
