@@ -33,6 +33,11 @@ class WCShopOfferSimple extends WCShopOffer {
             $name = $this->set_name( $id, $offer, $this->xml_tag_name ); // XML tag <name>
 
             $vendor = $this->set_vendor( $id, $offer ); // XML tag <vendor>
+            
+            if($this->_product->get_sku())
+            {
+                $offer->addChild( 'article', $this->_product->get_sku() );    
+            }
 
             $description = $this->set_description( $id, $offer, $variation_id=null, $this->xml_tag_description ); // XML tag <description>
 

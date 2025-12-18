@@ -58,6 +58,11 @@ class WCShopOfferVariable extends WCShopOffer {
                 $param = $this->set_param( $id, $offer ); // XML tag <param>
 
                 $stock_quantity = $this->set_stock_quantity($id, $offer, $offers); // XML tag <stock_quantity>
+
+                if($this->variation->get_sku())
+                {
+                    $offer->addChild( 'article', $this->variation->get_sku() );
+                }
         }
     }
 
