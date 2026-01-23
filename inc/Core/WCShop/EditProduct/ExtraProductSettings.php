@@ -68,21 +68,25 @@ class ExtraProductSettings {
         		update_post_meta( $id, "mrkvuamp_{$slug}_not_xml", $mrkvuamp_not_xml );
 
                 // '{Marketplace} Variation ID' field
-        		update_post_meta( $id, "mrkvuamp_{$slug}_product_id", sanitize_text_field( $_POST["mrkvuamp_{$slug}_product_id"] ) );
+                $mrkvuamp_product_id = isset( $_POST["mrkvuamp_{$slug}_product_id"] ) ? sanitize_text_field( $_POST["mrkvuamp_{$slug}_product_id"] ) : '';
+        		update_post_meta( $id, "mrkvuamp_{$slug}_product_id", $mrkvuamp_product_id );
 
                 // '{Marketplace} ID Category' field // Можливо буде повернуто у майбутньому
         		// update_post_meta( $id, "mrkvuamp_{$slug}_cat_id", sanitize_text_field( $_POST["mrkvuamp_{$slug}_cat_id"] ) );
 
                 // '{Marketplace} Image URL' field
-        		update_post_meta( $id, "mrkvuamp_{$slug}_image", sanitize_text_field( $_POST["mrkvuamp_{$slug}_image"] ) );
+                $mrkvuamp_image = isset( $_POST["mrkvuamp_{$slug}_image"] ) ? sanitize_text_field( $_POST["mrkvuamp_{$slug}_image"] ) : '';
+        		update_post_meta( $id, "mrkvuamp_{$slug}_image", $mrkvuamp_image );
 
                 // '{Marketplace} Description' field
-        		update_post_meta( $id, "mrkvuamp_{$slug}_description", wp_filter_kses( $_POST["mrkvuamp_{$slug}_description"] )  );
+                $mrkvuamp_description = isset( $_POST["mrkvuamp_{$slug}_description"] ) ? wp_filter_kses( $_POST["mrkvuamp_{$slug}_description"] ) : '';
+        		update_post_meta( $id, "mrkvuamp_{$slug}_description", $mrkvuamp_description  );
             }
 
             if ( 'rozetka' == $slug || 'promua' == $slug ) {
                 // '{Marketplace} Title' field
-                update_post_meta( $id, "mrkvuamp_{$slug}_title", sanitize_text_field( $_POST["mrkvuamp_{$slug}_title"] ) );
+                $mrkvuamp_title = isset( $_POST["mrkvuamp_{$slug}_title"] ) ? sanitize_text_field( $_POST["mrkvuamp_{$slug}_title"] ) : '';
+                update_post_meta( $id, "mrkvuamp_{$slug}_title", $mrkvuamp_title );
             }
         }
     }
