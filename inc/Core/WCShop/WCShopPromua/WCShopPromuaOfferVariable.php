@@ -200,6 +200,20 @@ class WCShopPromuaOfferVariable extends WCShopPromuaOffer {
         for ( $i = 0; $i < \sizeof( $param_values ) ; $i++ ) {
             $param_name = str_replace('"', '', $param_labels[$i]);
             $param = $offer->addChild( 'param', $param_values[$i] );
+
+            if ( $param_name === 'Вага' || $param_name === 'Weight') 
+            {
+                $weight_unit = get_option( 'woocommerce_weight_unit', 'kg' ); 
+                $unit_map = array(
+                    'kg' => 'кг',
+                    'g'  => 'г',
+                    'lb' => 'lb',
+                    'oz' => 'oz',
+                );
+                $unit = isset($unit_map[$weight_unit]) ? $unit_map[$weight_unit] : $weight_unit;
+                $param->addAttribute( 'unit', $unit );
+            }
+            
             $param->addAttribute( 'name', $param_name );
         }
     }
