@@ -4,7 +4,11 @@ Tags: woocommerce, розетка, rozetka, ecommerce, xml
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.0
+<<<<<<< HEAD
 Stable tag: 1.4.18
+=======
+Stable tag: 1.4.19
+>>>>>>> 206415d (1.4.19 https://trello.com/c/vsNotfhB fixed product name format - Egor)
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,8 +40,16 @@ https://youtu.be/CYhov5nuET4
 
 == Що нового? ==
 
+<<<<<<< HEAD
 = 1.4.18 =
 * [fix] виправили сторінку налаштувань
+=======
+= 1.4.19 =
+* [new] додали перевірку формату назви товару
+
+= 1.4.18 =
+* [new] додали декодування назви товару
+>>>>>>> 206415d (1.4.19 https://trello.com/c/vsNotfhB fixed product name format - Egor)
 
 = 1.4.17 =
 * [new] додали підтримку брендів Woocommerce

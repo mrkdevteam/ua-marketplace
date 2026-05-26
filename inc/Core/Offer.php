@@ -52,13 +52,20 @@ class Offer extends BaseController {
     {
         $images_urls = '';
         $main_image_id  = $offer->get_image_id();
-        $images_urls = '<picture>' . wp_get_attachment_image_url( $main_image_id, 'full' ) . '</picture>';
+        
+        $main_url = wp_get_attachment_image_url( $main_image_id, 'full' );
+        if ( $main_url ) {
+            $images_urls = '<picture>' . esc_url( $main_url ) . '</picture>';
+        }
 
         $attachment_ids = $offer->get_gallery_image_ids();
         foreach( $attachment_ids as $attachment_id ) {
-            $images_urls .= '<picture>' . wp_get_attachment_image_url( $attachment_id, 'full' ) . '</picture>';
-
+            $gallery_url = wp_get_attachment_image_url( $attachment_id, 'full' );
+            if ( $gallery_url ) {
+                $images_urls .= '<picture>' . esc_url( $gallery_url ) . '</picture>';
+            }
         }
+        
         return empty( $images_urls ) ? '<picture> </picture>' : $images_urls;
     }
 
